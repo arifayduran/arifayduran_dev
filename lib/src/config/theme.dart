@@ -22,7 +22,7 @@ ThemeData lightTheme = ThemeData(
     iconTheme: IconThemeData(color: mainGrey),
   ),
   colorScheme: ColorScheme.fromSeed(
-    surface: white,
+    // surface: white,
     seedColor: lightGrey,
     primary: mainGrey,
     secondary: lightBlue,
@@ -44,7 +44,7 @@ ThemeData darkTheme = ThemeData(
     iconTheme: IconThemeData(color: white),
   ),
   colorScheme: ColorScheme.fromSeed(
-    surface: mainGrey,
+    // surface: mainGrey,
     seedColor: lightGrey,
     primary: white,
     secondary: mainRed,

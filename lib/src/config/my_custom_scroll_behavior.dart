@@ -1,13 +1,17 @@
-import 'dart:ui';
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
+  // @override
+  // MultitouchDragStrategy getMultitouchDragStrategy(BuildContext context) =>
+  //     MultitouchDragStrategy.sumAllPointers;
+
   @override
   Set<PointerDeviceKind> get dragDevices => {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
+        PointerDeviceKind.invertedStylus,
+        PointerDeviceKind.stylus,
         PointerDeviceKind.unknown,
         PointerDeviceKind.trackpad
       };

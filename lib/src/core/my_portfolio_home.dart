@@ -2,15 +2,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:portfolio/src/config/my_custom_scroll_behavior.dart';
 import 'package:portfolio/src/config/theme.dart';
 import 'package:portfolio/src/features/settings/application/settings_controller.dart';
 import 'package:portfolio/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// aradaki cizgi???
+
+// Bei desktop Version soll zoombar sein
+// Bei desktop Version soll scrollbar sein und Pixel sollen mehr sein, also mehr im Bildschirm passen
+// Du weisst doch dass wenn man über handy browser reingeht mobile seite (m.blabla) kommt, und man kann dann desktop seite anfordern, wie geht das in flutter?
+// resp web https://www.youtube.com/watch?v=dAdNiSOmHzU
+
 // Asagi scoll yaparken üsste blur olsun
-// appbar kirmizi renk alsin???
+// appbar kirmizi renk alsin??? +++ arka plan degismiyor???
 
 class MyPortfolioHome extends StatefulWidget {
   const MyPortfolioHome({super.key, required this.settingsController});
@@ -34,6 +38,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   @override
   void initState() {
     super.initState();
+
     scrolledPlaceColor = widget.settingsController.darkModeSet
         ? effectColorDark
         : effectColorLight;
@@ -122,7 +127,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
     // debugPrint(opacity.toString());
 
     return Scaffold(
+      backgroundColor: scrolledPlaceColor,
       appBar: AppBar(
+        backgroundColor: scrolledPlaceColor,
         toolbarHeight: toolbarHeight,
         leadingWidth: toolbarHeight,
         leading: Padding(
@@ -145,8 +152,10 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
             children: [
               const Flexible(child: Text("ARIF AYDURAN")),
               Flexible(
-                  child: DarkModeSwitch(
-                      settingsController: widget.settingsController))
+                child: DarkModeSwitch(
+                  settingsController: widget.settingsController,
+                ),
+              )
             ],
           ),
         ),
@@ -154,120 +163,130 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
       body: Material(
         child: NotificationListener<ScrollNotification>(
           onNotification: _updateScrolling,
-          child: ScrollConfiguration(
-            behavior: MyCustomScrollBehavior(),
-            child: SizedBox(
-              height: height,
-              width: width,
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: -.25 * offset,
-                    child: FadeInImage.memoryNetwork(
-                      placeholder: kTransparentImage,
-                      image:
-                          "assets/images/business_smile_retuschiert_farbenangepasst.jpg",
-                      // height: height < width
-                      //     ? width / imageScale
-                      //     : width / imageScale,
-                      height: height,
-                      width: width,
-                      fit: BoxFit.cover,
-                    ),
+          child: SizedBox(
+            height: height,
+            width: width,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: -.25 * offset,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: const AssetImage(
+                        "assets/images/business_smile_retuschiert_farbenangepasst.jpg"),
+                    // height: height < width
+                    //     ? width / imageScale
+                    //     : width / imageScale,
+                    height: height,
+                    width: width,
+                    fit: BoxFit.cover,
                   ),
-                  AnimatedPositioned(
-                    duration: const Duration(seconds: 1),
-                    top: -.25 * offset,
-                    child: SizedBox(
-                      // height: width / imageScale,
-                      height: height - maxToolbarHeight,
-                      width: width,
-                      child: Align(
-                          alignment: const Alignment(0, 0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Arif Ayduran",
-                                style: nameStyle?.copyWith(
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                'Proving learning coding, is easy',
-                                style: descriptionStyle?.copyWith(
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
-                            ],
-                          )),
-                    ),
-                  ),
-                  // Positioned(
-                  //   bottom: -195 + (.25 * offset),
-                  //   child: Container(
-                  //     width: width,
-                  //     height: 200,
-                  //     color: black,
-                  //   ),
-                  // ),
-                  SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: offset > 0 ? 0.005 * offset : 0.0,
-                              sigmaY: offset > 0 ? 0.005 * offset : 0.0,
+                ),
+                AnimatedPositioned(
+                  duration: const Duration(seconds: 1),
+                  top: -.25 * offset,
+                  child: SizedBox(
+                    // height: width / imageScale,
+                    height: height - maxToolbarHeight,
+                    width: width,
+                    child: Align(
+                      alignment: const Alignment(0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Arif Ayduran",
+                            style: nameStyle?.copyWith(
+                              backgroundColor: Colors.white,
                             ),
-                            child: Container(
-                              width: width,
-                              height: height - maxToolbarHeight,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [
-                                      scrolledPlaceColor,
-                                      // widget.settingsController.darkModeSet
-                                      //     ? scrolledPlaceColor
-                                      //     : effectColorLight,
-                                      Colors.transparent
-                                    ],
-                                    stops: const [
-                                      0,
-                                      1
-                                    ]),
-                              ),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            'Proving learning coding, is easy',
+                            style: descriptionStyle?.copyWith(
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: offset > 0 ? 0.005 * offset : 0.0,
+                            sigmaY: offset > 0 ? 0.005 * offset : 0.0,
+                          ),
+                          child: Container(
+                            width: width,
+                            height: height - maxToolbarHeight,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    scrolledPlaceColor,
+                                    // widget.settingsController.darkModeSet
+                                    //     ? scrolledPlaceColor
+                                    //     : effectColorLight,
+                                    Colors.transparent
+                                  ],
+                                  stops: const [
+                                    0,
+                                    1
+                                  ]),
                             ),
                           ),
                         ),
-                        Container(
-                          height: height - 150 - minToolbarHeight,
-                          width: width,
-                          color: scrolledPlaceColor,
-                        ),
-                      ],
-                    ),
+                      ),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                              bottom:
+                                  -190, //   bottom: -height - height + 150 + maxToolbarHeight,
+                              child: Container(
+                                height: 200, //     height: height * 0.3,
+                                width: width,
+                                color: scrolledPlaceColor,
+                              )),
+                          Container(
+                            height: height - 150 - minToolbarHeight,
+                            width: width,
+                            color: scrolledPlaceColor,
+                          ),
+                          Positioned(
+                              top: -5,
+                              child: Container(
+                                height: 6,
+                                width: width,
+                                color: scrolledPlaceColor,
+                              )),
+                        ],
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    right: width * 0.08,
-                    bottom: height * 0.08 - .25 * offset,
-                    child: GestureDetector(
-                      onTap: () {
-                        _scrollToBottom();
-                      },
-                      child: Lottie.asset(widget.settingsController.darkModeSet
-                          ? "assets/animations/scroll_down_black.json"
-                          : "assets/animations/scroll_down_white.json"),
-                    ),
+                ),
+                Positioned(
+                  right: width * 0.08,
+                  bottom: height * 0.08 - .25 * offset,
+                  child: GestureDetector(
+                    onTap: () {
+                      _scrollToBottom();
+                    },
+                    child: Lottie.asset(widget.settingsController.darkModeSet
+                        ? "assets/animations/scroll_down_black.json"
+                        : "assets/animations/scroll_down_white.json"),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
