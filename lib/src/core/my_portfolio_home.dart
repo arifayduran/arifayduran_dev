@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:portfolio/src/config/my_custom_scroll_behavior.dart';
 import 'package:portfolio/src/config/theme.dart';
 import 'package:portfolio/src/features/settings/application/settings_controller.dart';
@@ -256,12 +257,15 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                   Positioned(
                     right: width * 0.08,
                     bottom: height * 0.08 - .25 * offset,
-                    child: ElevatedButton(
-                        onPressed: () {
-                          _scrollToBottom();
-                        },
-                        child: const Text("Scroll down")),
-                  )
+                    child: GestureDetector(
+                      onTap: () {
+                        _scrollToBottom();
+                      },
+                      child: Lottie.asset(widget.settingsController.darkModeSet
+                          ? "assets/animations/scroll_down_black.json"
+                          : "assets/animations/scroll_down_white.json"),
+                    ),
+                  ),
                 ],
               ),
             ),
