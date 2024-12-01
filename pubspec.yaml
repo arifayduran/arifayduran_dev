@@ -1,8 +1,8 @@
 name: portfolio
-description: "A new Flutter project."
+description: "Portfolio, Arif Ayduran"
 
 # Prevent accidental publishing to pub.dev.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -14,6 +14,10 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^6.2.1
+  rive: ^0.13.19
+  shared_preferences: ^2.3.3
+  transparent_image: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -30,3 +34,4 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - assets/animations/
