@@ -23,15 +23,17 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
         widget.settingsController.updateThemeMode(
             switchInput!.value ? ThemeMode.light : ThemeMode.dark);
         switchInput?.change(!isDark);
+        
       },
       child: SizedBox(
-          height: 60,
-          width: 100,
+          height: 50,
+          width: 80,
           child: RiveAnimation.asset(
             "assets/animations/darklight-switch.riv",
             stateMachines: const ["Switch Theme"],
             onInit: (artboard) {
               controller = StateMachineController.fromArtboard(
+                
                 artboard,
                 "Switch Theme",
               );

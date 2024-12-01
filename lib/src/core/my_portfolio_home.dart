@@ -7,6 +7,10 @@ import 'package:portfolio/src/features/settings/application/settings_controller.
 import 'package:portfolio/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+// aradaki cizgi???
+// Asagi scoll yaparken üsste blur olsun
+// appbar kirmizi renk alsin???
+
 class MyPortfolioHome extends StatefulWidget {
   const MyPortfolioHome({super.key, required this.settingsController});
 
@@ -33,16 +37,23 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
         ? effectColorDark
         : effectColorLight;
 
+    widget.settingsController.addListener(() {
+      setState(() {
+        scrolledPlaceColor =
+            _getScrolledPlaceColor(_scrollController.position.pixels);
+      });
+    });
+
     _scrollController.addListener(() {
       setState(() {
         scrolledPlaceColor =
-            _getScrolledPlace(_scrollController.position.pixels);
+            _getScrolledPlaceColor(_scrollController.position.pixels);
       });
     });
   }
 
-  Color _getScrolledPlace(double pixels) {
-    double opacity = pixels / (MediaQuery.of(context).size.height - 52.03);
+  Color _getScrolledPlaceColor(double pixels) {
+    double opacity = pixels / (MediaQuery.of(context).size.height - 50 - 200);
     opacity = opacity.clamp(0.0, 1.0);
     return Color.lerp(
         widget.settingsController.darkModeSet
@@ -82,9 +93,32 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
     final nameStyle = Theme.of(context).textTheme.displayMedium;
     final descriptionStyle = Theme.of(context).textTheme.headlineMedium;
     // double imageScale = 1.4;
-    double toolbarHeight = 70 - (offset * 0.015);
+
+    double maxToolbarHeight = 70.0;
+    double minToolbarHeight = 50.0;
+
+    double relationFromOffset =
+        (1.0 - (offset / (height - minToolbarHeight - 200))).clamp(0.0, 1.0);
+    double toolbarHeight = double.parse((maxToolbarHeight -
+            (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
+        .toStringAsFixed(0));
 
     // debugPrint(toolbarHeight.toString());
+
+    // double scrollTurningPoint = height - minToolbarHeight - 250;
+    double maxScroll = height - minToolbarHeight - 200;
+    double relation = 1.0 - (offset / maxScroll);
+    relation = relation.clamp(0.5, 1.0);
+
+    // if (offset > scrollTurningPoint) {
+    //   // debugPrint("offset inspect");
+
+    //   opacity = 1.0 -
+    //       ((offset - scrollTurningPoint) / (maxScroll - scrollTurningPoint));
+    //   opacity = opacity.clamp(0.8, 0.9);
+    // }
+
+    // debugPrint(opacity.toString());
 
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +142,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text("ARIF AYDURAN"),
+              const Flexible(child: Text("ARIF AYDURAN")),
               Flexible(
                   child: DarkModeSwitch(
                       settingsController: widget.settingsController))
@@ -145,7 +179,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                     top: -.25 * offset,
                     child: SizedBox(
                       // height: width / imageScale,
-                      height: height - toolbarHeight,
+                      height: height - maxToolbarHeight,
                       width: width,
                       child: Align(
                           alignment: const Alignment(0, 0),
@@ -170,14 +204,14 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                           )),
                     ),
                   ),
-                  Positioned(
-                    bottom: -195 + (.25 * offset),
-                    child: Container(
-                      width: width,
-                      height: 200,
-                      color: black,
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: -195 + (.25 * offset),
+                  //   child: Container(
+                  //     width: width,
+                  //     height: 200,
+                  //     color: black,
+                  //   ),
+                  // ),
                   SingleChildScrollView(
                     controller: _scrollController,
                     child: Column(
@@ -189,48 +223,33 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                               sigmaX: offset > 0 ? 0.005 * offset : 0.0,
                               sigmaY: offset > 0 ? 0.005 * offset : 0.0,
                             ),
-                            child: SizedBox(
-                              // height: width / imageScale,
-                              height: height - toolbarHeight,
+                            child: Container(
                               width: width,
-                              child: Container(
-                                width: width,
-                                height: height - toolbarHeight,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        widget.settingsController.darkModeSet
-                                            ? offset > height / 2
-                                                ? effectColorDark
-                                                    .withOpacity(0.1)
-                                                : effectColorDark
-                                            : effectColorLight,
-                                        Colors.transparent
-                                      ],
-                                      stops: const [
-                                        0,
-                                        1
-                                      ]),
-                                ),
+                              height: height - maxToolbarHeight,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      scrolledPlaceColor,
+                                      // widget.settingsController.darkModeSet
+                                      //     ? scrolledPlaceColor
+                                      //     : effectColorLight,
+                                      Colors.transparent
+                                    ],
+                                    stops: const [
+                                      0,
+                                      1
+                                    ]),
                               ),
                             ),
                           ),
                         ),
                         Container(
-                          height: 100,
-                          width: width,
-                          color: widget.settingsController.darkModeSet
-                              ? effectColorDark
-                              : effectColorLight,
-                          child: Text("data"),
-                        ),
-                        Container(
-                          height: height - 100 - toolbarHeight,
+                          height: height - 150 - minToolbarHeight,
                           width: width,
                           color: scrolledPlaceColor,
-                        )
+                        ),
                       ],
                     ),
                   ),
