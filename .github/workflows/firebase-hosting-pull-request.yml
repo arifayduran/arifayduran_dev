@@ -8,15 +8,26 @@ permissions:
   contents: read
   pull-requests: write
 jobs:
-  build_and_preview:
-    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+  build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v4
-      - run: "flutter pub get && flutter build web  --release --web-renderer
-          canvaskit"
+
+      # Step 2: Set up Flutter
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'  # Optionally specify the version you need
+
+      # Step 3: Install dependencies and build the Flutter web app
+      - run: flutter pub get && flutter build web --release --web-renderer canvaskit
+
+      # Step 4: Deploy to Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ARIFAYDURAN_DEV }}
+          channelId: live
           projectId: arifayduran-dev
