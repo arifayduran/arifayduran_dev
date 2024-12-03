@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:portfolio/src/config/my_custom_scroll_behavior.dart';
-import 'package:portfolio/src/config/theme.dart';
-import 'package:portfolio/src/core/my_portfolio_home.dart';
+import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
+import 'package:arifayduran_dev/src/config/theme.dart';
+import 'package:arifayduran_dev/src/core/my_portfolio_home.dart';
 
 import '../features/settings/application/settings_controller.dart';
 
@@ -21,8 +21,10 @@ class MyPortfolioApp extends StatelessWidget {
       listenable: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
+          // showPerformanceOverlay: true,
+
           scrollBehavior: MyCustomScrollBehavior(),
-          
+
           debugShowCheckedModeBanner: false, //
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and

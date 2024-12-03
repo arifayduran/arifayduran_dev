@@ -1,0 +1,96 @@
+dev_dependencies:
+  flutter_launcher_icons: "^0.14.1"
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+
+  # android made manuell (?)
+  android: true # can specify file name here e.g. "ic_launcher"
+  image_path_android: "assets/app_icons/main_light.png"
+  adaptive_icon_background: "assets/app_icons/android_background.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/app_icons/android_foreground.png" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground_inset: 16 # only available for Android 8.0 devices and above
+  adaptive_icon_monochrome: "assets/app_icons/tinted_android.png" # only available for Android 13 devices and above
+  min_sdk_android: 21 # android min sdk min:16, default 21
+
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
+  image_path_ios: "assets/app_icons/light_transparent.png" # "assets/images/icon-1024x1024.png"
+  image_path_ios_dark_transparent: "assets/app_icons/dark_transparent.png" # The location of the dark mode icon image file specific for iOS 18+ platform. Note: Apple recommends this icon to be transparent. For more information see Apple Human Interface Guidelines for App Icons
+  image_path_ios_tinted_grayscale: "assets/app_icons/tinted_ios_black.png" # The location of the tinted mode icon image file specific for iOS 18+ platform. Note: This icon should be an grayscale image. Use desaturate_tinted_to_grayscale_ios: true to automatically desaturate the image provided here.
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff" # White
+  # desaturate_tinted_to_grayscale_ios: Automatically desaturates tinted mode icon image to grayscale, defaults to false
+
+  web:
+    generate: true
+    image_path: "assets/app_icons/main_light.png" # "assets/images/icon-1024x1024.png"
+    # background_color: "#ffffff"
+    # theme_color: "#008159" # PurusGreen
+
+  windows:
+    generate: false
+    image_path: "assets/app_icons/windows_white_standart.png" # "assets/images/icon-1024x1024.png"
+    icon_size: 48 # min:48, max:256, default: 48
+
+  macos:
+    generate: false
+    image_path: "assets/app_icons/macos_white_standart.png" # "assets/images/icon-1024x1024.png"
+# Attributes
+
+# Shown below is the full list of attributes which you can specify within your Flutter Launcher Icons configuration.
+
+# Global
+
+# image_path: The location of the icon image file which you want to use as the app launcher icon.
+# Android
+
+# android
+
+# true: Override the default existing Flutter launcher icon for the platform specified
+# false: Ignore making launcher icons for this platform
+# icon/path/here.png: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
+# image_path: The location of the icon image file which you want to use as the app launcher icon
+
+# image_path_android: The location of the icon image file specific for Android platform (optional - if not defined then the image_path is used)
+
+# min_sdk_android: Specify android min sdk value The next two attributes are only used when generating Android launcher icon
+
+# adaptive_icon_background: The color (E.g. "#ffffff") or image asset (E.g. "assets/images/christmas-background.png") which will be used to fill out the background of the adaptive icon.
+
+# adaptive_icon_foreground: The image asset which will be used for the icon foreground of the adaptive icon Note: Adaptive Icons will only be generated when both adaptive_icon_background and adaptive_icon_foreground are specified. (the image_path is not automatically taken as foreground)
+
+# adaptive_icon_foreground_inset: This is used to add padding to the icon when applying an adaptive icon. The default value is 16.
+
+# adaptive_icon_monochrome: The image asset which will be used for the icon foreground of the Android 13+ themed icon. For more information see Android Adaptive Icons
+
+# IOS
+
+# ios
+# true: Override the default existing Flutter launcher icon for the platform specified
+# false: Ignore making launcher icons for this platform
+# icon/path/here.png: This will generate a new launcher icons for the platform with the name you specify, without removing the old default existing Flutter launcher icon.
+# image_path_ios: The location of the icon image file specific for iOS platform (optional - if not defined then the image_path is used)
+# remove_alpha_ios: Removes alpha channel for IOS icons
+# image_path_ios_dark_transparent: The location of the dark mode icon image file specific for iOS 18+ platform. Note: Apple recommends this icon to be transparent. For more information see Apple Human Interface Guidelines for App Icons
+# image_path_ios_tinted_grayscale: The location of the tinted mode icon image file specific for iOS 18+ platform. Note: This icon should be an grayscale image. Use desaturate_tinted_to_grayscale_ios: true to automatically desaturate the image provided here.
+# desaturate_tinted_to_grayscale_ios: Automatically desaturates tinted mode icon image to grayscale, defaults to false
+# background_color_ios: The color (in the format "#RRGGBB") to be used as the background when removing the alpha channel. It is used only when the remove_alpha_ios property is set to true. (optional - if not defined then #ffffff is used)
+# Web
+
+# web: Add web related configs
+# generate: Specifies whether to generate icons for this platform or not
+# image_path: Path to web icon.png
+# background_color: Updates background_color in web/manifest.json
+# theme_color: Updates theme_color in web/manifest.json
+# Windows
+
+# windows: Add Windows related configs
+# generate: Specifies whether to generate icons for Windows platform or not
+# image_path: Path to web icon.png
+# icon_size: Windows app icon size. Icon size should be within this constrains 48<=icon_size<=256, defaults to 48
+# MacOS
+
+# macos: Add MacOS related configs
+# generate: Specifies whether to generate icons for MacOS platform or not
+# image_path: Path to macos icon.png file
+# Note: iOS icons should fill the entire image and not contain transparent borders.

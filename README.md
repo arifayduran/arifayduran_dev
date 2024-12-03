@@ -1,29 +1,13 @@
-# portfolio
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application that follows the
-[simple app state management
-tutorial](https://flutter.dev/to/state-management-sample).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 
-## Assets
+## License
 
-The `assets` directory houses images, fonts, and any other files you want to
-include with your application.
+This project uses materials licensed under the [CC BY 4.0 License](https://creativecommons.org/licenses/by/4.0/).
 
-The `assets/images` directory contains [resolution-aware
-images](https://flutter.dev/to/resolution-aware-images).
+This includes the following animation:
 
-## Localization
-
-This project generates localized messages based on arb files found in
-the `lib/src/localization` directory.
-
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter apps](https://flutter.dev/to/internationalization).
+- **Dark/Light Switch: Animation by YoucefDev**, licensed under [CC BY 4.0 License].
+- No Modifications were made.

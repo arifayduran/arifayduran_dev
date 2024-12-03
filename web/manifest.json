@@ -1,11 +1,11 @@
 {
-    "name": "portfolio",
-    "short_name": "portfolio",
+    "name": "Arif Ayduran",
+    "short_name": "Arif Ayduran",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#ffffff",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Portfolio of Arif Ayduran, Software Developer",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

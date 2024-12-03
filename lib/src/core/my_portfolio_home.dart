@@ -2,18 +2,21 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:portfolio/src/config/theme.dart';
-import 'package:portfolio/src/features/settings/application/settings_controller.dart';
-import 'package:portfolio/src/features/settings/presentation/dark_mode_switch.dart';
+import 'package:arifayduran_dev/src/config/theme.dart';
+import 'package:arifayduran_dev/src/features/settings/application/settings_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-
+// FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA
 // Bei desktop Version soll zoombar sein
 // Bei desktop Version soll scrollbar sein und Pixel sollen mehr sein, also mehr im Bildschirm passen
 // Du weisst doch dass wenn man über handy browser reingeht mobile seite (m.blabla) kommt, und man kann dann desktop seite anfordern, wie geht das in flutter?
 // resp web https://www.youtube.com/watch?v=dAdNiSOmHzU
 
-// Asagi scoll yaparken üsste blur olsun
+// bewerbung yolla bitmeden*
+// rive scroll animation bul
+// safari all
+// github jqueri olayi https://stackoverflow.com/questions/59653455/smooth-scrolling-doesnt-work-on-github-page
 // appbar kirmizi renk alsin??? +++ arka plan degismiyor???
 
 class MyPortfolioHome extends StatefulWidget {
@@ -28,6 +31,7 @@ class MyPortfolioHome extends StatefulWidget {
 
 class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   double offset = 0;
+  int lastUpdateTime = 0;
   double blurring = 0;
   final ScrollController _scrollController = ScrollController();
 
@@ -50,12 +54,12 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
       });
     });
 
-    _scrollController.addListener(() {
-      setState(() {
-        scrolledPlaceColor =
-            _getScrolledPlaceColor(_scrollController.position.pixels);
-      });
-    });
+    // _scrollController.addListener(() {
+    //   setState(() {
+    //     scrolledPlaceColor =
+    //         _getScrolledPlaceColor(_scrollController.position.pixels);
+    //   });
+    // });
   }
 
   Color _getScrolledPlaceColor(double pixels) {
@@ -78,13 +82,50 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   }
 
   bool _updateScrolling(ScrollNotification scrollNotification) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        offset = scrollNotification.metrics.pixels;
+    final int now = DateTime.now().millisecondsSinceEpoch;
+    final int frameDuration = (1000 / 120).round();
+
+    if (now - lastUpdateTime >= frameDuration) {
+      lastUpdateTime = now;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          offset = scrollNotification.metrics.pixels;
+        });
       });
-    });
+    }
+
     return true;
   }
+
+  //   double lastOffset = 0.0;
+
+  //   bool _updateScrolling(ScrollNotification scrollNotification) {
+  //   double newOffset = scrollNotification.metrics.pixels;
+
+  //   if ((newOffset - lastOffset).abs() > 10) {
+  //     lastOffset = newOffset;
+
+  //     WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       setState(() {
+  //         offset = newOffset;
+  //         scrolledPlaceColor =
+  //             _getScrolledPlaceColor(_scrollController.position.pixels);
+  //       });
+  //     });
+  //   }
+
+  //   return true;
+  // }
+
+  // bool _updateScrolling(ScrollNotification scrollNotification) {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     setState(() {
+  //       offset = scrollNotification.metrics.pixels;
+  //     });
+  //   });
+  //   return true;
+  // }
 
   @override
   void dispose() {
@@ -110,6 +151,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
         .toStringAsFixed(0));
 
     // debugPrint(toolbarHeight.toString());
+    // debugPrint(offset.toString());
 
     // double scrollTurningPoint = height - minToolbarHeight - 250;
     double maxScroll = height - minToolbarHeight - 200;

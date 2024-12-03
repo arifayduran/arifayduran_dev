@@ -8,7 +8,7 @@ const Color mainGrey = Color(0xFF333132);
 const Color darkGrey = Color(0xFF1E1E1E);
 const Color mainRed = Color(0xFFD02A1E);
 const Color lightBlue = Color.fromARGB(255, 105, 194, 235);
-const Color mainBlue = Color.fromARGB(255, 45, 116, 175);
+const Color mainBlue = Color(0xFF2D74AF);
 
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,

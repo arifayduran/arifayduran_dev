@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/src/features/settings/application/settings_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/application/settings_controller.dart';
 import 'package:rive/rive.dart';
 
 class DarkModeSwitch extends StatefulWidget {
@@ -23,7 +23,6 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
         widget.settingsController.updateThemeMode(
             switchInput!.value ? ThemeMode.light : ThemeMode.dark);
         switchInput?.change(!isDark);
-        
       },
       child: SizedBox(
           height: 50,
@@ -33,7 +32,6 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
             stateMachines: const ["Switch Theme"],
             onInit: (artboard) {
               controller = StateMachineController.fromArtboard(
-                
                 artboard,
                 "Switch Theme",
               );
