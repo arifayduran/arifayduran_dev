@@ -7,7 +7,8 @@ import 'package:arifayduran_dev/src/features/settings/application/settings_contr
 import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA
+// FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA ::: FIREBASE KÖTÜ MESELA? DÜSÜR??? / GITHUB GEC YINE???(NE FARK EDECEK)
+// SCROLL OLAYIIIIIIII
 // Bei desktop Version soll zoombar sein
 // Bei desktop Version soll scrollbar sein und Pixel sollen mehr sein, also mehr im Bildschirm passen
 // Du weisst doch dass wenn man über handy browser reingeht mobile seite (m.blabla) kommt, und man kann dann desktop seite anfordern, wie geht das in flutter?

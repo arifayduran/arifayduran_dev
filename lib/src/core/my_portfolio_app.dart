@@ -23,7 +23,7 @@ class MyPortfolioApp extends StatelessWidget {
         return MaterialApp(
           // showPerformanceOverlay: true,
 
-          scrollBehavior: MyCustomScrollBehavior(),
+          // scrollBehavior: MyCustomScrollBehavior(),
 
           debugShowCheckedModeBanner: false, //
           // Providing a restorationScopeId allows the Navigator built by the
