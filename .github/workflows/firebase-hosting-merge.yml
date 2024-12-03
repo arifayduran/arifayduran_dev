@@ -20,7 +20,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'  # Optionally specify the version you need
+          flutter-version: '3.5.4'  # Optionally specify the version you need
 
       # Step 3: Install dependencies and build the Flutter web app
       - run: flutter pub get && flutter build web --release --web-renderer canvaskit
