@@ -5,10 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:html' as html;
 
 class SettingsService {
-  // Methode zum Abrufen des aktuellen ThemeMode
   Future<ThemeMode> themeMode() async {
     if (kIsWeb) {
-      // Wenn auf Web, lesen wir das Cookie
       final themeCookie = _getCookie('theme_mode');
       if (themeCookie == 'dark') {
         return ThemeMode.dark;
@@ -18,7 +16,6 @@ class SettingsService {
         return ThemeMode.system;
       }
     } else {
-      // Wenn auf mobile Plattformen, verwenden wir SharedPreferences
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final bool? isDarkMode = prefs.getBool("theme_mode");
       switch (isDarkMode) {
@@ -32,9 +29,17 @@ class SettingsService {
     }
   }
 
-  Future<void> updateThemeMode(ThemeMode theme) async {
+  Future<void> updateThemeMode(ThemeMode theme, BuildContext context) async {
     if (kIsWeb) {
       _setCookie('theme_mode', theme == ThemeMode.dark ? 'dark' : 'light');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              "Theme saved as ${theme == ThemeMode.dark ? 'Dark' : 'Light'}"),
+          duration: const Duration(seconds: 2),
+        ),
+      );
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if (theme == ThemeMode.dark) {
@@ -48,8 +53,15 @@ class SettingsService {
   void _setCookie(String name, String value) {
     final now = DateTime.now();
     final expires = now.add(const Duration(days: 365));
+
+    final cookieValue =
+        '$name=$value; expires=${expires.toUtc().toIso8601String()}; path=/; secure; samesite=lax';
+    html.document.cookie = '$cookieValue; domain=.arifayduran.dev';
     html.document.cookie =
-        '$name=$value; expires=${expires.toUtc().toIso8601String()}; path=/; domain=.arifayduran.dev; secure; samesite=lax';
+        '$cookieValue; domain=arifayduran.github.io; path=/arifayduran_dev';
+    html.document.cookie =
+        '$cookieValue; domain=arifayduran-dev.firebaseapp.com';
+    html.document.cookie = '$cookieValue; domain=arifayduran-dev.web.app';
   }
 
   String? _getCookie(String name) {

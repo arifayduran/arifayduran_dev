@@ -21,7 +21,7 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
         if (switchInput == null) return;
         final isDark = switchInput!.value;
         widget.settingsController.updateThemeMode(
-            switchInput!.value ? ThemeMode.light : ThemeMode.dark);
+            switchInput!.value ? ThemeMode.light : ThemeMode.dark, context);
         switchInput?.change(!isDark);
       },
       child: SizedBox(
