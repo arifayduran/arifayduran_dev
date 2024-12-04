@@ -7,12 +7,25 @@ import 'package:arifayduran_dev/src/features/settings/application/settings_contr
 import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA ::: FIREBASE KÖTÜ MESELA? DÜSÜR??? / GITHUB GEC YINE???(NE FARK EDECEK)
-// SCROLL OLAYIIIIIIII
+// google seite einrichten! & icon falan gelecek mi? & beschreibung? baska daten? -- en basta gelsin & reklam ver -- https://support.google.com/webmasters/answer/7474347?hl=de#:~:text=Es%20kann%20einige%20Zeit%20dauern,Sie%20von%20einem%20Problem%20ausgehen.
+// bewebbb icin inbearb yap
+// https://arifayduran.dev weiterleiten yapmadi
+// lebenslauf koy !!!
+// ksuite + weiterleitungen(sinirli mi?) + google cloud fln?
+// Domain al + infomaaniak alle services bak
+// Logo hintergr + yazi + komprime et? + dev sil ---- farbennnnn genel & themes kontrol ----- splash
+// SAFARI tem
+// Photoshio isleri + foto bearb!
+// Appname überall arifayduran.dev yap???
+
+// FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA ::: FIREBASE KÖTÜ MESELA? DÜSÜR??? / GITHUB GEC YINE???(NE FARK EDECEK, dene bakalim) -- build html dene bir de???
+// SCROLL OLAYIIIIIIII (baska teelfondan bak?)
 // Bei desktop Version soll zoombar sein
 // Bei desktop Version soll scrollbar sein und Pixel sollen mehr sein, also mehr im Bildschirm passen
 // Du weisst doch dass wenn man über handy browser reingeht mobile seite (m.blabla) kommt, und man kann dann desktop seite anfordern, wie geht das in flutter?
 // resp web https://www.youtube.com/watch?v=dAdNiSOmHzU
+
+// Themes gözden gecir
 
 // bewerbung yolla bitmeden*
 // rive scroll animation bul

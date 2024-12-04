@@ -25,7 +25,7 @@ ThemeData lightTheme = ThemeData(
     // surface: white,
     seedColor: lightGrey,
     primary: mainGrey,
-    secondary: lightBlue,
+    // secondary: mainGrey, // lightBlue -- basta boslukta cikiyor
     brightness: Brightness.light,
     tertiary: Colors.black,
     onError: mainRed,
@@ -47,7 +47,7 @@ ThemeData darkTheme = ThemeData(
     // surface: mainGrey,
     seedColor: lightGrey,
     primary: white,
-    secondary: mainRed,
+    // secondary: black, // mainRed -- basta boslukta cikiyor
     brightness: Brightness.dark,
     tertiary: black,
     onError: mainRed,
