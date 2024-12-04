@@ -24,7 +24,7 @@ jobs:
 
       # Step 3: Install dependencies and build for Firebase Hosting (base href is for root)
       - name: Build for Firebase Hosting
-        run: flutter pub get && flutter build web --release --web-renderer html # /canvaskit
+        run: flutter pub get && flutter build web --release --web-renderer canvaskit # /html
 
       # Step 4: Deploy to Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
@@ -36,7 +36,7 @@ jobs:
 
       # Step 5: Build for GitHub Pages (with a specific base href for GitHub Pages)
       - name: Build for GitHub Pages
-        run: flutter pub get && flutter build web --release --web-renderer html --base-href /arifayduran_dev/ # /canvaskit
+        run: flutter pub get && flutter build web --release --web-renderer canvaskit --base-href /arifayduran_dev/ # /html
 
       # Step 6: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages

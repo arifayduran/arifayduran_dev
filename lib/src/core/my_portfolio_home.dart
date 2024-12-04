@@ -10,6 +10,7 @@ import 'package:transparent_image/transparent_image.dart';
 // - [ ] Foto kalitesi düşür webseitede geç doluyor bazı yerlerde?
 // - [ ] Webseite tüm performansları düşün
 // - [ ] İlk mavi renk geliyor?
+// baska subdomainlerde sharedpref olmuyor ona göre!!! önemli mi? chatgpt sor
 // github yavas mi doluyor riske etme firebase daha iyi
 // google seite einrichten! & icon falan gelecek mi? & beschreibung? baska daten? -- en basta gelsin & reklam ver -- https://support.google.com/webmasters/answer/7474347?hl=de#:~:text=Es%20kann%20einige%20Zeit%20dauern,Sie%20von%20einem%20Problem%20ausgehen.
 // bewebbb icin inbearb yap
