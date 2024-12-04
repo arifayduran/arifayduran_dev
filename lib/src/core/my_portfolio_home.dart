@@ -7,12 +7,17 @@ import 'package:arifayduran_dev/src/features/settings/application/settings_contr
 import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+// - [ ] Foto kalitesi düşür webseitede geç doluyor bazı yerlerde?
+// - [ ] Webseite tüm performansları düşün
+// - [ ] İlk mavi renk geliyor?
+// github yavas mi doluyor riske etme firebase daha iyi
 // google seite einrichten! & icon falan gelecek mi? & beschreibung? baska daten? -- en basta gelsin & reklam ver -- https://support.google.com/webmasters/answer/7474347?hl=de#:~:text=Es%20kann%20einige%20Zeit%20dauern,Sie%20von%20einem%20Problem%20ausgehen.
 // bewebbb icin inbearb yap
-// https://arifayduran.dev weiterleiten yapmadi
+// webseite links überall: github fln + github readme yapip oraya da koy!
+// DNS ISLERI KOMPLE: WWW_GITHUB_M_MAIN
 // lebenslauf koy !!!
 // ksuite + weiterleitungen(sinirli mi?) + google cloud fln?
-// Domain al + infomaaniak alle services bak
+// Domain isleri bitir düsün + infomaaniak alle services bak
 // Logo hintergr + yazi + komprime et? + dev sil ---- farbennnnn genel & themes kontrol ----- splash
 // SAFARI tem
 // Photoshio isleri + foto bearb!
@@ -259,7 +264,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Proving learning coding, is easy',
+                            'Die Webseite ist gerade in Bearbeitung...',
                             style: descriptionStyle?.copyWith(
                               backgroundColor: Colors.white,
                             ),
