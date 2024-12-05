@@ -1,0 +1,55 @@
+{
+    "@@locale": "en",
+    "appTitle": "arifayduran.dev",
+    "@appTitle": {
+        "description": "Title of the App"
+    },
+    "appDescription": "Portfolio of Arif Ayduran, Software Developer",
+    "@appDescription": {
+        "description": "Description of the appTitle"
+    },
+    "specialization": "Software Developer",
+    "@specialization": {
+        "description": "specialization of owner of portfolio"
+    },
+    "greeting": "Hello!",
+    "@greeting": {
+        "description": "This is a greeting message shown on the homepage."
+    },
+    "fullGreeting": "Welcome to Portfolio of Arif Ayduran",
+    "@fullGreeting": {
+        "description": "Description of the website and welcoming to the site of the developer"
+    },
+    "toggleHoverToLight": "Switch color sheme to Light Mode",
+    "@toggleHoverToLight": {
+        "description": "Message text for hovering on toggle to swich color cheme mode to dark"
+    },
+    "toggleHoverToDark": "Switch color sheme to Dark Mode",
+    "@toggleHoverToDark": {
+        "description": "Message text for hovering on toggle to swich color cheme mode to dark"
+    },
+    "switchModeMessageToLight": "Color scheme switched to Light Mode",
+    "@switchModeMessageToLight": {
+        "description": "Message text for snackbar, when changed color sheme to light mode"
+    },
+    "switchModeMessageToDark": "Color scheme switched to Dark Mode",
+    "@switchModeMessageToDark": {
+        "description": "Message text for snackbar, when changed color sheme to Dark mode"
+    },
+    "darkMode": "Dark Mode",
+    "@darkMode": {
+        "description": "Dark Mode in Text"
+    },
+    "lightMode": "Light Mode",
+    "@lightMode": {
+        "description": "Light Mode in Text"
+    },
+    "scrolldownText": "Scroll Down",
+    "@scrolldownText": {
+        "description": "Hovering text on scrolldown button"
+    },
+    "scrollupText": "Scroll Up",
+    "@scrollupText": {
+        "description": "Hovering text on scrollup button"
+    }
+}

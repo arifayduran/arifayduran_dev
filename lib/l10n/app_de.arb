@@ -1,0 +1,19 @@
+{
+  "@@locale": "de",
+
+  "appTitle": "arifayduran.dev",
+  "appDescription": "Portfolio von Arif Ayduran, Softwareentwickler",
+  "greeting": "Hallo!",
+  "fullGreeting": "Willkommen zum Portfolio von Arif Ayduran",
+  "specialization": "Software Entwickler",
+  "toggleHoverToLight": "Switch color sheme to Light Mode",
+  "toggleHoverToDark": "Switch color sheme to Dark Mode",
+  "switchModeMessageToLight": "Farbschema auf den Light Modus geändert",
+  "switchModeMessageToDark": "Farbschema auf den Dark Modus geändert",
+  "darkMode": "Dark Modus",
+  "lightMode": "Light Modus",
+  "scrolldownText": "Nach unten scrollen",
+  "scrollupText": "Nach oben scrollen"
+
+}
+  

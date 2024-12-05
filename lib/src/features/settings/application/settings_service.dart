@@ -1,8 +1,9 @@
+import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:universal_html/html.dart' as html;
 
 class SettingsService {
   Future<ThemeMode> themeMode() async {
@@ -35,9 +36,11 @@ class SettingsService {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-              "Theme saved as ${theme == ThemeMode.dark ? 'Dark' : 'Light'}"),
+          content: Text(theme == ThemeMode.dark
+              ? AppLocalizations.of(context)!.switchModeMessageToDark
+              : AppLocalizations.of(context)!.switchModeMessageToDark),
           duration: const Duration(seconds: 2),
+          backgroundColor: theme == ThemeMode.dark ? mainRed : mainBlue,
         ),
       );
     } else {

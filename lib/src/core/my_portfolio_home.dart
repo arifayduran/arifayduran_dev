@@ -1,25 +1,49 @@
 import 'dart:ui';
 
+import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/settings_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// google einspruch
+
+// snackbar logik devam
+
+// 404 yap
+// THEMES BITIR UND TEXTTHEMES
+
+// Lade testflight version runter!!!
+
+// +++ tüm textleri bearb::::
+// Localizations state??? +++ dropdown +++ test et her türlüsünü & init ne olacak & bazi seyler degisecek mi? +++ vorschlagen yapsin + bevorzugte sprachen alsin browserdan yoksa eng, spanisch ise mesela spanisch yapsin ama englischden alsin önemli seyleri
+// on hover text ciksin?
+// Selection ayarla kopy fln +++ renk
+// SelectionArea düsün oluyor mu? Her yerde? Sadece web? +++ Tooltip übrall
+// Fotos auch seletable machenß
+
+// logo basinca logo acilsin yada startseite -- logo büyüsün
+// APP BAR ÜSÜNE GELINCE BÜYÜSÜN?
+// OFSET 0.25 rechnung düsür round fln yapsin
+
+// sag tik linke
+// appname arifayduran.dev überall und localizations
 
 // - [ ] Foto kalitesi düşür webseitede geç doluyor bazı yerlerde?
 // - [ ] Webseite tüm performansları düşün
 // - [ ] İlk mavi renk geliyor?
-// baska subdomainlerde sharedpref olmuyor ona göre!!! önemli mi? chatgpt sor
 // github yavas mi doluyor riske etme firebase daha iyi
 // google seite einrichten! & icon falan gelecek mi? & beschreibung? baska daten? -- en basta gelsin & reklam ver -- https://support.google.com/webmasters/answer/7474347?hl=de#:~:text=Es%20kann%20einige%20Zeit%20dauern,Sie%20von%20einem%20Problem%20ausgehen.
 // bewebbb icin inbearb yap
 // webseite links überall: github fln + github readme yapip oraya da koy!
 // DNS ISLERI KOMPLE: WWW_GITHUB_M_MAIN
 // lebenslauf koy !!!
-// ksuite + weiterleitungen(sinirli mi?) + google cloud fln?
+// ksuite & email + weiterleitungen(sinirli mi?) + google cloud fln?
 // Domain isleri bitir düsün + infomaaniak alle services bak
-// Logo hintergr + yazi + komprime et? + dev sil ---- farbennnnn genel & themes kontrol ----- splash
+// Logo hintergr + logo degisirse infoman da degilsit + yazi + logologo ekle bosluk + komprime et? + dev sil ---- farbennnnn genel & themes kontrol ----- splash
 // SAFARI tem
 // Photoshio isleri + foto bearb!
 // Appname überall arifayduran.dev yap???
@@ -96,6 +120,14 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   void _scrollToBottom() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 1500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _scrollToTop() {
+    _scrollController.animateTo(
+      _scrollController.position.minScrollExtent,
       duration: const Duration(milliseconds: 1500),
       curve: Curves.easeInOut,
     );
@@ -212,12 +244,23 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Flexible(child: Text("ARIF AYDURAN")),
               Flexible(
+                  child: TooltipAndSelectable(
+                message: AppLocalizations.of(context)!.appDescription,
+                child: Text(
+                  AppLocalizations.of(context)!.appTitle,
+                ),
+              )),
+              Flexible(
+                  child: TooltipAndSelectable(
+                isSelectable: false,
+                message: widget.settingsController.darkModeSet
+                    ? AppLocalizations.of(context)!.toggleHoverToLight
+                    : AppLocalizations.of(context)!.toggleHoverToDark,
                 child: DarkModeSwitch(
                   settingsController: widget.settingsController,
                 ),
-              )
+              ))
             ],
           ),
         ),
@@ -245,7 +288,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                   ),
                 ),
                 AnimatedPositioned(
-                  duration: const Duration(seconds: 1),
+                  duration: const Duration(milliseconds: 500),
                   top: -.25 * offset,
                   child: SizedBox(
                     // height: width / imageScale,
@@ -258,17 +301,18 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "Arif Ayduran",
-                            style: nameStyle?.copyWith(
-                              backgroundColor: Colors.white,
-                            ),
+                            AppLocalizations.of(context)!.greeting,
+                            style: nameStyle?.copyWith(),
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            'Die Webseite ist gerade in Bearbeitung...',
-                            style: descriptionStyle?.copyWith(
-                              backgroundColor: Colors.white,
-                            ),
+                            AppLocalizations.of(context)!.fullGreeting,
+                            style: descriptionStyle?.copyWith(),
+                          ),
+                          const SizedBox(height: 20),
+                          Text(
+                            AppLocalizations.of(context)!.specialization,
+                            style: descriptionStyle?.copyWith(),
                           ),
                         ],
                       ),
@@ -338,14 +382,38 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                 ),
                 Positioned(
                   right: width * 0.08,
-                  bottom: height * 0.08 - .25 * offset,
-                  child: GestureDetector(
-                    onTap: () {
-                      _scrollToBottom();
-                    },
-                    child: Lottie.asset(widget.settingsController.darkModeSet
-                        ? "assets/animations/scroll_down_black.json"
-                        : "assets/animations/scroll_down_white.json"),
+                  bottom: (height + maxToolbarHeight) * 0.08 - .25 * offset,
+                  child: TooltipAndSelectable(
+                    message: AppLocalizations.of(context)!.scrolldownText,
+                    isSelectable: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        _scrollToBottom();
+                      },
+                      child: Lottie.asset(widget.settingsController.darkModeSet
+                          ? "assets/animations/scroll_down_black.json"
+                          : "assets/animations/scroll_down_white.json"),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: width * 0.08,
+                  top: -(height + 200 - minToolbarHeight) * 0.08 + .25 * offset,
+                  child: TooltipAndSelectable(
+                    message: AppLocalizations.of(context)!.scrollupText,
+                    isSelectable: false,
+                    child: GestureDetector(
+                      onTap: () {
+                        _scrollToTop();
+                      },
+                      child: RotatedBox(
+                        quarterTurns: 2,
+                        child: Lottie.asset(
+                            widget.settingsController.darkModeSet
+                                ? "assets/animations/scroll_down_black.json"
+                                : "assets/animations/scroll_down_white.json"),
+                      ),
+                    ),
                   ),
                 ),
               ],

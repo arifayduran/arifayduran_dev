@@ -1,10 +1,10 @@
 {
     "name": "Arif Ayduran, Software Developer",
-    "short_name": "Arif Ayduran",
+    "short_name": "arifayduran.dev",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#ffffff",
-    "theme_color": "#0175C2",
+    "theme_color": "#333132",
     "description": "Portfolio of Arif Ayduran, Software Developer",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,

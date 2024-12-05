@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/my_portfolio_home.dart';
@@ -22,21 +21,23 @@ class MyPortfolioApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           // showPerformanceOverlay: true,
-
           scrollBehavior: MyCustomScrollBehavior(),
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''),
-            Locale('de', ''),
-            Locale('tr', ''),
-          ],
+          locale: const Locale('en', ''),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          // localizationsDelegates: const [
+          //   AppLocalizations.delegate,
+          //   GlobalMaterialLocalizations.delegate,
+          //   GlobalWidgetsLocalizations.delegate,
+          //   GlobalCupertinoLocalizations.delegate,
+          // ],
+          // supportedLocales: const [
+          //   Locale('en', ''),
+          //   Locale('de', ''),
+          //   Locale('tr', ''),
+          // ],
           onGenerateTitle: (BuildContext context) =>
               AppLocalizations.of(context)!.appTitle,
           theme: lightTheme,
