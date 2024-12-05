@@ -1,0 +1,18 @@
+{
+  "@@locale": "tr",
+
+  "appTitle": "arifayduran.dev",
+  "appDescription": "Arif Ayduran'ın Portföyü, Yazılım Geliştirici",
+  "greeting": "Merhaba!",
+  "fullGreeting": "Arif Ayduran'ın Portföyüne Hoş Geldiniz",
+  "specialization": "Yazılım Geliştiricisi",
+  "toggleHoverToLight": "Renk şemasını Açık Moda değiştir",
+  "toggleHoverToDark": "Renk şemasını Koyu Moda değiştir",
+  "switchModeMessageToLight": "Renk şeması Açık Moda değiştirildi",
+  "switchModeMessageToDark": "Renk şeması Koyu Moda değiştirildi",
+  "darkMode": "Koyu Mod",
+  "lightMode": "Açık Mod",
+  "scrolldownText": "Aşağı Kaydır",
+  "scrollupText": "Yukarı Kaydır"
+
+}

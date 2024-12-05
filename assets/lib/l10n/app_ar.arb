@@ -1,0 +1,17 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "arifayduran.dev",
+  "appDescription": "محفظة عارف أيدوران، مطور برمجيات",
+  "greeting": "مرحبًا!",
+  "fullGreeting": "مرحبًا بكم في محفظة عارف أيدوران",
+  "specialization": "مطور برمجيات",
+  "toggleHoverToLight": "تغيير نظام الألوان إلى الوضع الفاتح",
+  "toggleHoverToDark": "تغيير نظام الألوان إلى الوضع الداكن",
+  "switchModeMessageToLight": "تم تغيير نظام الألوان إلى الوضع الفاتح",
+  "switchModeMessageToDark": "تم تغيير نظام الألوان إلى الوضع الداكن",
+  "darkMode": "الوضع الداكن",
+  "lightMode": "الوضع الفاتح",
+  "scrolldownText": "التمرير للأسفل",
+  "scrollupText": "التمرير للأعلى"
+}
