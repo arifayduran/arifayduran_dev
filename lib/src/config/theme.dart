@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const Color effectColorDark = black;
+const Color effectColorDark = black; // darkBlue
 const Color effectColorLight = mainBlue;
+const Color destinationColorDark = mainGrey;
+const Color destinationColorLight = white;
 Color snackBarColorDark = effectColorDark.withOpacity(0.5);
 Color snackBarColorLight = effectColorLight.withOpacity(0.5);
 
@@ -13,6 +15,8 @@ const Color mainGrey = Color(0xFF333132);
 const Color darkGrey = Color(0xFF1E1E1E);
 const Color mainRed = Color(0xFFD02A1E);
 const Color lightBlue = Color.fromARGB(255, 105, 194, 235);
+const Color darkBlue = Color(0xFF1B2D46);
+const Color babyblue = Color.fromARGB(255, 39, 167, 181);
 const Color mainBlue = Color(0xFF2D74AF);
 
 ThemeData lightTheme = ThemeData(
@@ -50,11 +54,11 @@ ThemeData darkTheme = ThemeData(
   ),
   colorScheme: ColorScheme.fromSeed(
     // surface: mainGrey,
-    seedColor: lightGrey,
+    seedColor: white,
     primary: white,
     // secondary: black, // mainRed -- basta boslukta cikiyor
     brightness: Brightness.dark,
-    tertiary: black,
-    onError: mainRed,
+    // tertiary: black,
+    // onError: mainRed,
   ),
 );

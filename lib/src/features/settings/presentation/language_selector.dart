@@ -117,6 +117,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TooltipAndSelectable(
+          isTooltip: true,
           isSelectable: false,
           message: AppLocalizations.of(context)!.langSelectHover,
           child: DropdownButton<Locale>(
@@ -168,6 +169,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
         ),
         TooltipAndSelectable(
           isSelectable: false,
+          isTooltip: true,
           message: AppLocalizations.of(context)!.onHoverSystemLang,
           child: Row(
             children: [

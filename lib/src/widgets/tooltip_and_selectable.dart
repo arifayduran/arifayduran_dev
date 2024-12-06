@@ -12,7 +12,7 @@ class TooltipAndSelectable extends StatelessWidget {
     this.message = "",
     this.durationMilliseconds = 500,
     this.isSelectable = true,
-    this.isTooltip = true,
+    this.isTooltip = false,
     required this.child,
   });
 

@@ -14,15 +14,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // google einspruch
 
+// TooltipAndSelectable teelfonda iyi secimiyor ya....... cift seciyor + hespini birden secsin?
+
 // panEnabled test et!!!
 // COK MB YIYOR???
 
-// FOTOS & LOGO VR DHAA
-
+// FOTOS & LOGO VR DHAA:: LOGO BASITLESTIR ISIM SADECE???/STERNE??? ISMI platFORMA AYNEN YÖYLE YAZARSIN YA?
 // THEMES BITIR UND TEXTTHEMES
 // Theme isleri ve 2 snacbar renk olayi ve animasyon renkleri2 ---- yazi renkleri siyah beyaz ters! -- snackbar neden bulanik -- // FARBPALETTE KOY!
 // +++ tüm textleri bearb:::: theme ve renk olarak + tooltip&seolectable
 // mesela auswählen yapinca saglam renk geliyor gri
+// gradient sil ya??? / opacity fln?
+// renk karar veriop logo yap
 
 // Localizations state??? +++ dropdown +++ test et her türlüsünü & init ne olacak & bazi seyler degisecek mi? +++ vorschlagen yapsin + bevorzugte sprachen alsin browserdan yoksa eng, spanisch ise mesela spanisch yapsin ama englischden alsin önemli seyleri
 // Selection ayarla kopy fln +++ renk
@@ -35,17 +38,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // WETTER APP TAM YAP BITIR YA???
 
+// TEst schatten
+
 // sag tik linke
 // appname arifayduran.dev überall und localizations
 
-// - [ ] Foto kalitesi düşür webseitede geç doluyor bazı yerlerde?
-// - [ ] Webseite tüm performansları düşün
 // - [ ] İlk mavi renk geliyor?
 // github yavas mi doluyor riske etme firebase daha iyi
 // google seite einrichten! & icon falan gelecek mi? & beschreibung? baska daten? -- en basta gelsin & reklam ver -- https://support.google.com/webmasters/answer/7474347?hl=de#:~:text=Es%20kann%20einige%20Zeit%20dauern,Sie%20von%20einem%20Problem%20ausgehen.
 // bewebbb icin inbearb yap
 // webseite links überall: github fln + github readme yapip oraya da koy!
-// DNS ISLERI KOMPLE: WWW_GITHUB_M_MAIN
 // lebenslauf koy !!!
 // ksuite & email + weiterleitungen(sinirli mi?) + google cloud fln?
 // Domain isleri bitir düsün + infomaaniak alle services bak
@@ -55,8 +57,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // Appname überall arifayduran.dev yap???
 
 // FFRAME UND PERFORMANCE CHECKKKKK GERCEK TELEFONDSA ::: FIREBASE KÖTÜ MESELA? DÜSÜR??? / GITHUB GEC YINE???(NE FARK EDECEK, dene bakalim) -- build html dene bir de???
-// SCROLL OLAYIIIIIIII (baska teelfondan bak?)
-// Bei desktop Version soll zoombar sein
 // Bei desktop Version soll scrollbar sein und Pixel sollen mehr sein, also mehr im Bildschirm passen
 // Du weisst doch dass wenn man über handy browser reingeht mobile seite (m.blabla) kommt, und man kann dann desktop seite anfordern, wie geht das in flutter?
 // resp web https://www.youtube.com/watch?v=dAdNiSOmHzU
@@ -89,6 +89,8 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
   late Color scrolledPlaceColor;
   final Color _effectColorLight = effectColorLight;
   final Color _effectColorDark = effectColorDark;
+  final Color _destinationColorDark = destinationColorDark;
+  final Color _destinationColorLight = destinationColorLight;
 
   final _transformationController = TransformationController();
   TapDownDetails? _doubleTapDetails;
@@ -116,12 +118,12 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
       });
     });
 
-    // _scrollController.addListener(() {
-    //   setState(() {
-    //     scrolledPlaceColor =
-    //         _getScrolledPlaceColor(_scrollController.position.pixels);
-    //   });
-    // });
+    _scrollController.addListener(() {
+      setState(() {
+        scrolledPlaceColor =
+            _getScrolledPlaceColor(_scrollController.position.pixels);
+      });
+    });
   }
 
   Color _getScrolledPlaceColor(double pixels) {
@@ -131,7 +133,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
         widget.uiModeController.darkModeSet
             ? _effectColorDark
             : _effectColorLight,
-        widget.uiModeController.darkModeSet ? mainGrey : white,
+        widget.uiModeController.darkModeSet
+            ? _destinationColorDark
+            : _destinationColorLight,
         opacity)!;
   }
 
@@ -249,12 +253,11 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
     // debugPrint(toolbarHeight.toString());
     // debugPrint(offset.toString());
 
-    // double scrollTurningPoint = height - minToolbarHeight - 250;
-
     // double maxScroll = height - minToolbarHeight - 200;
     // double relation = 1.0 - (offset / maxScroll);
     // relation = relation.clamp(0.5, 1.0);
 
+    // double scrollTurningPoint = height - minToolbarHeight - 250;
     // if (offset > scrollTurningPoint) {
     //   // debugPrint("offset inspect");
 
@@ -272,18 +275,10 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
         toolbarHeight: toolbarHeight,
         leadingWidth: toolbarHeight,
         leading: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          child: widget.uiModeController.darkModeSet
-              // Image.asset(widget.UiModeController.darkModeSet
-              // ? Assets.logoBright
-              // : Assets.logoDark),
-              ? Container(
-                  color: Colors.grey,
-                )
-              : Container(
-                  color: Colors.blue,
-                ),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+            child: widget.uiModeController.darkModeSet
+                ? Image.asset("assets/app_icons/light_transparent.png")
+                : Image.asset("assets/app_icons/dark_transparent.png")),
         title: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -291,6 +286,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
             children: [
               Flexible(
                   child: TooltipAndSelectable(
+                isTooltip: true,
                 message: AppLocalizations.of(context)!.appDescription,
                 child: Text(
                   AppLocalizations.of(context)!.appTitle,
@@ -298,6 +294,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
               )),
               Flexible(
                   child: TooltipAndSelectable(
+                isTooltip: true,
                 isSelectable: false,
                 message: widget.uiModeController.darkModeSet
                     ? AppLocalizations.of(context)!.toggleHoverToLight
@@ -332,8 +329,8 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
                 width: width,
                 child: Stack(
                   children: <Widget>[
-                    Positioned(
-                      top: -.25 * offset,
+                    Transform.translate(
+                      offset: Offset(0, -.25 * offset),
                       child: FadeInImage(
                         placeholder: MemoryImage(kTransparentImage),
                         image: const AssetImage(
@@ -365,10 +362,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
                                       begin: Alignment.bottomCenter,
                                       end: Alignment.topCenter,
                                       colors: [
-                                        scrolledPlaceColor,
-                                        // widget.UiModeController.darkModeSet
-                                        //     ? scrolledPlaceColor
-                                        //     : _effectColorLight,
+                                        scrolledPlaceColor
+                                        // .withOpacity(0.0)
+                                        ,
                                         Colors.transparent
                                       ],
                                       stops: const [
@@ -377,42 +373,37 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
                                       ]),
                                 ),
                                 child: Center(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      TooltipAndSelectable(
-                                        child: Text(
+                                  child: TooltipAndSelectable(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
                                           AppLocalizations.of(context)!
                                               .greeting,
                                           style: nameStyle?.copyWith(),
                                         ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      TooltipAndSelectable(
-                                        child: Text(
+                                        const SizedBox(height: 20),
+                                        Text(
                                           AppLocalizations.of(context)!
                                               .fullGreeting,
                                           style: descriptionStyle?.copyWith(),
                                         ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      TooltipAndSelectable(
-                                        child: Text(
+                                        const SizedBox(height: 20),
+                                        Text(
                                           AppLocalizations.of(context)!
                                               .specialization,
                                           style: descriptionStyle?.copyWith(),
                                         ),
-                                      ),
-                                      TooltipAndSelectable(
-                                        child: Text(DateFormat.yMMMMEEEEd(
+                                        Text(DateFormat.yMMMMEEEEd(
                                                 systemLang.toString())
                                             // .add_jms()
                                             .format(DateTime.now())),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -457,6 +448,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
                       right: width * 0.08,
                       bottom: (height + maxToolbarHeight) * 0.08 - .25 * offset,
                       child: TooltipAndSelectable(
+                        isTooltip: true,
                         message: AppLocalizations.of(context)!.scrolldownText,
                         isSelectable: false,
                         child: GestureDetector(
@@ -475,6 +467,7 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome>
                       top: -(height + 200 - minToolbarHeight) * 0.08 +
                           .25 * offset,
                       child: TooltipAndSelectable(
+                        isTooltip: true,
                         message: AppLocalizations.of(context)!.scrollupText,
                         isSelectable: false,
                         child: GestureDetector(

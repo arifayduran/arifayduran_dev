@@ -41,6 +41,7 @@ class UiModeService {
         await prefs.setBool("theme_mode", false);
       }
     }
+
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -50,6 +51,13 @@ class UiModeService {
           duration: const Duration(seconds: 2),
           backgroundColor:
               theme == ThemeMode.dark ? snackBarColorDark : snackBarColorLight,
+          //   dismissDirection: DismissDirection.up,
+          //   behavior: SnackBarBehavior.floating,
+          //   margin: EdgeInsets.only(
+          //     bottom: MediaQuery.of(context).size.height - appBarHeight,
+          //   ),
+
+          //  double appBarHeight
         ),
       );
     }
