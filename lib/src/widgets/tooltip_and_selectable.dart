@@ -2,33 +2,33 @@ import 'package:flutter/material.dart';
 
 class TooltipAndSelectable extends StatelessWidget {
   final String message;
+  final int durationMilliseconds;
+  final bool isSelectable;
+  final bool isTooltip;
   final Widget child;
-  final int? durationMilliseconds;
-  final bool? isSelectable;
-  final bool? isTooltip;
 
   const TooltipAndSelectable({
     super.key,
-    required this.message,
-    required this.child,
+    this.message = "",
     this.durationMilliseconds = 500,
     this.isSelectable = true,
     this.isTooltip = true,
+    required this.child,
   });
 
   @override
   Widget build(BuildContext context) {
-    return isTooltip!
+    return isTooltip
         ? Tooltip(
             message: message,
-            waitDuration: Duration(milliseconds: durationMilliseconds!),
-            child: isSelectable!
+            waitDuration: Duration(milliseconds: durationMilliseconds),
+            child: isSelectable
                 ? SelectionArea(
                     child: child,
                   )
                 : child,
           )
-        : isSelectable!
+        : isSelectable
             ? SelectionArea(
                 child: child,
               )

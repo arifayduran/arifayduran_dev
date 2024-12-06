@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
+import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
-import 'package:arifayduran_dev/src/features/settings/application/settings_controller.dart';
-import 'package:arifayduran_dev/src/features/settings/presentation/dark_mode_switch.dart';
+import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -16,7 +19,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // 404 yap
 // THEMES BITIR UND TEXTTHEMES
 
+// SEItE ÜBERSETZEN IN DEUTSCH CALISSIN
+
 // Lade testflight version runter!!!
+
+// Theme isleri ve 2 snacbar renk olayi ve animasyon renkleri2 ---- yazi renkleri siyah beyaz ters! -- snackbar neden bulanik -- // FARBPALETTE KOY!
+
 
 // +++ tüm textleri bearb::::
 // Localizations state??? +++ dropdown +++ test et her türlüsünü & init ne olacak & bazi seyler degisecek mi? +++ vorschlagen yapsin + bevorzugte sprachen alsin browserdan yoksa eng, spanisch ise mesela spanisch yapsin ama englischden alsin önemli seyleri
@@ -64,9 +72,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 // appbar kirmizi renk alsin??? +++ arka plan degismiyor???
 
 class MyPortfolioHome extends StatefulWidget {
-  const MyPortfolioHome({super.key, required this.settingsController});
+  const MyPortfolioHome({super.key, required this.uiModeController});
 
-  final SettingsController settingsController;
+  final UiModeController uiModeController;
   static const routeName = '/';
 
   @override
@@ -80,18 +88,18 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   final ScrollController _scrollController = ScrollController();
 
   late Color scrolledPlaceColor;
-  Color effectColorLight = mainBlue;
-  Color effectColorDark = mainRed;
+  final Color _effectColorLight = effectColorLight;
+  final Color _effectColorDark = effectColorDark;
 
   @override
   void initState() {
     super.initState();
 
-    scrolledPlaceColor = widget.settingsController.darkModeSet
-        ? effectColorDark
-        : effectColorLight;
+    scrolledPlaceColor = widget.uiModeController.darkModeSet
+        ? _effectColorDark
+        : _effectColorLight;
 
-    widget.settingsController.addListener(() {
+    widget.uiModeController.addListener(() {
       setState(() {
         scrolledPlaceColor =
             _getScrolledPlaceColor(_scrollController.position.pixels);
@@ -110,10 +118,10 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
     double opacity = pixels / (MediaQuery.of(context).size.height - 50 - 200);
     opacity = opacity.clamp(0.0, 1.0);
     return Color.lerp(
-        widget.settingsController.darkModeSet
-            ? effectColorDark
-            : effectColorLight,
-        widget.settingsController.darkModeSet ? mainGrey : white,
+        widget.uiModeController.darkModeSet
+            ? _effectColorDark
+            : _effectColorLight,
+        widget.uiModeController.darkModeSet ? mainGrey : white,
         opacity)!;
   }
 
@@ -228,8 +236,8 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
         leadingWidth: toolbarHeight,
         leading: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-          child: widget.settingsController.darkModeSet
-              // Image.asset(widget.settingsController.darkModeSet
+          child: widget.uiModeController.darkModeSet
+              // Image.asset(widget.UiModeController.darkModeSet
               // ? Assets.logoBright
               // : Assets.logoDark),
               ? Container(
@@ -254,13 +262,19 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
               Flexible(
                   child: TooltipAndSelectable(
                 isSelectable: false,
-                message: widget.settingsController.darkModeSet
+                message: widget.uiModeController.darkModeSet
                     ? AppLocalizations.of(context)!.toggleHoverToLight
                     : AppLocalizations.of(context)!.toggleHoverToDark,
-                child: DarkModeSwitch(
-                  settingsController: widget.settingsController,
+                child: UiModeSwitch(
+                  uiModeController: widget.uiModeController,
                 ),
-              ))
+              )),
+              Flexible(
+                child: LanguageSelector(
+                  uiModeController: widget.uiModeController,
+                  context: context,
+                ),
+              ),
             ],
           ),
         ),
@@ -314,6 +328,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                             AppLocalizations.of(context)!.specialization,
                             style: descriptionStyle?.copyWith(),
                           ),
+                          Text(DateFormat.yMMMMEEEEd(systemLang.toString())
+                              // .add_jms()
+                              .format(DateTime.now())),
                         ],
                       ),
                     ),
@@ -339,9 +356,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                                   end: Alignment.topCenter,
                                   colors: [
                                     scrolledPlaceColor,
-                                    // widget.settingsController.darkModeSet
+                                    // widget.UiModeController.darkModeSet
                                     //     ? scrolledPlaceColor
-                                    //     : effectColorLight,
+                                    //     : _effectColorLight,
                                     Colors.transparent
                                   ],
                                   stops: const [
@@ -390,9 +407,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                       onTap: () {
                         _scrollToBottom();
                       },
-                      child: Lottie.asset(widget.settingsController.darkModeSet
-                          ? "assets/animations/scroll_down_black.json"
-                          : "assets/animations/scroll_down_white.json"),
+                      child: Lottie.asset(widget.uiModeController.darkModeSet
+                          ? "assets/animations/scroll_down_white.json"
+                          : "assets/animations/scroll_down_black.json"),
                     ),
                   ),
                 ),
@@ -408,10 +425,9 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                       },
                       child: RotatedBox(
                         quarterTurns: 2,
-                        child: Lottie.asset(
-                            widget.settingsController.darkModeSet
-                                ? "assets/animations/scroll_down_black.json"
-                                : "assets/animations/scroll_down_white.json"),
+                        child: Lottie.asset(widget.uiModeController.darkModeSet
+                            ? "assets/animations/scroll_down_white.json"
+                            : "assets/animations/scroll_down_black.json"),
                       ),
                     ),
                   ),

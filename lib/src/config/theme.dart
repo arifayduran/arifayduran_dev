@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const Color effectColorDark = black;
+const Color effectColorLight = mainBlue;
+Color snackBarColorDark = effectColorDark.withOpacity(0.5);
+Color snackBarColorLight = effectColorLight.withOpacity(0.5);
+
 const Color white = Colors.white;
 const Color black = Colors.black;
 const Color lightGrey = Colors.grey;

@@ -1,12 +1,18 @@
+import 'package:arifayduran_dev/src/features/settings/application/language_provider.dart';
+import 'package:arifayduran_dev/src/features/settings/application/language_service.dart';
 import 'package:flutter/material.dart';
 import 'src/core/my_portfolio_app.dart';
-import 'src/features/settings/application/settings_controller.dart';
-import 'src/features/settings/application/settings_service.dart';
+import 'src/features/settings/application/ui_mode_controller.dart';
+import 'src/features/settings/application/ui_mode_service.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final settingsController = SettingsController(SettingsService());
-  await settingsController.loadSettings();
+  final uiModeController = UiModeController(UiModeService());
+  await uiModeController.loadSettings();
+  await LanguageService().getLanguage();
 
-  runApp(MyPortfolioApp(settingsController: settingsController));
+  runApp(ChangeNotifierProvider(
+      create: (context) => LanguageProvider(),
+      child: MyPortfolioApp(uiModeController: uiModeController)));
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:arifayduran_dev/src/features/settings/application/settings_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
 import 'package:rive/rive.dart';
 
-class DarkModeSwitch extends StatefulWidget {
-  const DarkModeSwitch({super.key, required this.settingsController});
+class UiModeSwitch extends StatefulWidget {
+  const UiModeSwitch({super.key, required this.uiModeController});
 
-  final SettingsController settingsController;
+  final UiModeController uiModeController;
 
   @override
-  DarkModeSwitchState createState() => DarkModeSwitchState();
+  UiModeSwitchState createState() => UiModeSwitchState();
 }
 
-class DarkModeSwitchState extends State<DarkModeSwitch> {
+class UiModeSwitchState extends State<UiModeSwitch> {
   StateMachineController? controller;
   SMIInput<bool>? switchInput;
   @override
@@ -20,7 +20,7 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
       onTap: () {
         if (switchInput == null) return;
         final isDark = switchInput!.value;
-        widget.settingsController.updateThemeMode(
+        widget.uiModeController.updateThemeMode(
             switchInput!.value ? ThemeMode.light : ThemeMode.dark, context);
         switchInput?.change(!isDark);
       },
@@ -38,7 +38,7 @@ class DarkModeSwitchState extends State<DarkModeSwitch> {
               if (controller == null) return;
               artboard.addController(controller!);
               switchInput = controller!.findInput("isDark");
-              switchInput?.change(widget.settingsController.darkModeSet);
+              switchInput?.change(widget.uiModeController.darkModeSet);
             },
           )),
     );

@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:universal_html/html.dart' as html;
 
-class SettingsService {
+class UiModeService {
   Future<ThemeMode> themeMode() async {
     if (kIsWeb) {
       final themeCookie = _getCookie('theme_mode');
@@ -33,16 +33,6 @@ class SettingsService {
   Future<void> updateThemeMode(ThemeMode theme, BuildContext context) async {
     if (kIsWeb) {
       _setCookie('theme_mode', theme == ThemeMode.dark ? 'dark' : 'light');
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(theme == ThemeMode.dark
-              ? AppLocalizations.of(context)!.switchModeMessageToDark
-              : AppLocalizations.of(context)!.switchModeMessageToDark),
-          duration: const Duration(seconds: 2),
-          backgroundColor: theme == ThemeMode.dark ? mainRed : mainBlue,
-        ),
-      );
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if (theme == ThemeMode.dark) {
@@ -50,6 +40,18 @@ class SettingsService {
       } else {
         await prefs.setBool("theme_mode", false);
       }
+    }
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(theme == ThemeMode.dark
+              ? AppLocalizations.of(context)!.switchModeMessageToDark
+              : AppLocalizations.of(context)!.switchModeMessageToDark),
+          duration: const Duration(seconds: 2),
+          backgroundColor:
+              theme == ThemeMode.dark ? snackBarColorDark : snackBarColorLight,
+        ),
+      );
     }
   }
 

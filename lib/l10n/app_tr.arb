@@ -13,6 +13,11 @@
   "darkMode": "Koyu Mod",
   "lightMode": "Açık Mod",
   "scrolldownText": "Aşağı Kaydır",
-  "scrollupText": "Yukarı Kaydır"
-
+  "scrollupText": "Yukarı Kaydır",
+  "langSelectHover": "Dil Ayarlarını Değiştir",
+  "systemLang": "Sistem Dili",
+  "switchLanguageMessage": "Dil ayarı Türkçe olarak güncellendi.",
+  "langCopiedFromSettingsMessage": "Görüntü dili, dil ayarlarınızdan alındı.",
+  "languageSettingsCopiedFromLastTimeMessage": "Dil ayarlarınız son seferden alındı.",
+  "onHoverSystemLang": "Sistem dili, veri, para birimi formatı ve diğer yerel ayarları işlemek için kullanılır."
 }

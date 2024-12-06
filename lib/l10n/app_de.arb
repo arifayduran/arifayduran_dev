@@ -6,14 +6,19 @@
   "greeting": "Hallo!",
   "fullGreeting": "Willkommen zum Portfolio von Arif Ayduran",
   "specialization": "Software Entwickler",
-  "toggleHoverToLight": "Switch color sheme to Light Mode",
-  "toggleHoverToDark": "Switch color sheme to Dark Mode",
+  "toggleHoverToLight": "Farbschema auf Light Mode wechseln",
+  "toggleHoverToDark": "Farbschema auf Dark Mode wechseln",
   "switchModeMessageToLight": "Farbschema auf den Light Modus geändert",
   "switchModeMessageToDark": "Farbschema auf den Dark Modus geändert",
   "darkMode": "Dark Modus",
   "lightMode": "Light Modus",
   "scrolldownText": "Nach unten scrollen",
-  "scrollupText": "Nach oben scrollen"
-
+  "scrollupText": "Nach oben scrollen",
+  "langSelectHover": "Spracheinstellungen ändern",
+  "systemLang": "Systemsprache",
+  "switchLanguageMessage": "Sie haben die Sprache auf Deutsch umgestellt.",
+  "langCopiedFromSettingsMessage": "Anzeigesprache wurde von Ihren Spracheinstellungen übernommen.",
+  "languageSettingsCopiedFromLastTimeMessage": "Ihre Spracheinstellungen wurden vom letzten Mal übernommen",
+  "onHoverSystemLang": "Die Systemsprache wird verwendet, um Daten-, Währungsformate und andere lokale Einstellungen zu verwalten."
 }
   

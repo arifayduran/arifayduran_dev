@@ -1,30 +1,31 @@
+import 'package:arifayduran_dev/src/features/settings/application/language_provider.dart';
+import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/my_portfolio_home.dart';
-
-import '../features/settings/application/settings_controller.dart';
+import 'package:provider/provider.dart';
 
 class MyPortfolioApp extends StatelessWidget {
   const MyPortfolioApp({
     super.key,
-    required this.settingsController,
+    required this.uiModeController,
   });
 
-  final SettingsController settingsController;
+  final UiModeController uiModeController;
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: settingsController,
+      listenable: uiModeController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           // showPerformanceOverlay: true,
           scrollBehavior: MyCustomScrollBehavior(),
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
-          locale: const Locale('en', ''),
+          locale: Provider.of<LanguageProvider>(context).userSelectedLang,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           // localizationsDelegates: const [
@@ -42,19 +43,18 @@ class MyPortfolioApp extends StatelessWidget {
               AppLocalizations.of(context)!.appTitle,
           theme: lightTheme,
           darkTheme: darkTheme,
-          themeMode: settingsController.themeMode,
+          themeMode: uiModeController.themeMode,
           onGenerateRoute: (RouteSettings routeSettings) {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
                   // case SettingsView.routeName:
-                  //   return SettingsView(controller: settingsController);
+                  //   return SettingsView(controller: uiModeController);
 
                   case MyPortfolioHome.routeName:
                   default:
-                    return MyPortfolioHome(
-                        settingsController: settingsController);
+                    return MyPortfolioHome(uiModeController: uiModeController);
                 }
               },
             );

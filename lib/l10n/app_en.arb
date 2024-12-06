@@ -51,5 +51,29 @@
     "scrollupText": "Scroll Up",
     "@scrollupText": {
         "description": "Hovering text on scrollup button"
-    }
+    },
+    "langSelectHover": "Change Language Settings",
+    "@langSelectHover": {
+        "description": "Hovering text on Language Settings Dropdownmenu"
+    },
+    "systemLang": "System Language",
+    "@systemLang": {
+        "description": "Display Text for System Language, not setted language."
+    },
+    "switchLanguageMessage": "You have switched the language to English.",
+    "@switchLanguageMessage": {
+        "description": "Message shown when the user switches the language"
+    },
+    "langCopiedFromSettingsMessage": "Display language has been set from your language settings.",
+    "@langCopiedFromSettingsMessage": {
+        "description": "Message shown for explain, that the language has been set from language settings"
+    },
+    "languageSettingsCopiedFromLastTimeMessage": "Your language settings have been copied from last time.",
+    "@languageSettingsCopiedFromLastTimeMessage": {
+        "description": "Message shown to explain that the language settings were taken from the previous session"
+    },
+    "onHoverSystemLang": "The system language is used to handle data, currency formats, and other locale settings.",
+    "@onHoverSystemLang": {
+        "description": "Message shown to explain that the system language used to handle data/currency format etc."
+}
 }

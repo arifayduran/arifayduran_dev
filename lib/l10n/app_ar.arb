@@ -13,5 +13,11 @@
   "darkMode": "الوضع الداكن",
   "lightMode": "الوضع الفاتح",
   "scrolldownText": "التمرير للأسفل",
-  "scrollupText": "التمرير للأعلى"
+  "scrollupText": "التمرير للأعلى",
+  "langSelectHover": "تغيير إعدادات اللغة",
+  "systemLang": "لغة النظام",
+  "switchLanguageMessage": "لقد قمت بتغيير اللغة إلى العربية.",
+  "langCopiedFromSettingsMessage": "تم تعيين لغة العرض من إعدادات اللغة الخاصة بك.",
+  "languageSettingsCopiedFromLastTimeMessage": "تم نسخ إعدادات اللغة الخاصة بك من آخر مرة.",
+  "onHoverSystemLang": "تُستخدم لغة النظام لمعالجة البيانات وتنسيقات العملات والإعدادات المحلية الأخرى."
 }
