@@ -1,4 +1,5 @@
 import 'package:arifayduran_dev/src/config/theme.dart';
+import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/features/settings/application/language_service.dart';
 import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
@@ -42,7 +43,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
             Provider.of<LanguageProvider>(widget.context, listen: false)
                     .userSelectedLangFromPast ==
                 null) {
-          ScaffoldMessenger.of(widget.context).showSnackBar(
+          scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: RichText(
                 text: const TextSpan(
@@ -63,30 +64,33 @@ class _LanguageSelectorState extends State<LanguageSelector>
                 ),
               ),
               duration: const Duration(seconds: 4),
-              backgroundColor:
-                  widget.uiModeController.darkModeSet ? snackBarColorDark : snackBarColorLight,
+              backgroundColor: widget.uiModeController.darkModeSet
+                  ? snackBarColorDark
+                  : snackBarColorLight,
             ),
           );
         } else if (supportedLocale.contains(systemLang)) {
-          ScaffoldMessenger.of(widget.context).showSnackBar(
+          scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(widget.context)!
                   .langCopiedFromSettingsMessage),
               duration: const Duration(seconds: 4),
-              backgroundColor:
-                  widget.uiModeController.darkModeSet ? snackBarColorDark : snackBarColorLight,
+              backgroundColor: widget.uiModeController.darkModeSet
+                  ? snackBarColorDark
+                  : snackBarColorLight,
             ),
           );
         } else if (Provider.of<LanguageProvider>(widget.context, listen: false)
                 .userSelectedLangFromPast !=
             null) {
-          ScaffoldMessenger.of(widget.context).showSnackBar(
+          scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(widget.context)!
                   .languageSettingsCopiedFromLastTimeMessage),
               duration: const Duration(seconds: 4),
-              backgroundColor:
-                  widget.uiModeController.darkModeSet ? snackBarColorDark : snackBarColorLight,
+              backgroundColor: widget.uiModeController.darkModeSet
+                  ? snackBarColorDark
+                  : snackBarColorLight,
             ),
           );
         }
@@ -132,7 +136,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
 
                 Future.delayed(const Duration(milliseconds: 1), () {
                   if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    scaffoldMessengerKey.currentState?.showSnackBar(
                       SnackBar(
                         content: Text(AppLocalizations.of(context)!
                             .switchLanguageMessage),

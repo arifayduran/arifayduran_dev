@@ -10,3 +10,5 @@ List<Locale> supportedLocale = [
 Locale systemLang = WidgetsBinding.instance.window.locale;
 
 Locale? userSelectedLangFromPastTemp;
+String? lastVisitedRouteFromPastTemp;
+String? currentRoute;
