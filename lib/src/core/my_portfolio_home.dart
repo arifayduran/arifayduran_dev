@@ -79,7 +79,8 @@ class MyPortfolioHome extends StatefulWidget {
   State<MyPortfolioHome> createState() => _MyPortfolioHomeState();
 }
 
-class _MyPortfolioHomeState extends State<MyPortfolioHome> {
+class _MyPortfolioHomeState extends State<MyPortfolioHome>
+    with SingleTickerProviderStateMixin {
   double offset = 0;
   int lastUpdateTime = 0;
   double blurring = 0;
@@ -89,9 +90,20 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
   final Color _effectColorLight = effectColorLight;
   final Color _effectColorDark = effectColorDark;
 
+  final _transformationController = TransformationController();
+  TapDownDetails? _doubleTapDetails;
+  late AnimationController _animationController;
+  Animation<Matrix4>? _animation;
+
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    )..addListener(() {
+        _transformationController.value = _animation!.value;
+      });
 
     scrolledPlaceColor = widget.uiModeController.darkModeSet
         ? _effectColorDark
@@ -185,10 +197,33 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
     return true;
   }
 
+  void _handleDoubleTap() {
+    Matrix4 endMatrix;
+    Offset position = _doubleTapDetails!.localPosition;
+
+    if (_transformationController.value != Matrix4.identity()) {
+      endMatrix = Matrix4.identity();
+    } else {
+      endMatrix = Matrix4.identity()
+        ..translate(-position.dx * 1, -position.dy * 1)
+        ..scale(2.0);
+    }
+
+    _animation = Matrix4Tween(
+      begin: _transformationController.value,
+      end: endMatrix,
+    ).animate(
+      CurveTween(curve: Curves.easeOut).animate(_animationController),
+    );
+    _animationController.forward(from: 0);
+  }
+
   @override
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    _animationController.dispose();
+    _transformationController.dispose();
   }
 
   @override
@@ -281,156 +316,153 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
           ),
         ),
       ),
-      body: InteractiveViewer(
-        panEnabled: true,
-        minScale: 1,
-        maxScale: 4,
-        child: Material(
-          child: NotificationListener<ScrollNotification>(
-            onNotification: _updateScrolling,
-            child: SizedBox(
-              height: height,
-              width: width,
-              child: Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: -.25 * offset,
-                    child: FadeInImage(
-                      placeholder: MemoryImage(kTransparentImage),
-                      image: const AssetImage(
-                          "assets/images/business_smile_retuschiert_farbenangepasst_low_jpeg_50q_pixel40.jpg"),
-                      // height: height < width
-                      //     ? width / imageScale
-                      //     : width / imageScale,
-                      height: height,
-                      width: width,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    top: -.25 * offset,
-                    child: SizedBox(
-                      // height: width / imageScale,
-                      height: height - maxToolbarHeight,
-                      width: width,
-                      child: Align(
-                        alignment: const Alignment(0, 0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              AppLocalizations.of(context)!.greeting,
-                              style: nameStyle?.copyWith(),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              AppLocalizations.of(context)!.fullGreeting,
-                              style: descriptionStyle?.copyWith(),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              AppLocalizations.of(context)!.specialization,
-                              style: descriptionStyle?.copyWith(),
-                            ),
-                            Text(DateFormat.yMMMMEEEEd(systemLang.toString())
-                                // .add_jms()
-                                .format(DateTime.now())),
-                          ],
-                        ),
+      body: GestureDetector(
+        onDoubleTapDown: (d) => _doubleTapDetails = d,
+        onDoubleTap: _handleDoubleTap,
+        child: InteractiveViewer(
+          transformationController: _transformationController,
+          panEnabled: true,
+          minScale: 1,
+          maxScale: 2,
+          child: Material(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _updateScrolling,
+              child: SizedBox(
+                height: height,
+                width: width,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      top: -.25 * offset,
+                      child: FadeInImage(
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: const AssetImage(
+                            "assets/images/business_smile_retuschiert_farbenangepasst_low_jpeg_50q_pixel40.jpg"),
+                        // height: height < width
+                        //     ? width / imageScale
+                        //     : width / imageScale,
+                        height: height,
+                        width: width,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      children: [
-                        ClipRRect(
-                          clipBehavior: Clip.antiAlias,
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: blurValue,
-                              sigmaY: blurValue,
-                            ),
-                            child: Container(
-                              width: width,
-                              height: height - maxToolbarHeight,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [
-                                      scrolledPlaceColor,
-                                      // widget.UiModeController.darkModeSet
-                                      //     ? scrolledPlaceColor
-                                      //     : _effectColorLight,
-                                      Colors.transparent
+                    SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(
+                                sigmaX: blurValue,
+                                sigmaY: blurValue,
+                              ),
+                              child: Container(
+                                width: width,
+                                height: height - maxToolbarHeight,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        scrolledPlaceColor,
+                                        // widget.UiModeController.darkModeSet
+                                        //     ? scrolledPlaceColor
+                                        //     : _effectColorLight,
+                                        Colors.transparent
+                                      ],
+                                      stops: const [
+                                        0,
+                                        1
+                                      ]),
+                                ),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      TooltipAndSelectable(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .greeting,
+                                          style: nameStyle?.copyWith(),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      TooltipAndSelectable(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .fullGreeting,
+                                          style: descriptionStyle?.copyWith(),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      TooltipAndSelectable(
+                                        child: Text(
+                                          AppLocalizations.of(context)!
+                                              .specialization,
+                                          style: descriptionStyle?.copyWith(),
+                                        ),
+                                      ),
+                                      TooltipAndSelectable(
+                                        child: Text(DateFormat.yMMMMEEEEd(
+                                                systemLang.toString())
+                                            // .add_jms()
+                                            .format(DateTime.now())),
+                                      ),
                                     ],
-                                    stops: const [
-                                      0,
-                                      1
-                                    ]),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Positioned(
-                                bottom:
-                                    -190, //   bottom: -height - height + 150 + maxToolbarHeight,
-                                child: Container(
-                                  height: 200, //     height: height * 0.3,
-                                  width: width,
-                                  color: scrolledPlaceColor,
-                                )),
-                            Container(
-                              height: height - 150 - minToolbarHeight,
-                              width: width,
-                              color: scrolledPlaceColor,
-                            ),
-                            Positioned(
-                                top: -5,
-                                child: Container(
-                                  height: 6,
-                                  width: width,
-                                  color: scrolledPlaceColor,
-                                )),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    right: width * 0.08,
-                    bottom: (height + maxToolbarHeight) * 0.08 - .25 * offset,
-                    child: TooltipAndSelectable(
-                      message: AppLocalizations.of(context)!.scrolldownText,
-                      isSelectable: false,
-                      child: GestureDetector(
-                        onTap: () {
-                          _scrollToBottom();
-                        },
-                        child: Lottie.asset(widget.uiModeController.darkModeSet
-                            ? "assets/animations/scroll_down_white.json"
-                            : "assets/animations/scroll_down_black.json"),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Positioned(
+                                  bottom:
+                                      -190, //   bottom: -height - height + 150 + maxToolbarHeight,
+                                  child: Container(
+                                    height: 200, //     height: height * 0.3,
+                                    width: width,
+                                    color: scrolledPlaceColor,
+                                  )),
+                              Container(
+                                height: height - 150 - minToolbarHeight,
+                                width: width,
+                                color: scrolledPlaceColor,
+                                //   child: TooltipAndSelectable(
+                                //     isTooltip: false,
+                                //     child: Text(
+                                //       AppLocalizations.of(context)!.specialization,
+                                //       style: descriptionStyle?.copyWith(),
+                                //     ),
+                                //   ),
+                              ),
+                              Positioned(
+                                  top: -5,
+                                  child: Container(
+                                    height: 6,
+                                    width: width,
+                                    color: scrolledPlaceColor,
+                                  )),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: width * 0.08,
-                    top: -(height + 200 - minToolbarHeight) * 0.08 +
-                        .25 * offset,
-                    child: TooltipAndSelectable(
-                      message: AppLocalizations.of(context)!.scrollupText,
-                      isSelectable: false,
-                      child: GestureDetector(
-                        onTap: () {
-                          _scrollToTop();
-                        },
-                        child: RotatedBox(
-                          quarterTurns: 2,
+                    Positioned(
+                      right: width * 0.08,
+                      bottom: (height + maxToolbarHeight) * 0.08 - .25 * offset,
+                      child: TooltipAndSelectable(
+                        message: AppLocalizations.of(context)!.scrolldownText,
+                        isSelectable: false,
+                        child: GestureDetector(
+                          onTap: () {
+                            _scrollToBottom();
+                          },
                           child: Lottie.asset(
                               widget.uiModeController.darkModeSet
                                   ? "assets/animations/scroll_down_white.json"
@@ -438,8 +470,29 @@ class _MyPortfolioHomeState extends State<MyPortfolioHome> {
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      right: width * 0.08,
+                      top: -(height + 200 - minToolbarHeight) * 0.08 +
+                          .25 * offset,
+                      child: TooltipAndSelectable(
+                        message: AppLocalizations.of(context)!.scrollupText,
+                        isSelectable: false,
+                        child: GestureDetector(
+                          onTap: () {
+                            _scrollToTop();
+                          },
+                          child: RotatedBox(
+                            quarterTurns: 2,
+                            child: Lottie.asset(widget
+                                    .uiModeController.darkModeSet
+                                ? "assets/animations/scroll_down_white.json"
+                                : "assets/animations/scroll_down_black.json"),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
