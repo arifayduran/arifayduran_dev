@@ -1,5 +1,5 @@
 import 'package:arifayduran_dev/src/features/settings/application/set_get_cookie.dart';
-import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';

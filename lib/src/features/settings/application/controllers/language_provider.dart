@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
 
 class LanguageProvider with ChangeNotifier {
@@ -15,6 +15,9 @@ class LanguageProvider with ChangeNotifier {
 
   // Initialisiert die Sprache basierend auf verschiedenen Quellen
   void _initializeLanguage() {
+    if (_providerSystemLang == const Locale("de")) {
+      _providerSystemLang = const Locale("de", "DE");
+    }
     userSelectedLangFromPast = userSelectedLangFromPastTemp;
 
     // 1. Sprache aus Cookies/SharedPreferences priorisieren
@@ -50,7 +53,12 @@ class LanguageProvider with ChangeNotifier {
   // Aktualisiert die Systemsprache, falls keine Benutzerauswahl vorliegt
   void checkAndSetSystemLanguage({VoidCallback? snackbarOnLanguageChanged}) {
     _providerSystemLang = WidgetsBinding.instance.window.locale;
-    systemLang = WidgetsBinding.instance.window.locale;
+
+    if (_providerSystemLang == const Locale("de")) {
+      _providerSystemLang = const Locale("de", "DE");
+    }
+
+    systemLang = _providerSystemLang;
 
     if (_userSelectedLang == null &&
         _providerSystemLang != _currentLocale &&
@@ -69,6 +77,7 @@ class LanguageProvider with ChangeNotifier {
         _providerSystemLang != _currentLocale &&
         userSelectedLangFromPast == null &&
         _userSelectedLang == null) {
+      isStartedNew = true;
       snackbarOnLanguageChanged();
     }
   }

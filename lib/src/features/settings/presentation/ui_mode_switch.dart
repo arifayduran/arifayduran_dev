@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:rive/rive.dart';
 
 class UiModeSwitch extends StatefulWidget {

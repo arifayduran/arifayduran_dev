@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
-import 'package:arifayduran_dev/src/features/settings/application/routes_service.dart';
+import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
-import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
-import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   double offset = 0;
   int lastUpdateTime = 0;
   double blurring = 0;
@@ -70,23 +70,22 @@ class _HomeScreenState extends State<HomeScreen>
             _getScrolledPlaceColor(_scrollController.position.pixels);
       });
     });
-
-    _routeIfLastVisitedRouteFromPastTemp();
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _routeIfLastVisitedRouteFromPastTemp();
+    // }); // not using since observer
   }
 
-  void _routeIfLastVisitedRouteFromPastTemp() async {
-    await RouteService().getLastVisitedRoute();
-    if (lastVisitedRouteFromPastTemp != null &&
-        lastVisitedRouteFromPastTemp != "/" &&
-        currentRoute != lastVisitedRouteFromPastTemp) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          Navigator.pushReplacementNamed(
-              context, lastVisitedRouteFromPastTemp!);
-        }
-      });
-    }
-  }
+  // void _routeIfLastVisitedRouteFromPastTemp() async {
+  //   notNavigatedFromRefresh = true;
+  //   await RouteService().getLastVisitedRoute();
+  //   if (lastVisitedRouteFromPastTemp != null &&
+  //       lastVisitedRouteFromPastTemp != "/" &&
+  //       currentRoute != lastVisitedRouteFromPastTemp) {
+  //     if (mounted) {
+  //       Navigator.restorablePushNamed(context, lastVisitedRouteFromPastTemp!);
+  //     }
+  //   }
+  // } // not using since observer
 
   Color _getScrolledPlaceColor(double pixels) {
     double opacity = pixels / (MediaQuery.of(context).size.height - 50 - 200);
@@ -157,6 +156,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final nameStyle = Theme.of(context).textTheme.displayMedium;
@@ -174,14 +175,12 @@ class _HomeScreenState extends State<HomeScreen>
     double blurValue = offset > 0 ? 0.01 * offset : 0.0;
     blurValue = blurValue.clamp(0.0, 8.0);
 
-    // ignore: deprecated_member_use
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (willPop, result) {
         if (_scrollController.offset > 0) {
           _scrollToTop();
-          return false;
         }
-        return true;
       },
       child: Scaffold(
         backgroundColor: scrolledPlaceColor,
@@ -233,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen>
           onDoubleTap: _handleDoubleTap,
           child: InteractiveViewer(
             transformationController: _transformationController,
-            panEnabled: true,
+            scaleEnabled: false,
             minScale: 1,
             maxScale: 2,
             child: Material(
@@ -256,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen>
                           height: height,
                           width: width,
                           fit: BoxFit.cover,
+                          filterQuality: FilterQuality.none,
                         ),
                       ),
                       SingleChildScrollView(
@@ -344,7 +344,8 @@ class _HomeScreenState extends State<HomeScreen>
                                     message: "Link to $wetterAppUrl",
                                     child: TextButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(
+                                        notNavigatedFromRefresh = true;
+                                        Navigator.restorablePushNamed(
                                             context, '/projects');
                                       },
                                       child: Text(
@@ -417,4 +418,7 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -1,13 +1,13 @@
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
-import 'package:arifayduran_dev/src/features/settings/application/language_service.dart';
-import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
-import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
+import 'package:arifayduran_dev/src/features/settings/application/services/language_service.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:language_code/language_code.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:arifayduran_dev/src/features/settings/application/language_provider.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:dash_flags/dash_flags.dart';
 
@@ -30,19 +30,22 @@ class _LanguageSelectorState extends State<LanguageSelector>
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<LanguageProvider>(widget.context, listen: false)
-          .checkAndSetSystemLanguage();
+          .checkAndSetSystemLanguage(
+              snackbarOnLanguageChanged: snackbarOnLanguageChanged);
     });
 
     snackbarOnLanguageChanged();
   }
 
   void snackbarOnLanguageChanged() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(milliseconds: 200), () {
       if (widget.context.mounted) {
         if (!supportedLocale.contains(systemLang) &&
             Provider.of<LanguageProvider>(widget.context, listen: false)
                     .userSelectedLangFromPast ==
-                null) {
+                null &&
+            isStartedNew) {
+          isStartedNew = false;
           scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: RichText(
@@ -69,7 +72,8 @@ class _LanguageSelectorState extends State<LanguageSelector>
                   : snackBarColorLight,
             ),
           );
-        } else if (supportedLocale.contains(systemLang)) {
+        } else if (supportedLocale.contains(systemLang) && isStartedNew) {
+          isStartedNew = false;
           scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(widget.context)!
@@ -81,8 +85,10 @@ class _LanguageSelectorState extends State<LanguageSelector>
             ),
           );
         } else if (Provider.of<LanguageProvider>(widget.context, listen: false)
-                .userSelectedLangFromPast !=
-            null) {
+                    .userSelectedLangFromPast !=
+                null &&
+            isStartedNew) {
+          isStartedNew = false;
           scaffoldMessengerKey.currentState?.showSnackBar(
             SnackBar(
               content: Text(AppLocalizations.of(widget.context)!

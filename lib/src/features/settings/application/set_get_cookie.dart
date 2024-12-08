@@ -1,6 +1,5 @@
 import 'package:universal_html/html.dart' as html;
 
-
 void setCookie(String name, String value) {
   final now = DateTime.now();
   final expires = now.add(const Duration(days: 365));

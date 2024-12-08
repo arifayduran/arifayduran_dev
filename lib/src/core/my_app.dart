@@ -1,9 +1,10 @@
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
-import 'package:arifayduran_dev/src/features/settings/application/language_provider.dart';
-import 'package:arifayduran_dev/src/features/settings/application/routes_service.dart';
-import 'package:arifayduran_dev/src/features/settings/application/ui_mode_controller.dart';
-import 'package:arifayduran_dev/src/features/settings/data/language_settings.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
+import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
+// import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
+import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
+// import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart'; // not using since observer
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
@@ -12,14 +13,16 @@ import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart'
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp({
-    super.key,
-    required this.uiModeController,
-  });
+  MyApp(
+      {super.key,
+      required this.uiModeController,
+      required this.routeObserver,
+      required this.initialRoute});
+  final RouteObserverService routeObserver;
+  final String initialRoute;
 
   final UiModeController uiModeController;
-  final RouteService _routeService = RouteService();
-  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  // final RouteService _routeService = RouteService(); // not using since observer
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           scrollBehavior: MyCustomScrollBehavior(),
-          scaffoldMessengerKey: scaffoldMessengerKey, 
+          scaffoldMessengerKey: scaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
           locale: Provider.of<LanguageProvider>(context).userSelectedLang,
@@ -39,23 +42,38 @@ class MyApp extends StatelessWidget {
           theme: lightTheme,
           darkTheme: darkTheme,
           themeMode: uiModeController.themeMode,
-          initialRoute: "/",
+          initialRoute: initialRoute, // "/",
           navigatorObservers: [routeObserver],
           onGenerateRoute: (RouteSettings routeSettings) {
-            currentRoute = routeSettings.name;
-            _routeService.updateLastVisitedRoute(routeSettings.name ?? '/');
+           // currentRoute = routeSettings.name; // not using since observer
 
-            return MaterialPageRoute<void>(
+            // if (dontSaveFirstRoute) {
+            //   _routeService.updateLastVisitedRoute(routeSettings.name ?? '/');
+            // } // not using since observer
+
+          //  dontSaveFirstRoute = true; // not using since observer
+
+            return PageRouteBuilder<void>(
               settings: routeSettings,
-              builder: (BuildContext context) {
+              pageBuilder: (context, animation, secondaryAnimation) {
                 switch (routeSettings.name) {
+                  /////////
                   case ProjectsScreen.routeName:
                     return ProjectsScreen(uiModeController: uiModeController);
                   case HomeScreen.routeName:
                   default:
                     return HomeScreen(uiModeController: uiModeController);
+                    /////////
                 }
               },
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 300),
             );
           },
         );
