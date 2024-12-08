@@ -4,7 +4,7 @@ const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
 const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
-"main.dart.js": "6273fe77593e2f5392f87eef6ac5bef3",
+"main.dart.js": "29bc293d8bac65c5cde314e4c0211a43",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/AssetManifest.bin": "28fb27d16f225497bdf3310479a5bbdb",
 "assets/fonts/MaterialIcons-Regular.otf": "0db35ae7a415370b89e807027510caf0",
@@ -437,10 +437,10 @@ const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
 "assets/assets/app_icons/light_transparent.svg": "d1b94aedcbd435c867f5e9b7e45dce25",
 "assets/assets/app_icons/main_dark.svg": "ea33339af268a3b5febafd6e1323e9eb",
 "assets/assets/app_icons/main_light.svg": "403a1579d07654352304195e2df36f20",
-"assets/lib/l10n/app_ar.arb": "26d448f1d91b8e77235c5c2f2ba150ce",
-"assets/lib/l10n/app_de.arb": "8c70357b1bc770b35339b142424d7324",
-"assets/lib/l10n/app_tr.arb": "8d18d4303c358e6b0aad91685f792ccc",
-"assets/lib/l10n/app_en.arb": "28a1996715e1cd875a2c266ef2cadac8",
+"assets/lib/l10n/app_ar.arb": "0654626cd35f16b9d373308e379888b0",
+"assets/lib/l10n/app_de.arb": "060e1f13f20cfe48074ed24b098ba8ea",
+"assets/lib/l10n/app_tr.arb": "7002853506ec93ea8c5187877be5e826",
+"assets/lib/l10n/app_en.arb": "32bbae9e67e294dadbc08ec305d86bd2",
 "assets/NOTICES": "816182a25f84cdad52cc59cb520758d2",
 "assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
 "assets/AssetManifest.json": "eb03e3d1c2b82538bf15f13010ae6080",
@@ -464,7 +464,7 @@ const RESOURCES = {"flutter.js": "f393d3c16b631f36852323de8e583132",
 "icons/Icon-maskable-512.png": "3007b13a79e79720d6729e4c667d8437",
 "favicon.png": "10b90dd4b4d105d71eb2413b1a6ef982",
 "version.json": "77cd2155404ad6929195a1ce50071277",
-"flutter_bootstrap.js": "ab6400a0d298622d21298bd675ed413e"};
+"flutter_bootstrap.js": "3dc85187805179c52d1a098739c3d765"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",

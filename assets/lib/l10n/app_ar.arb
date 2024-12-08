@@ -19,5 +19,6 @@
   "switchLanguageMessage": "لقد قمت بتغيير اللغة إلى العربية.",
   "langCopiedFromSettingsMessage": "تم تعيين لغة العرض من إعدادات اللغة الخاصة بك.",
   "languageSettingsCopiedFromLastTimeMessage": "تم نسخ إعدادات اللغة الخاصة بك من آخر مرة.",
-  "onHoverSystemLang": "تُستخدم لغة النظام لمعالجة البيانات وتنسيقات العملات والإعدادات المحلية الأخرى."
+  "onHoverSystemLang": "تُستخدم لغة النظام لمعالجة البيانات وتنسيقات العملات والإعدادات المحلية الأخرى.",
+  "lastRouteMessage": "تمت استعادة جلسة الطريق الأخيرة بنجاح."
 }
