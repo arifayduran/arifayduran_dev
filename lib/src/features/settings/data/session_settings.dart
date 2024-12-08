@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 import 'package:flutter/material.dart';
 
 List<Locale> supportedLocale = [
@@ -18,9 +19,14 @@ Locale? userSelectedLangFromPastTemp;
 // String? currentRoute; // not using since observer
 
 bool? isFirstLaunch;
-bool isStartedNew =
+bool activateSecondSnackBar =
     true; // for snackbar on change system language and and first init, otherwise it will show every route
+bool activateLastRouteMessage = false;
 
 // bool dontSaveFirstRoute = false; // not using since observer
 
 bool notNavigatedFromRefresh = false;
+
+RouteObserverService routeObserver = RouteObserverService();
+List<String>? routeHistory;
+String? initialRoute;

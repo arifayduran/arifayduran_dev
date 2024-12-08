@@ -1,9 +1,9 @@
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
-import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 // import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart'; // not using since observer
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -13,13 +13,7 @@ import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart'
 import 'package:provider/provider.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp(
-      {super.key,
-      required this.uiModeController,
-      required this.routeObserver,
-      required this.initialRoute});
-  final RouteObserverService routeObserver;
-  final String initialRoute;
+  const MyApp({super.key, required this.uiModeController});
 
   final UiModeController uiModeController;
   // final RouteService _routeService = RouteService(); // not using since observer
@@ -34,7 +28,7 @@ class MyApp extends StatelessWidget {
           scaffoldMessengerKey: scaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
           restorationScopeId: 'app',
-          locale: Provider.of<LanguageProvider>(context).userSelectedLang,
+          locale: Provider.of<LanguageProvider>(context).currentLocale,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           onGenerateTitle: (BuildContext context) =>
@@ -45,13 +39,13 @@ class MyApp extends StatelessWidget {
           initialRoute: initialRoute, // "/",
           navigatorObservers: [routeObserver],
           onGenerateRoute: (RouteSettings routeSettings) {
-           // currentRoute = routeSettings.name; // not using since observer
+            // currentRoute = routeSettings.name; // not using since observer
 
             // if (dontSaveFirstRoute) {
             //   _routeService.updateLastVisitedRoute(routeSettings.name ?? '/');
             // } // not using since observer
 
-          //  dontSaveFirstRoute = true; // not using since observer
+            //  dontSaveFirstRoute = true; // not using since observer
 
             return PageRouteBuilder<void>(
               settings: routeSettings,
@@ -63,7 +57,7 @@ class MyApp extends StatelessWidget {
                   case HomeScreen.routeName:
                   default:
                     return HomeScreen(uiModeController: uiModeController);
-                    /////////
+                  /////////
                 }
               },
               transitionsBuilder:

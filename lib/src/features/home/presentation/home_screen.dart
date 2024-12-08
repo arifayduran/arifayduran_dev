@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
-import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart';
+// import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
@@ -220,7 +220,6 @@ class _HomeScreenState extends State<HomeScreen>
                 Flexible(
                   child: LanguageSelector(
                     uiModeController: widget.uiModeController,
-                    context: context,
                   ),
                 ),
               ],

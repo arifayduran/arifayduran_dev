@@ -75,5 +75,10 @@
     "onHoverSystemLang": "The system language is used to handle data, currency formats, and other locale settings.",
     "@onHoverSystemLang": {
         "description": "Message shown to explain that the system language used to handle data/currency format etc."
-}
+    },
+    "lastRouteMessage": "The last route session has been successfully restored.",
+    "@lastRouteMessage": {
+        "description": "Notification shown when the last route session is restored successfully."
+    }
+        
 }

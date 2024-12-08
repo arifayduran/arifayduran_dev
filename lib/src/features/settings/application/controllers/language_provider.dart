@@ -15,7 +15,8 @@ class LanguageProvider with ChangeNotifier {
 
   // Initialisiert die Sprache basierend auf verschiedenen Quellen
   void _initializeLanguage() {
-    if (_providerSystemLang == const Locale("de")) {
+    if (_providerSystemLang.languageCode == "de" &&
+        _providerSystemLang.countryCode == null) {
       _providerSystemLang = const Locale("de", "DE");
     }
     userSelectedLangFromPast = userSelectedLangFromPastTemp;
@@ -54,7 +55,8 @@ class LanguageProvider with ChangeNotifier {
   void checkAndSetSystemLanguage({VoidCallback? snackbarOnLanguageChanged}) {
     _providerSystemLang = WidgetsBinding.instance.window.locale;
 
-    if (_providerSystemLang == const Locale("de")) {
+    if (_providerSystemLang.languageCode == "de" &&
+        _providerSystemLang.countryCode == null) {
       _providerSystemLang = const Locale("de", "DE");
     }
 
@@ -69,15 +71,15 @@ class LanguageProvider with ChangeNotifier {
         _currentLocale = supportedLocale.first;
       }
     }
-
     notifyListeners(); // UI aktualisieren
 
     // Callback-Funktion aufrufen, falls vorhanden
     if (snackbarOnLanguageChanged != null &&
-        _providerSystemLang != _currentLocale &&
+        // _providerSystemLang != _currentLocale &&
         userSelectedLangFromPast == null &&
         _userSelectedLang == null) {
-      isStartedNew = true;
+      activateSecondSnackBar = true;
+      activateLastRouteMessage = false;
       snackbarOnLanguageChanged();
     }
   }
