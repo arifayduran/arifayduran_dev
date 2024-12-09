@@ -201,6 +201,7 @@ class _HomeScreenState extends State<HomeScreen>
                 Flexible(
                     child: TooltipAndSelectable(
                   isTooltip: true,
+                  isSelectable: false,
                   message: AppLocalizations.of(context)!.appDescription,
                   child: Text(
                     AppLocalizations.of(context)!.appTitle,
@@ -287,37 +288,37 @@ class _HomeScreenState extends State<HomeScreen>
                                         ]),
                                   ),
                                   child: Center(
-                                    child: TooltipAndSelectable(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .greeting,
-                                            style: nameStyle?.copyWith(),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .fullGreeting,
-                                            style: descriptionStyle?.copyWith(),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .specialization,
-                                            style: descriptionStyle?.copyWith(),
-                                          ),
-                                          Text(DateFormat.yMMMMEEEEd(
-                                                  systemLang.toString())
-                                              // .add_jms()
-                                              .format(DateTime.now())),
-                                        ],
-                                      ),
+                                    child:
+                                        // Selection?
+                                        Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .greeting,
+                                          style: nameStyle?.copyWith(),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .fullGreeting,
+                                          style: descriptionStyle?.copyWith(),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Text(
+                                          AppLocalizations.of(context)!
+                                              .specialization,
+                                          style: descriptionStyle?.copyWith(),
+                                        ),
+                                        Text(DateFormat.yMMMMEEEEd(
+                                                systemLang.toString())
+                                            // .add_jms()
+                                            .format(DateTime.now())),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -338,20 +339,25 @@ class _HomeScreenState extends State<HomeScreen>
                                   height: height - 150 - minToolbarHeight,
                                   width: width,
                                   color: scrolledPlaceColor,
-                                  child: TooltipAndSelectable(
-                                    isTooltip: true,
-                                    message: "Link to $wetterAppUrl",
-                                    child: TextButton(
-                                      onPressed: () {
-                                        notNavigatedFromRefresh = true;
-                                        Navigator.restorablePushNamed(
-                                            context, '/projects');
-                                      },
-                                      child: Text(
-                                        "Projects",
-                                        style: descriptionStyle?.copyWith(),
+                                  child: Column(
+                                    children: [
+                                      TooltipAndSelectable(
+                                        isTooltip: true,
+                                        isSelectable: false,
+                                        message: "Link to $wetterAppUrl",
+                                        child: TextButton(
+                                          onPressed: () {
+                                            notNavigatedFromRefresh = true;
+                                            Navigator.restorablePushNamed(
+                                                context, '/projects');
+                                          },
+                                          child: Text(
+                                            "Projects",
+                                            style: descriptionStyle?.copyWith(),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ),
                                 Positioned(
@@ -372,8 +378,8 @@ class _HomeScreenState extends State<HomeScreen>
                             (height + maxToolbarHeight) * 0.08 - .25 * offset,
                         child: TooltipAndSelectable(
                           isTooltip: true,
-                          message: AppLocalizations.of(context)!.scrolldownText,
                           isSelectable: false,
+                          message: AppLocalizations.of(context)!.scrolldownText,
                           child: GestureDetector(
                             onTap: () {
                               _scrollToBottom();
@@ -390,9 +396,9 @@ class _HomeScreenState extends State<HomeScreen>
                         top: -(height + 200 - minToolbarHeight) * 0.08 +
                             .25 * offset,
                         child: TooltipAndSelectable(
+                          isSelectable: false,
                           isTooltip: true,
                           message: AppLocalizations.of(context)!.scrollupText,
-                          isSelectable: false,
                           child: GestureDetector(
                             onTap: () {
                               _scrollToTop();

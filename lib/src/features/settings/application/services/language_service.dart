@@ -1,12 +1,11 @@
 import 'package:arifayduran_dev/src/features/settings/application/set_get_cookie.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageService {
   Future<void> getLanguage() async {
-    if (kIsWeb) {
+    if (isPlatformWeb) {
       final languageCookie = getCookie('language');
       if (languageCookie != null && languageCookie.isNotEmpty) {
         if (languageCookie == "de" || languageCookie == "de_DE") {
@@ -29,7 +28,7 @@ class LanguageService {
   }
 
   Future<void> updateLanguage(String language) async {
-    if (kIsWeb) {
+    if (isPlatformWeb) {
       final langToSave = (language == "de") ? "de_DE" : language;
       setCookie('language', langToSave);
     } else {

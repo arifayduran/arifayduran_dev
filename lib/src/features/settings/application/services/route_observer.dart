@@ -1,7 +1,7 @@
 import 'package:arifayduran_dev/src/features/settings/application/set_get_cookie.dart';
+import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RouteObserverService extends RouteObserver<PageRoute> {
   List<String> routeHistory = [];
@@ -22,7 +22,7 @@ class RouteObserverService extends RouteObserver<PageRoute> {
 
   void _saveRoute(String route) async {
     routeHistory.add(route);
-    if (kIsWeb) {
+    if (isPlatformWeb) {
       setCookie('routeHistory', routeHistory.join(','));
     } else {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,7 +31,7 @@ class RouteObserverService extends RouteObserver<PageRoute> {
   }
 
   Future<List<String>> getRouteHistory() async {
-    if (kIsWeb) {
+    if (isPlatformWeb) {
       final cookieData = getCookie('routeHistory');
       if (cookieData != null && cookieData.isNotEmpty) {
         return cookieData.split(',');

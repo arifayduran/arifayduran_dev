@@ -1,6 +1,8 @@
 import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 import 'package:flutter/material.dart';
 
+bool isPlatformWeb = true;
+
 List<Locale> supportedLocale = [
   const Locale('en'),
   const Locale('de', "DE"),
@@ -21,7 +23,7 @@ Locale? userSelectedLangFromPastTemp;
 bool? isFirstLaunch;
 bool activateSecondSnackBar =
     true; // for snackbar on change system language and and first init, otherwise it will show every route
-bool activateLastRouteMessage = false;
+bool activateLastRouteMessage = true;
 
 // bool dontSaveFirstRoute = false; // not using since observer
 

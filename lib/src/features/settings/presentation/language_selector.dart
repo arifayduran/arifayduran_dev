@@ -112,7 +112,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
   void didChangeLocales(List<Locale>? locales) {
     if (locales != null && locales.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-         _appLocalizationOfContext = AppLocalizations.of(context)!;
+        _appLocalizationOfContext = AppLocalizations.of(context)!;
         _languageProvider.checkAndSetSystemLanguage(
             snackbarOnLanguageChanged: snackbarOnLanguageChanged);
       });

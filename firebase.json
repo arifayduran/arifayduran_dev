@@ -12,6 +12,10 @@
         "destination": "/index.html"
       },
       {
+        "source": "/placeholder",
+        "destination": "/index.html"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

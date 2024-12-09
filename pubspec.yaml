@@ -25,6 +25,9 @@ dependencies:
   language_code: ^0.5.5
   dash_flags: ^0.1.1
   url_launcher: ^6.3.1
+  flutter_screenutil: ^5.9.3
+  responsive_framework: ^1.5.1
+  animations: ^2.0.11
 
 dev_dependencies:
   flutter_test:

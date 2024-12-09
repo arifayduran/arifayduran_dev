@@ -3,6 +3,7 @@ import 'package:arifayduran_dev/src/core/application/url_launcher_new_tab.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
+import 'package:arifayduran_dev/src/widgets/animated_scroll_text.dart';
 import 'package:flutter/material.dart';
 
 class ProjectsScreen extends StatefulWidget {
@@ -54,6 +55,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   "Wetter App",
                   style: descriptionStyle?.copyWith(),
                 ),
+              ),
+              const AnimatedTextBody(
+                text: "Testtextwasgeht",
+                hoverColor: Colors.grey,
+                initColor: Colors.white,
+                maxSize: 50,
+                midSize: 40,
+                minSize: 30,
+                fontWeight: FontWeight.w500,
               ),
             ],
           ),
