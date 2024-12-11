@@ -4,6 +4,7 @@ import 'package:arifayduran_dev/src/config/route_links.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
+import 'package:arifayduran_dev/src/widgets/my_custom_button.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,10 @@ import 'package:arifayduran_dev/src/features/settings/application/controllers/ui
 import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+// ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+// ResponsiveBreakpoints.of(context).isMobile
+// footer
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.uiModeController});
@@ -232,7 +237,7 @@ class _HomeScreenState extends State<HomeScreen>
           onDoubleTap: _handleDoubleTap,
           child: InteractiveViewer(
             transformationController: _transformationController,
-            scaleEnabled: false,
+            scaleEnabled: false, // issues
             minScale: 1,
             maxScale: 2,
             child: Material(
@@ -341,6 +346,11 @@ class _HomeScreenState extends State<HomeScreen>
                                   color: scrolledPlaceColor,
                                   child: Column(
                                     children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: MyCustomButton(
+                                            text: "text", onPressed: () {}),
+                                      ),
                                       TooltipAndSelectable(
                                         isTooltip: true,
                                         isSelectable: false,
