@@ -71,7 +71,7 @@ class _AnimatedTextBodyState extends State<AnimatedTextBody> {
     if (selectedIndex == index) {
       return widget.hoverColor;
     } else if (left == index || right == index) {
-      return widget.hoverColor.withOpacity(0.8);
+      return widget.hoverColor.withValues(alpha: .8);
     } else {
       return widget.initColor;
     }

@@ -283,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         end: Alignment.topCenter,
                                         colors: [
                                           scrolledPlaceColor
-                                          // .withOpacity(0.0)
+                                          // .withValues(alpha:0.0)
                                           ,
                                           Colors.transparent
                                         ],
@@ -334,9 +334,9 @@ class _HomeScreenState extends State<HomeScreen>
                               children: [
                                 Positioned(
                                     bottom:
-                                        -190, //   bottom: -height - height + 150 + maxToolbarHeight,
+                                        -390, //   bottom: -height - height + 150 + maxToolbarHeight,
                                     child: Container(
-                                      height: 200, //     height: height * 0.3,
+                                      height: 400, //     height: height * 0.3,
                                       width: width,
                                       color: scrolledPlaceColor,
                                     )),
@@ -349,7 +349,8 @@ class _HomeScreenState extends State<HomeScreen>
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: MyCustomButton(
-                                            text: "text", onPressed: () {}),
+                                            text: "csdcscsadvsdvsdvsdv",
+                                            onPressed: () {}),
                                       ),
                                       TooltipAndSelectable(
                                         isTooltip: true,
