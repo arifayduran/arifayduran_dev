@@ -7,6 +7,8 @@ const Color destinationColorDark = black;
 const Color destinationColorLight = white;
 Color snackBarColorDark = effectColorDark.withValues(alpha: 0.5);
 Color snackBarColorLight = effectColorLight.withValues(alpha: 0.5);
+Color snackBarTextColorDark = white;
+Color snackBarTextColorLight = white;
 
 const Color white = Colors.white;
 const Color black = Colors.black;

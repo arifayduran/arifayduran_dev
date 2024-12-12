@@ -21,18 +21,19 @@ class LanguageSelector extends StatefulWidget {
 
 class _LanguageSelectorState extends State<LanguageSelector>
     with WidgetsBindingObserver {
-  late final LanguageProvider _languageProvider;
+  late final LanguageProvider languageProvider;
   late AppLocalizations _appLocalizationOfContext;
 
   @override
   void initState() {
     super.initState();
 
-    _languageProvider = Provider.of<LanguageProvider>(context, listen: false);
+    languageProvider =
+        Provider.of<LanguageProvider>(context, listen: false);
 
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _languageProvider.checkAndSetSystemLanguage();
+      languageProvider.checkAndSetSystemLanguage();
       snackbarOnLanguageChanged();
     });
   }
@@ -44,7 +45,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
 
     Future.delayed(const Duration(milliseconds: 200), () {
       if (!supportedLocale.contains(systemLang) &&
-          _languageProvider.userSelectedLangFromPast == null &&
+          languageProvider.userSelectedLangFromPast == null &&
           activateSecondSnackBar) {
         activateSecondSnackBar = false;
         scaffoldMessengerKey.currentState?.showSnackBar(
@@ -52,23 +53,41 @@ class _LanguageSelectorState extends State<LanguageSelector>
             content: RichText(
               text: TextSpan(
                 children: [
-                  const TextSpan(
-                    text:
-                        "Your language settings are not supported on our site. You are viewing the site in ",
-                  ),
-                  const TextSpan(
+                  TextSpan(
+                      text:
+                          "Your language settings are not supported on our site. You are viewing the site in ",
+                      style: TextStyle(
+                        color: widget.uiModeController.darkModeSet
+                            ? snackBarTextColorDark
+                            : snackBarTextColorLight,
+                      )),
+                  TextSpan(
                     text: "English",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: widget.uiModeController.darkModeSet
+                          ? snackBarTextColorDark
+                          : snackBarTextColorLight,
+                    ),
                   ),
-                  const TextSpan(
-                    text:
-                        ". All formatting settings of your language will be applied. ",
-                  ),
+                  TextSpan(
+                      text:
+                          ". All formatting settings of your language will be applied. ",
+                      style: TextStyle(
+                        color: widget.uiModeController.darkModeSet
+                            ? snackBarTextColorDark
+                            : snackBarTextColorLight,
+                      )),
                   TextSpan(
                       text: showLastRouteMessage
                           ? _appLocalizationOfContext.lastRouteMessage
                           : "",
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: widget.uiModeController.darkModeSet
+                            ? snackBarTextColorDark
+                            : snackBarTextColorLight,
+                      )),
                 ],
               ),
             ),
@@ -84,20 +103,32 @@ class _LanguageSelectorState extends State<LanguageSelector>
         scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
-                "${_appLocalizationOfContext.langCopiedFromSettingsMessage} ${showLastRouteMessage ? _appLocalizationOfContext.lastRouteMessage : ""}"),
+              "${_appLocalizationOfContext.langCopiedFromSettingsMessage} ${showLastRouteMessage ? _appLocalizationOfContext.lastRouteMessage : ""}",
+              style: TextStyle(
+                color: widget.uiModeController.darkModeSet
+                    ? snackBarTextColorDark
+                    : snackBarTextColorLight,
+              ),
+            ),
             duration: const Duration(seconds: 4),
             backgroundColor: widget.uiModeController.darkModeSet
                 ? snackBarColorDark
                 : snackBarColorLight,
           ),
         );
-      } else if (_languageProvider.userSelectedLangFromPast != null &&
+      } else if (languageProvider.userSelectedLangFromPast != null &&
           activateSecondSnackBar) {
         activateSecondSnackBar = false;
         scaffoldMessengerKey.currentState?.showSnackBar(
           SnackBar(
             content: Text(
-                "${_appLocalizationOfContext.languageSettingsCopiedFromLastTimeMessage} ${showLastRouteMessage ? _appLocalizationOfContext.lastRouteMessage : ""}"),
+              "${_appLocalizationOfContext.languageSettingsCopiedFromLastTimeMessage} ${showLastRouteMessage ? _appLocalizationOfContext.lastRouteMessage : ""}",
+              style: TextStyle(
+                color: widget.uiModeController.darkModeSet
+                    ? snackBarTextColorDark
+                    : snackBarTextColorLight,
+              ),
+            ),
             duration: const Duration(seconds: 4),
             backgroundColor: widget.uiModeController.darkModeSet
                 ? snackBarColorDark
@@ -113,7 +144,7 @@ class _LanguageSelectorState extends State<LanguageSelector>
     if (locales != null && locales.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _appLocalizationOfContext = AppLocalizations.of(context)!;
-        _languageProvider.checkAndSetSystemLanguage(
+        languageProvider.checkAndSetSystemLanguage(
             snackbarOnLanguageChanged: snackbarOnLanguageChanged);
       });
     }
@@ -139,19 +170,25 @@ class _LanguageSelectorState extends State<LanguageSelector>
           child: DropdownButton<Locale>(
             isDense: true,
             menuWidth: 140,
-            value: _languageProvider.currentLocale,
+            value: languageProvider.currentLocale,
             onChanged: (Locale? newValue) {
               if (newValue != null &&
-                  newValue != _languageProvider.currentLocale) {
+                  newValue != languageProvider.currentLocale) {
                 LanguageService().updateLanguage(newValue.languageCode);
-                _languageProvider.userSelectedLang = newValue;
+                languageProvider.userSelectedLang = newValue;
 
                 Future.delayed(const Duration(milliseconds: 1), () {
                   if (context.mounted) {
                     scaffoldMessengerKey.currentState?.showSnackBar(
                       SnackBar(
                         content: Text(
-                            _appLocalizationOfContext.switchLanguageMessage),
+                          _appLocalizationOfContext.switchLanguageMessage,
+                          style: TextStyle(
+                            color: widget.uiModeController.darkModeSet
+                                ? snackBarTextColorDark
+                                : snackBarTextColorLight,
+                          ),
+                        ),
                         duration: const Duration(seconds: 2),
                         backgroundColor: widget.uiModeController.darkModeSet
                             ? snackBarColorDark

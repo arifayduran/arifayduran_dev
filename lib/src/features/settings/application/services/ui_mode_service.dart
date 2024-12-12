@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class UiModeService {
   Future<ThemeMode> themeMode() async {
     if (isPlatformWeb) {
@@ -47,9 +46,16 @@ class UiModeService {
     if (context.mounted) {
       scaffoldMessengerKey.currentState?.showSnackBar(
         SnackBar(
-          content: Text(theme == ThemeMode.dark
-              ? AppLocalizations.of(context)!.switchModeMessageToDark
-              : AppLocalizations.of(context)!.switchModeMessageToDark),
+          content: Text(
+            theme == ThemeMode.dark
+                ? AppLocalizations.of(context)!.switchModeMessageToDark
+                : AppLocalizations.of(context)!.switchModeMessageToDark,
+            style: TextStyle(
+              color: theme == ThemeMode.dark
+                  ? snackBarTextColorDark
+                  : snackBarTextColorLight,
+            ),
+          ),
           duration: const Duration(seconds: 2),
           backgroundColor:
               theme == ThemeMode.dark ? snackBarColorDark : snackBarColorLight,

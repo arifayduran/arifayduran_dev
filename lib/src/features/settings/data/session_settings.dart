@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 import 'package:flutter/material.dart';
 
@@ -32,3 +33,8 @@ bool notNavigatedFromRefresh = false;
 RouteObserverService routeObserver = RouteObserverService();
 List<String>? routeHistory;
 String? initialRoute;
+
+late MyToolbar myToolbar;
+double maxToolbarHeight = 70.0;
+double minToolbarHeight = 50.0;
+ToolbarState toolbarState = ToolbarState();

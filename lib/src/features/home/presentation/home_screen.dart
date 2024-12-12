@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
-import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/widgets/my_custom_button.dart';
 import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
@@ -11,7 +10,6 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
-import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -173,9 +171,12 @@ class _HomeScreenState extends State<HomeScreen>
 
     double relationFromOffset =
         (1.0 - (offset / (height - minToolbarHeight - 200))).clamp(0.0, 1.0);
-    double toolbarHeight = double.parse((maxToolbarHeight -
-            (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
-        .toStringAsFixed(0));
+    toolbarState.updateAppBar(
+      scrolledPlaceColor,
+      double.parse((maxToolbarHeight -
+              (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
+          .toStringAsFixed(0)),
+    );
 
     double blurValue = offset > 0 ? 0.01 * offset : 0.0;
     blurValue = blurValue.clamp(0.0, 8.0);
@@ -189,49 +190,7 @@ class _HomeScreenState extends State<HomeScreen>
       },
       child: Scaffold(
         backgroundColor: scrolledPlaceColor,
-        appBar: AppBar(
-          backgroundColor: scrolledPlaceColor,
-          toolbarHeight: toolbarHeight,
-          leadingWidth: toolbarHeight,
-          leading: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: widget.uiModeController.darkModeSet
-                  ? Image.asset("assets/app_icons/light_transparent.png")
-                  : Image.asset("assets/app_icons/dark_transparent.png")),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Flexible(
-                    child: TooltipAndSelectable(
-                  isTooltip: true,
-                  isSelectable: false,
-                  message: AppLocalizations.of(context)!.appDescription,
-                  child: Text(
-                    AppLocalizations.of(context)!.appTitle,
-                  ),
-                )),
-                Flexible(
-                    child: TooltipAndSelectable(
-                  isTooltip: true,
-                  isSelectable: false,
-                  message: widget.uiModeController.darkModeSet
-                      ? AppLocalizations.of(context)!.toggleHoverToLight
-                      : AppLocalizations.of(context)!.toggleHoverToDark,
-                  child: UiModeSwitch(
-                    uiModeController: widget.uiModeController,
-                  ),
-                )),
-                Flexible(
-                  child: LanguageSelector(
-                    uiModeController: widget.uiModeController,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // appBar:
         body: GestureDetector(
           onDoubleTapDown: (d) => _doubleTapDetails = d,
           onDoubleTap: _handleDoubleTap,
