@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
+import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/widgets/my_custom_button.dart';
@@ -10,18 +12,19 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-// ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-// ResponsiveBreakpoints.of(context).isMobile
-// footer
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.uiModeController});
 
   final UiModeController uiModeController;
   static const routeName = '/';
+
+  static double lastToolbarHeightBeforePush = maxToolbarHeight;
+  static Color lastToolbarScrolledPlaceColorDark = effectColorDark;
+  static Color lastToolbarScrolledPlaceColorLight = effectColorLight;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -61,17 +64,23 @@ class _HomeScreenState extends State<HomeScreen>
         : _effectColorLight;
 
     widget.uiModeController.addListener(() {
-      setState(() {
-        scrolledPlaceColor =
-            _getScrolledPlaceColor(_scrollController.position.pixels);
-      });
+      if (mounted) {
+        setState(() {
+          scrolledPlaceColor =
+              _getScrolledPlaceColor(_scrollController.position.pixels);
+          _updateToolBar(scrolledPlaceColor, _getToolbarSize(), 0);
+        });
+      }
     });
 
     _scrollController.addListener(() {
-      setState(() {
-        scrolledPlaceColor =
-            _getScrolledPlaceColor(_scrollController.position.pixels);
-      });
+      if (mounted) {
+        setState(() {
+          scrolledPlaceColor =
+              _getScrolledPlaceColor(_scrollController.position.pixels);
+          _updateToolBar(scrolledPlaceColor, _getToolbarSize(), 0);
+        });
+      }
     });
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _routeIfLastVisitedRouteFromPastTemp();
@@ -101,6 +110,21 @@ class _HomeScreenState extends State<HomeScreen>
             ? _destinationColorDark
             : _destinationColorLight,
         opacity)!;
+  }
+
+  double _getToolbarSize() {
+    double relationFromOffset = (1.0 -
+            (offset /
+                (MediaQuery.of(context).size.height - minToolbarHeight - 200)))
+        .clamp(0.0, 1.0);
+    return double.parse((maxToolbarHeight -
+            (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
+        .toStringAsFixed(0));
+  }
+
+  void _updateToolBar(Color color, double height, int ms) {
+    Provider.of<ToolbarProvider>(context, listen: false)
+        .updateToolBar(color, height, Duration(milliseconds: ms));
   }
 
   void _scrollToBottom() {
@@ -149,9 +173,25 @@ class _HomeScreenState extends State<HomeScreen>
     _animationController.forward(from: 0);
   }
 
+  void _onRoute() {
+    HomeScreen.lastToolbarHeightBeforePush = _getToolbarSize();
+    double opacity = (_scrollController.position.pixels /
+            (MediaQuery.of(context).size.height - 50 - 200))
+        .clamp(0.0, 1.0);
+
+    HomeScreen.lastToolbarScrolledPlaceColorDark =
+        Color.lerp(_effectColorDark, _destinationColorDark, opacity)!;
+    HomeScreen.lastToolbarScrolledPlaceColorLight =
+        Color.lerp(_effectColorLight, _destinationColorDark, opacity)!;
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void dispose() {
     super.dispose();
+
     _scrollController.dispose();
     _animationController.dispose();
     _transformationController.dispose();
@@ -169,15 +209,6 @@ class _HomeScreenState extends State<HomeScreen>
     double maxToolbarHeight = 70.0;
     double minToolbarHeight = 50.0;
 
-    double relationFromOffset =
-        (1.0 - (offset / (height - minToolbarHeight - 200))).clamp(0.0, 1.0);
-    toolbarState.updateAppBar(
-      scrolledPlaceColor,
-      double.parse((maxToolbarHeight -
-              (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
-          .toStringAsFixed(0)),
-    );
-
     double blurValue = offset > 0 ? 0.01 * offset : 0.0;
     blurValue = blurValue.clamp(0.0, 8.0);
 
@@ -190,7 +221,12 @@ class _HomeScreenState extends State<HomeScreen>
       },
       child: Scaffold(
         backgroundColor: scrolledPlaceColor,
-        // appBar:
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(
+              Provider.of<ToolbarProvider>(context, listen: false)
+                  .toolbarHeight),
+          child: myToolbar,
+        ),
         body: GestureDetector(
           onDoubleTapDown: (d) => _doubleTapDetails = d,
           onDoubleTap: _handleDoubleTap,
@@ -318,7 +354,19 @@ class _HomeScreenState extends State<HomeScreen>
                                         child: TextButton(
                                           onPressed: () {
                                             notNavigatedFromRefresh = true;
-                                            Navigator.restorablePushNamed(
+
+                                            _onRoute();
+                                            _updateToolBar(
+                                                widget.uiModeController
+                                                        .darkModeSet
+                                                    ? ProjectsScreen
+                                                        .lastToolbarScrolledPlaceColorDark
+                                                    : ProjectsScreen
+                                                        .lastToolbarScrolledPlaceColorLight,
+                                                ProjectsScreen
+                                                    .lastToolbarHeightBeforePush,
+                                                1000);
+                                            Navigator.pushNamed(
                                                 context, '/projects');
                                           },
                                           child: Text(
@@ -393,7 +441,4 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }

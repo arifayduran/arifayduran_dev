@@ -86,8 +86,8 @@ class MyApp extends StatelessWidget {
     return PageRouteBuilder(
       settings: RouteSettings(
           name: (path.startsWith('/') == false) ? '/$path' : path),
-      transitionDuration: const Duration(milliseconds: 300),
-      reverseTransitionDuration: const Duration(milliseconds: 300),
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
       pageBuilder: (context, animation, secondaryAnimation) {
         String pathName = path; // Kein `substring(1)`
         // String pathName =
