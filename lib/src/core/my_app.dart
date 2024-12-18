@@ -1,4 +1,5 @@
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
+import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -84,35 +85,53 @@ class MyApp extends StatelessWidget {
   Route<dynamic> buildPage(
       {required String path, Map<String, String> queryParams = const {}}) {
     return PageRouteBuilder(
-      settings: RouteSettings(
-          name: (path.startsWith('/') == false) ? '/$path' : path),
-      transitionDuration: const Duration(milliseconds: 500),
-      reverseTransitionDuration: const Duration(milliseconds: 500),
-      pageBuilder: (context, animation, secondaryAnimation) {
-        String pathName = path; // Kein `substring(1)`
-        // String pathName =
-        //     path != '/' && path.startsWith('/') ? path.substring(1) : path;
-        return FadeTransition(
-            opacity: animation,
-            child: switch (pathName) {
-              '/' ||
-              HomeScreen.routeName =>
-                HomeScreen(uiModeController: uiModeController),
-              ProjectsScreen.routeName =>
-                ProjectsScreen(uiModeController: uiModeController),
-              "/placeholder" =>
+        settings: RouteSettings(
+            name: (path.startsWith('/') == false) ? '/$path' : path),
+        transitionDuration: const Duration(milliseconds: 500),
+        reverseTransitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          if (uiModeController.darkModeSet) {
+            Provider.of<ToolbarProvider>(context, listen: false)
+                .scrolledPlaceColor = effectColorDark;
+          } else {
+            Provider.of<ToolbarProvider>(context, listen: false)
+                .scrolledPlaceColor = effectColorLight;
+          }
+          String pathName = path; // Kein `substring(1)`
+          // String pathName =
+          //     path != '/' && path.startsWith('/') ? path.substring(1) : path;
 
-                // const ResponsiveBreakpoints(breakpoints: [
-                //   Breakpoint(start: 0, end: 480, name: MOBILE),
-                //   Breakpoint(start: 481, end: 1200, name: TABLET),
-                //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
-                // ], child:
-                const Placeholder(),
-              // ),
+          return Scaffold(
+            backgroundColor:
+                Provider.of<ToolbarProvider>(context, listen: false)
+                    .scrolledPlaceColor,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(
+                  Provider.of<ToolbarProvider>(context, listen: false)
+                      .toolbarHeight),
+              child: myToolbar,
+            ),
+            body: FadeTransition(
+                opacity: animation,
+                child: switch (pathName) {
+                  '/' ||
+                  HomeScreen.routeName =>
+                    HomeScreen(uiModeController: uiModeController),
+                  ProjectsScreen.routeName =>
+                    ProjectsScreen(uiModeController: uiModeController),
+                  "/placeholder" =>
 
-              String() => HomeScreen(uiModeController: uiModeController),
-            });
-      },
-    );
+                    // const ResponsiveBreakpoints(breakpoints: [
+                    //   Breakpoint(start: 0, end: 480, name: MOBILE),
+                    //   Breakpoint(start: 481, end: 1200, name: TABLET),
+                    //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
+                    // ], child:
+                    const Placeholder(),
+                  // ),
+
+                  String() => HomeScreen(uiModeController: uiModeController),
+                }),
+          );
+        });
   }
 }

@@ -2,10 +2,14 @@ import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
-import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
+import 'package:arifayduran_dev/src/presentation/svg_color_mapper.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/animated_scroll_text.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class ToolbarProvider extends ChangeNotifier {
@@ -31,7 +35,13 @@ class MyToolbar extends StatefulWidget {
   State<MyToolbar> createState() => _MyToolbarProvider();
 }
 
-class _MyToolbarProvider extends State<MyToolbar> {
+class _MyToolbarProvider extends State<MyToolbar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _heightAnimation;
+
+  double _currentHeight = 70.0;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +50,49 @@ class _MyToolbarProvider extends State<MyToolbar> {
         setState(() {});
       }
     });
+    final toolbarProvider =
+        Provider.of<ToolbarProvider>(context, listen: false);
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: toolbarProvider.duration,
+    );
+
+    _heightAnimation = Tween<double>(
+      begin: _currentHeight,
+      end: toolbarProvider.toolbarHeight,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    toolbarProvider.addListener(() {
+      _animateToolbarHeight(toolbarProvider.toolbarHeight);
+    });
+  }
+
+  void _animateToolbarHeight(double newHeight) {
+    if (!mounted) return;
+    setState(() {
+      _heightAnimation = Tween<double>(
+        begin: _currentHeight,
+        end: newHeight,
+      ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ));
+
+      _currentHeight = newHeight;
+    });
+
+    _controller.reset();
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,51 +103,77 @@ class _MyToolbarProvider extends State<MyToolbar> {
       duration: toolbarProvider.duration,
       curve: Curves.easeInOut,
       height: toolbarProvider.toolbarHeight,
-      child: AnimatedContainer(
-        duration: toolbarProvider.duration,
-        curve: Curves.easeInOut,
-        color: toolbarProvider.scrolledPlaceColor,
-        child: AppBar(
-          backgroundColor: Colors.transparent,
-          toolbarHeight: toolbarProvider.toolbarHeight,
-          // leadingWidth: toolbarHeight,
-          leading: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: widget.uiModeController.darkModeSet
-                  ? Image.asset("assets/app_icons/light_transparent.png")
-                  : Image.asset("assets/app_icons/dark_transparent.png")),
-          title: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Flexible(
-                    child: TooltipAndSelectable(
-                  isTooltip: true,
-                  isSelectable: false,
-                  message: AppLocalizations.of(context)!.appDescription,
-                  child: Text(
-                    AppLocalizations.of(context)!.appTitle,
-                  ),
-                )),
-                Flexible(
-                    child: TooltipAndSelectable(
-                  isTooltip: true,
-                  isSelectable: false,
-                  message: widget.uiModeController.darkModeSet
-                      ? AppLocalizations.of(context)!.toggleHoverToLight
-                      : AppLocalizations.of(context)!.toggleHoverToDark,
-                  child: UiModeSwitch(
-                    uiModeController: widget.uiModeController,
-                  ),
-                )),
-                Flexible(
-                  child: LanguageSelector(
-                    uiModeController: widget.uiModeController,
+      color: toolbarProvider.scrolledPlaceColor,
+      child: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: _heightAnimation.value,
+        leadingWidth: toolbarProvider.toolbarHeight * 2,
+        leading: SizedBox(
+            height: toolbarProvider.toolbarHeight,
+            child: widget.uiModeController.darkModeSet
+                ? SvgPicture(SvgAssetLoader(
+                    "assets/app_icons/logo_graphic_top_SVG.svg",
+                    colorMapper: SvgColorMapper(
+                        fromColor: const Color(0xFFD02A1E),
+                        toColor: mainRed,
+                        fromSecondColor: white,
+                        toSecondColor: white)))
+                : SvgPicture(SvgAssetLoader(
+                    "assets/app_icons/logo_graphic_top_SVG.svg",
+                    colorMapper: SvgColorMapper(
+                        fromColor: const Color(0xFFD02A1E),
+                        toColor: lightBlue,
+                        fromSecondColor: white,
+                        toSecondColor: black)))),
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Center(
+                  child: TooltipAndSelectable(
+                    isTooltip: true,
+                    isSelectable: false,
+                    message: AppLocalizations.of(context)!.appDescription,
+                    child: AnimatedTextBody(
+                      text: AppLocalizations.of(context)!.appTitle,
+                      initColor: white,
+                      hoverColor: mainRed,
+                      minSize: 20,
+                      midSize: 25,
+                      maxSize: 35,
+                      // minSize: 40,
+                      // midSize: 45,
+                      // maxSize: 55,
+                      fontWeight: FontWeight.normal,
+                      textStyle: GoogleFonts.beauRivage(letterSpacing: 1.5),
+                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              Row(
+                children: [
+                  TooltipAndSelectable(
+                    isTooltip: true,
+                    isSelectable: false,
+                    message: widget.uiModeController.darkModeSet
+                        ? AppLocalizations.of(context)!.toggleHoverToLight
+                        : AppLocalizations.of(context)!.toggleHoverToDark,
+                    child: UiModeSwitch(
+                      uiModeController: widget.uiModeController,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  LanguageSelector(
+                    uiModeController: widget.uiModeController,
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

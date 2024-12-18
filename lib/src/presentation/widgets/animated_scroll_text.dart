@@ -10,7 +10,9 @@ class AnimatedTextBody extends StatefulWidget {
       required this.minSize,
       required this.midSize,
       required this.maxSize,
-      required this.fontWeight});
+      required this.fontWeight,
+      this.textStyle,
+      this.fontFamily});
 
   final String text;
   final Color initColor;
@@ -19,6 +21,8 @@ class AnimatedTextBody extends StatefulWidget {
   final double midSize;
   final double maxSize;
   final FontWeight fontWeight;
+  final TextStyle? textStyle;
+  final String? fontFamily;
 
   @override
   State<AnimatedTextBody> createState() => _AnimatedTextBodyState();
@@ -77,6 +81,15 @@ class _AnimatedTextBodyState extends State<AnimatedTextBody> {
     }
   }
 
+  TextStyle _getTextStyle(int index, double size) {
+    return TextStyle(
+      color: _getTextColor(index),
+      fontWeight: widget.fontWeight,
+      fontSize: size,
+      fontFamily: widget.fontFamily,
+    ).merge(widget.textStyle);
+  }
+
   @override
   Widget build(BuildContext context) {
     final data = widget.text.split('');
@@ -112,11 +125,7 @@ class _AnimatedTextBodyState extends State<AnimatedTextBody> {
               builder: (context, size, child) {
                 return Text(
                   data[index],
-                  style: TextStyle(
-                    color: _getTextColor(index),
-                    fontWeight: widget.fontWeight,
-                    fontSize: size,
-                  ),
+                  style: _getTextStyle(index, size),
                 );
               },
             ),

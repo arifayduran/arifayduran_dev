@@ -1,12 +1,16 @@
+import 'dart:math';
 import 'dart:ui';
+
+import 'dart:ui_web' as ui_web;
+import 'package:universal_html/html.dart';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
-import 'package:arifayduran_dev/src/widgets/my_custom_button.dart';
-import 'package:arifayduran_dev/src/widgets/tooltip_and_selectable.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/my_custom_button.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -201,6 +205,20 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
+    ui_web.platformViewRegistry.registerViewFactory(
+      'canva-embed',
+      (int viewId) {
+        final iframe = IFrameElement()
+          ..src =
+              'https://www.canva.com/design/DAGTpv3gQGs/arcIIPMac_ejOlJ-WRHDfA/view?embed'
+          ..style.border = 'none'
+          ..style.position = 'absolute'
+          ..style.width = '100%'
+          ..style.height = '100%';
+        return iframe;
+      },
+    );
+
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final nameStyle = Theme.of(context).textTheme.displayMedium;
@@ -219,134 +237,126 @@ class _HomeScreenState extends State<HomeScreen>
           _scrollToTop();
         }
       },
-      child: Scaffold(
-        backgroundColor: scrolledPlaceColor,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(
-              Provider.of<ToolbarProvider>(context, listen: false)
-                  .toolbarHeight),
-          child: myToolbar,
-        ),
-        body: GestureDetector(
-          onDoubleTapDown: (d) => _doubleTapDetails = d,
-          onDoubleTap: _handleDoubleTap,
-          child: InteractiveViewer(
-            transformationController: _transformationController,
-            scaleEnabled: false, // issues
-            minScale: 1,
-            maxScale: 2,
-            child: Material(
-              child: NotificationListener<ScrollNotification>(
-                onNotification: _updateScrolling,
-                child: SizedBox(
-                  height: height,
-                  width: width,
-                  child: Stack(
-                    children: <Widget>[
-                      Transform.translate(
-                        offset: Offset(0, -.25 * offset),
-                        child: FadeInImage(
-                          placeholder: MemoryImage(kTransparentImage),
-                          image: const AssetImage(
-                              "assets/images/business_smile_retuschiert_farbenangepasst_low_jpeg_50q_pixel40.jpg"),
-                          // height: height < width
-                          //     ? width / imageScale
-                          //     : width / imageScale,
-                          height: height,
-                          width: width,
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.none,
-                        ),
+      child: GestureDetector(
+        onDoubleTapDown: (d) => _doubleTapDetails = d,
+        onDoubleTap: _handleDoubleTap,
+        child: InteractiveViewer(
+          transformationController: _transformationController,
+          scaleEnabled: false, // issues
+          minScale: 1,
+          maxScale: 2,
+          child: Material(
+            child: NotificationListener<ScrollNotification>(
+              onNotification: _updateScrolling,
+              child: SizedBox(
+                height: height,
+                width: width,
+                child: Stack(
+                  children: <Widget>[
+                    Transform.translate(
+                      offset: Offset(0, -.25 * offset),
+                      child: FadeInImage(
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: const AssetImage(
+                            "assets/images/business_smile_retuschiert_farbenangepasst_low_jpeg_50q_pixel40.jpg"),
+                        // height: height < width
+                        //     ? width / imageScale
+                        //     : width / imageScale,
+                        height: height,
+                        width: width,
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.none,
                       ),
-                      SingleChildScrollView(
-                        controller: _scrollController,
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              clipBehavior: Clip.antiAlias,
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                  sigmaX: blurValue,
-                                  sigmaY: blurValue,
-                                ),
-                                child: Container(
-                                  width: width,
-                                  height: height - maxToolbarHeight,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        colors: [
-                                          scrolledPlaceColor
-                                          // .withValues(alpha:0.0)
-                                          ,
-                                          Colors.transparent
-                                        ],
-                                        stops: const [
-                                          0,
-                                          1
-                                        ]),
-                                  ),
-                                  child: Center(
-                                    child:
-                                        // Selection?
-                                        Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .greeting,
-                                          style: nameStyle?.copyWith(),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .fullGreeting,
-                                          style: descriptionStyle?.copyWith(),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .specialization,
-                                          style: descriptionStyle?.copyWith(),
-                                        ),
-                                        Text(DateFormat.yMMMMEEEEd(
-                                                systemLang.toString())
-                                            // .add_jms()
-                                            .format(DateTime.now())),
+                    ),
+                    SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            clipBehavior: Clip.antiAlias,
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(
+                                sigmaX: blurValue,
+                                sigmaY: blurValue,
+                              ),
+                              child: Container(
+                                width: width,
+                                height: height - maxToolbarHeight,
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [
+                                        scrolledPlaceColor
+                                        // .withValues(alpha:0.0)
+                                        ,
+                                        Colors.transparent
                                       ],
-                                    ),
+                                      stops: const [
+                                        0,
+                                        1
+                                      ]),
+                                ),
+                                child: Align(
+                                  alignment: const Alignment(-0.2, 0.4),
+                                  child:
+                                      // Selection?
+                                      Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        AppLocalizations.of(context)!.greeting,
+                                        style: nameStyle?.copyWith(),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .fullGreeting,
+                                        style: descriptionStyle?.copyWith(),
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .specialization,
+                                        style: descriptionStyle?.copyWith(),
+                                      ),
+                                      Text(DateFormat.yMMMMEEEEd(
+                                              systemLang.toString())
+                                          // .add_jms()
+                                          .format(DateTime.now())),
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned(
-                                    bottom:
-                                        -390, //   bottom: -height - height + 150 + maxToolbarHeight,
-                                    child: Container(
-                                      height: 400, //     height: height * 0.3,
-                                      width: width,
-                                      color: scrolledPlaceColor,
-                                    )),
-                                Container(
-                                  height: height - 150 - minToolbarHeight,
-                                  width: width,
-                                  color: scrolledPlaceColor,
+                          ),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Positioned(
+                                  bottom:
+                                      -390, //   bottom: -height - height + 150 + maxToolbarHeight,
+                                  child: Container(
+                                    height: 400, //     height: height * 0.3,
+                                    width: width,
+                                    color: scrolledPlaceColor,
+                                  )),
+                              Container(
+                                height: height - 150 - minToolbarHeight,
+                                width: width,
+                                color: scrolledPlaceColor,
+                                child: SingleChildScrollView(
                                   child: Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MyCustomButton(
-                                            text: "csdcscsadvsdvsdvsdv",
-                                            onPressed: () {}),
-                                      ),
+                                      // Padding(
+                                      //   padding: const EdgeInsets.all(8.0),
+                                      //   child: MyCustomButton(
+                                      //       text: "csdcscsadvsdvsdvsdv",
+                                      //       onPressed: () {}),
+                                      // ),
                                       TooltipAndSelectable(
                                         isTooltip: true,
                                         isSelectable: false,
@@ -370,38 +380,73 @@ class _HomeScreenState extends State<HomeScreen>
                                                 context, '/projects');
                                           },
                                           child: Text(
-                                            "Projects",
+                                            "Hier zu meinen Projekten",
                                             style: descriptionStyle?.copyWith(),
                                           ),
                                         ),
                                       ),
+                                      const SizedBox(
+                                        height: 40,
+                                      ),
+                                      const Text("Lebenslauf:"),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      SizedBox(
+                                        width: width * 0.8,
+                                        height: height * 0.7,
+                                        child: const HtmlElementView(
+                                            viewType: 'canva-embed'),
+                                      ),
                                     ],
                                   ),
                                 ),
-                                Positioned(
-                                    top: -5,
-                                    child: Container(
-                                      height: 6,
-                                      width: width,
-                                      color: scrolledPlaceColor,
-                                    )),
-                              ],
-                            ),
-                          ],
+                              ),
+                              Positioned(
+                                  top: -5,
+                                  child: Container(
+                                    height: 6,
+                                    width: width,
+                                    color: scrolledPlaceColor,
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: width * 0.1,
+                      bottom: height * 0.1 - .25 * offset,
+                      child: TooltipAndSelectable(
+                        isTooltip: true,
+                        isSelectable: false,
+                        message: AppLocalizations.of(context)!.scrolldownText,
+                        child: GestureDetector(
+                          onTap: () {
+                            _scrollToBottom();
+                          },
+                          child: Lottie.asset(
+                              widget.uiModeController.darkModeSet
+                                  ? "assets/animations/scroll_down_white.json"
+                                  : "assets/animations/scroll_down_black.json"),
                         ),
                       ),
-                      Positioned(
-                        right: width * 0.08,
-                        bottom:
-                            (height + maxToolbarHeight) * 0.08 - .25 * offset,
-                        child: TooltipAndSelectable(
-                          isTooltip: true,
-                          isSelectable: false,
-                          message: AppLocalizations.of(context)!.scrolldownText,
-                          child: GestureDetector(
-                            onTap: () {
-                              _scrollToBottom();
-                            },
+                    ),
+                    Positioned(
+                      right: width * 0.1,
+                      top: (height * 0.1 + .25 * offset) -
+                          ((-150 - 20 - height) * -.25) +
+                          minToolbarHeight,
+                      child: TooltipAndSelectable(
+                        isSelectable: false,
+                        isTooltip: true,
+                        message: AppLocalizations.of(context)!.scrollupText,
+                        child: GestureDetector(
+                          onTap: () {
+                            _scrollToTop();
+                          },
+                          child: RotatedBox(
+                            quarterTurns: 2,
                             child: Lottie.asset(widget
                                     .uiModeController.darkModeSet
                                 ? "assets/animations/scroll_down_white.json"
@@ -409,30 +454,8 @@ class _HomeScreenState extends State<HomeScreen>
                           ),
                         ),
                       ),
-                      Positioned(
-                        right: width * 0.08,
-                        top: -(height + 200 - minToolbarHeight) * 0.08 +
-                            .25 * offset,
-                        child: TooltipAndSelectable(
-                          isSelectable: false,
-                          isTooltip: true,
-                          message: AppLocalizations.of(context)!.scrollupText,
-                          child: GestureDetector(
-                            onTap: () {
-                              _scrollToTop();
-                            },
-                            child: RotatedBox(
-                              quarterTurns: 2,
-                              child: Lottie.asset(widget
-                                      .uiModeController.darkModeSet
-                                  ? "assets/animations/scroll_down_white.json"
-                                  : "assets/animations/scroll_down_black.json"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

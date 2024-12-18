@@ -6,7 +6,7 @@ import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart'
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
-import 'package:arifayduran_dev/src/widgets/animated_scroll_text.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/animated_scroll_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,48 +73,41 @@ class _ProjectsScreenState extends State<ProjectsScreen>
     // final nameStyle = Theme.of(context).textTheme.displayMedium;
     final descriptionStyle = Theme.of(context).textTheme.headlineMedium;
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-            Provider.of<ToolbarProvider>(context, listen: false).toolbarHeight),
-        child: myToolbar,
-      ),
-      body: SizedBox(
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (willPop, result) {
+        _onRoute();
+        _updateToolBar(
+            widget.uiModeController.darkModeSet
+                ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                : HomeScreen.lastToolbarScrolledPlaceColorLight,
+            HomeScreen.lastToolbarHeightBeforePush,
+            1000);
+        if (notNavigatedFromRefresh) {
+          willPop = false;
+          if (!Navigator.of(context).canPop()) {
+            return;
+          }
+          Navigator.pop(context, "/");
+        } else {}
+        notNavigatedFromRefresh = false;
+      },
+      child: SizedBox(
         height: height,
         width: width,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextButton(
-                onPressed: () {
-                  if (notNavigatedFromRefresh) {
-                    // RouteService().updateLastVisitedRoute('/'); // not using since observer
-                    Navigator.pop(context, "/");
-                    _onRoute();
-                    _updateToolBar(
-                        widget.uiModeController.darkModeSet
-                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                        HomeScreen.lastToolbarHeightBeforePush,
-                        1000);
-                  } else {
-                    Navigator.pushNamed(context, "/");
-                    _onRoute();
-                    _updateToolBar(
-                        widget.uiModeController.darkModeSet
-                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                        HomeScreen.lastToolbarHeightBeforePush,
-                        1000);
-                  }
-                  notNavigatedFromRefresh = false;
-                },
-                child: Text(
-                  "Zurück",
-                  style: descriptionStyle?.copyWith(),
-                ),
-              ),
+              // const AnimatedTextBody(
+              //   text: "Testtextwasgeht",
+              //   hoverColor: Colors.grey,
+              //   initColor: Colors.white,
+              //   maxSize: 50,
+              //   midSize: 40,
+              //   minSize: 30,
+              //   fontWeight: FontWeight.w500,
+              // ),
               TextButton(
                 onPressed: () {
                   urlLauncherNewTab(wetterAppUrl);
@@ -124,14 +117,41 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                   style: descriptionStyle?.copyWith(),
                 ),
               ),
-              const AnimatedTextBody(
-                text: "Testtextwasgeht",
-                hoverColor: Colors.grey,
-                initColor: Colors.white,
-                maxSize: 50,
-                midSize: 40,
-                minSize: 30,
-                fontWeight: FontWeight.w500,
+              const SizedBox(
+                height: 70,
+              ),
+              TextButton(
+                onPressed: () {
+                  if (notNavigatedFromRefresh) {
+                    // RouteService().updateLastVisitedRoute('/'); // not using since observer
+
+                    _onRoute();
+                    _updateToolBar(
+                        widget.uiModeController.darkModeSet
+                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                        HomeScreen.lastToolbarHeightBeforePush,
+                        1000);
+                    if (!Navigator.of(context).canPop()) {
+                      return;
+                    }
+                    Navigator.pop(context, "/");
+                  } else {
+                    _onRoute();
+                    _updateToolBar(
+                        widget.uiModeController.darkModeSet
+                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                        HomeScreen.lastToolbarHeightBeforePush,
+                        1000);
+                    Navigator.pushNamed(context, "/");
+                  }
+                  notNavigatedFromRefresh = false;
+                },
+                child: Text(
+                  "Zurück",
+                  style: descriptionStyle?.copyWith(),
+                ),
               ),
             ],
           ),
