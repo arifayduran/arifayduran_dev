@@ -1,3 +1,4 @@
+
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/first_launch_service.dart';
@@ -28,6 +29,7 @@ void main() async {
   initialRoute = routeHistory!.isNotEmpty ? routeHistory!.last : '/';
 
   myToolbar = MyToolbar(uiModeController: uiModeController);
+  // myBottombar = MyBottombar(uiModeController: uiModeController);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
@@ -36,5 +38,8 @@ void main() async {
     ChangeNotifierProvider(
       create: (context) => ToolbarProvider(),
     ),
+    // ChangeNotifierProvider(
+    //   create: (context) => BottombarProvider(),
+    // ),
   ], child: MyApp(uiModeController: uiModeController)));
 }

@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'dart:ui_web' as ui_web;
+import 'package:arifayduran_dev/src/core/application/responsive_update.dart';
 import 'package:universal_html/html.dart';
 
 import 'package:arifayduran_dev/src/config/route_links.dart';
@@ -9,7 +9,6 @@ import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
-import 'package:arifayduran_dev/src/presentation/widgets/my_custom_button.dart';
 import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +25,7 @@ class HomeScreen extends StatefulWidget {
   final UiModeController uiModeController;
   static const routeName = '/';
 
-  static double lastToolbarHeightBeforePush = maxToolbarHeight;
+  static double lastToolbarHeightBeforePush = maxBarsHeight;
   static Color lastToolbarScrolledPlaceColorDark = effectColorDark;
   static Color lastToolbarScrolledPlaceColorLight = effectColorLight;
 
@@ -42,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen>
   final ScrollController _scrollController = ScrollController();
 
   late Color scrolledPlaceColor;
+  // late Color scrolledPlaceColorBottom;
   final Color _effectColorLight = effectColorLight;
   final Color _effectColorDark = effectColorDark;
   final Color _destinationColorDark = destinationColorDark;
@@ -67,12 +67,19 @@ class _HomeScreenState extends State<HomeScreen>
         ? _effectColorDark
         : _effectColorLight;
 
+    // scrolledPlaceColorBottom = widget.uiModeController.darkModeSet
+    //     ? Colors.transparent
+    //     : _effectColorLight;
+
     widget.uiModeController.addListener(() {
       if (mounted) {
         setState(() {
           scrolledPlaceColor =
-              _getScrolledPlaceColor(_scrollController.position.pixels);
-          _updateToolBar(scrolledPlaceColor, _getToolbarSize(), 0);
+              _getScrolledPlaceColor(_scrollController.position.pixels, false);
+          // scrolledPlaceColorBottom =
+          //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
+          _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+          // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
         });
       }
     });
@@ -81,8 +88,11 @@ class _HomeScreenState extends State<HomeScreen>
       if (mounted) {
         setState(() {
           scrolledPlaceColor =
-              _getScrolledPlaceColor(_scrollController.position.pixels);
-          _updateToolBar(scrolledPlaceColor, _getToolbarSize(), 0);
+              _getScrolledPlaceColor(_scrollController.position.pixels, false);
+          // scrolledPlaceColorBottom =
+          //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
+          _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+          // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
         });
       }
     });
@@ -103,13 +113,17 @@ class _HomeScreenState extends State<HomeScreen>
   //   }
   // } // not using since observer
 
-  Color _getScrolledPlaceColor(double pixels) {
+  Color _getScrolledPlaceColor(double pixels, bool firstTransparent) {
     double opacity = pixels / (MediaQuery.of(context).size.height - 50 - 200);
     opacity = opacity.clamp(0.0, 1.0);
     return Color.lerp(
         widget.uiModeController.darkModeSet
-            ? _effectColorDark
-            : _effectColorLight,
+            ? firstTransparent
+                ? Colors.transparent
+                : _effectColorDark
+            : firstTransparent
+                ? Colors.transparent
+                : _effectColorLight,
         widget.uiModeController.darkModeSet
             ? _destinationColorDark
             : _destinationColorLight,
@@ -119,17 +133,22 @@ class _HomeScreenState extends State<HomeScreen>
   double _getToolbarSize() {
     double relationFromOffset = (1.0 -
             (offset /
-                (MediaQuery.of(context).size.height - minToolbarHeight - 200)))
+                (MediaQuery.of(context).size.height - minBarsHeight - 200)))
         .clamp(0.0, 1.0);
-    return double.parse((maxToolbarHeight -
-            (maxToolbarHeight - minToolbarHeight) * (1 - relationFromOffset))
+    return double.parse((maxBarsHeight -
+            (maxBarsHeight - minBarsHeight) * (1 - relationFromOffset))
         .toStringAsFixed(0));
   }
 
-  void _updateToolBar(Color color, double height, int ms) {
+  void _updateTolbar(Color color, double height, int ms) {
     Provider.of<ToolbarProvider>(context, listen: false)
-        .updateToolBar(color, height, Duration(milliseconds: ms));
+        .updateToolbar(color, height, Duration(milliseconds: ms));
   }
+
+  // void _updateBottombar(Color color, double height, int ms) {
+  //   Provider.of<BottombarProvider>(context, listen: false)
+  //       .updateBottombar(color, height, Duration(milliseconds: ms));
+  // }
 
   void _scrollToBottom() {
     _scrollController.animateTo(
@@ -190,6 +209,21 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        scrolledPlaceColor =
+            _getScrolledPlaceColor(_scrollController.position.pixels, false);
+        // scrolledPlaceColorBottom =
+        //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
+        _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+        // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
+      });
+    });
+  }
+
+  @override
   bool get wantKeepAlive => true;
 
   @override
@@ -204,6 +238,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    responsiveUpdate(context);
 
     ui_web.platformViewRegistry.registerViewFactory(
       'canva-embed',
@@ -223,9 +258,6 @@ class _HomeScreenState extends State<HomeScreen>
     final double width = MediaQuery.of(context).size.width;
     final nameStyle = Theme.of(context).textTheme.displayMedium;
     final descriptionStyle = Theme.of(context).textTheme.headlineMedium;
-
-    double maxToolbarHeight = 70.0;
-    double minToolbarHeight = 50.0;
 
     double blurValue = offset > 0 ? 0.01 * offset : 0.0;
     blurValue = blurValue.clamp(0.0, 8.0);
@@ -281,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen>
                               ),
                               child: Container(
                                 width: width,
-                                height: height - maxToolbarHeight,
+                                height: height - maxBarsHeight,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                       begin: Alignment.bottomCenter,
@@ -338,68 +370,81 @@ class _HomeScreenState extends State<HomeScreen>
                             children: [
                               Positioned(
                                   bottom:
-                                      -390, //   bottom: -height - height + 150 + maxToolbarHeight,
+                                      -390, //   bottom: -height - height + 150 + maxBarsHeight,
                                   child: Container(
                                     height: 400, //     height: height * 0.3,
                                     width: width,
                                     color: scrolledPlaceColor,
                                   )),
                               Container(
-                                height: height - 150 - minToolbarHeight,
+                                height: height - 150 - minBarsHeight,
                                 width: width,
                                 color: scrolledPlaceColor,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      // Padding(
-                                      //   padding: const EdgeInsets.all(8.0),
-                                      //   child: MyCustomButton(
-                                      //       text: "csdcscsadvsdvsdvsdv",
-                                      //       onPressed: () {}),
-                                      // ),
-                                      TooltipAndSelectable(
-                                        isTooltip: true,
-                                        isSelectable: false,
-                                        message: "Link to $wetterAppUrl",
-                                        child: TextButton(
-                                          onPressed: () {
-                                            notNavigatedFromRefresh = true;
+                                child: Column(
+                                  children: [
+                                    // Padding(
+                                    //   padding: const EdgeInsets.all(8.0),
+                                    //   child: MyCustomButton(
+                                    //       text: "csdcscsadvsdvsdvsdv",
+                                    //       onPressed: () {}),
+                                    // ),
+                                    TooltipAndSelectable(
+                                      isTooltip: true,
+                                      isSelectable: false,
+                                      message: "Link to $wetterAppUrl",
+                                      child: TextButton(
+                                        onPressed: () {
+                                          notNavigatedFromRefresh = true;
 
-                                            _onRoute();
-                                            _updateToolBar(
-                                                widget.uiModeController
-                                                        .darkModeSet
-                                                    ? ProjectsScreen
-                                                        .lastToolbarScrolledPlaceColorDark
-                                                    : ProjectsScreen
-                                                        .lastToolbarScrolledPlaceColorLight,
-                                                ProjectsScreen
-                                                    .lastToolbarHeightBeforePush,
-                                                1000);
-                                            Navigator.pushNamed(
-                                                context, '/projects');
-                                          },
-                                          child: Text(
-                                            "Hier zu meinen Projekten",
-                                            style: descriptionStyle?.copyWith(),
-                                          ),
+                                          _onRoute();
+                                          _updateTolbar(
+                                              widget.uiModeController
+                                                      .darkModeSet
+                                                  ? ProjectsScreen
+                                                      .lastToolbarScrolledPlaceColorDark
+                                                  : ProjectsScreen
+                                                      .lastToolbarScrolledPlaceColorLight,
+                                              ProjectsScreen
+                                                  .lastToolbarHeightBeforePush,
+                                              1000);
+                                          // _updateBottombar(
+                                          //     widget.uiModeController
+                                          //             .darkModeSet
+                                          //         ? ProjectsScreen
+                                          //             .lastToolbarScrolledPlaceColorDark
+                                          //         : ProjectsScreen
+                                          //             .lastToolbarScrolledPlaceColorLight,
+                                          //     ProjectsScreen
+                                          //         .lastToolbarHeightBeforePush,
+                                          //     1000);
+                                          Navigator.pushNamed(
+                                              context, '/projects');
+                                        },
+                                        child: Text(
+                                          "Hier zu meinen Projekten",
+                                          style: descriptionStyle?.copyWith(),
                                         ),
                                       ),
-                                      const SizedBox(
-                                        height: 40,
-                                      ),
-                                      const Text("Lebenslauf:"),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        width: width * 0.8,
-                                        height: height * 0.7,
-                                        child: const HtmlElementView(
-                                            viewType: 'canva-embed'),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Text("Lebenslauf:"),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      width: width * 0.8,
+                                      height: height * 0.6,
+                                      child: const HtmlElementView(
+                                          viewType: 'canva-embed'),
+                                    ),
+
+                                    // Spacer(),
+                                    // SizedBox(
+                                    //   height: minBarsHeight,
+                                    // )
+                                  ],
                                 ),
                               ),
                               Positioned(
@@ -436,7 +481,7 @@ class _HomeScreenState extends State<HomeScreen>
                       right: width * 0.1,
                       top: (height * 0.1 + .25 * offset) -
                           ((-150 - 20 - height) * -.25) +
-                          minToolbarHeight,
+                          minBarsHeight,
                       child: TooltipAndSelectable(
                         isSelectable: false,
                         isTooltip: true,

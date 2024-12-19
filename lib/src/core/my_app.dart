@@ -5,12 +5,15 @@ import 'package:arifayduran_dev/src/features/settings/application/controllers/la
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
+import 'package:arifayduran_dev/src/presentation/svg_color_mapper.dart';
+import 'package:arifayduran_dev/src/presentation/svg_shadow_painter_oval.dart';
 // import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart'; // not using since observer
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -29,10 +32,13 @@ class MyApp extends StatelessWidget {
             builder: (context, child) => ResponsiveBreakpoints.builder(
               child: child!,
               breakpoints: [
-                const Breakpoint(start: 0, end: 450, name: MOBILE),
-                const Breakpoint(start: 451, end: 800, name: TABLET),
-                const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-                const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+                const Breakpoint(start: 0, end: 300, name: "Small"),
+                const Breakpoint(start: 301, end: 600, name: MOBILE),
+                const Breakpoint(start: 601, end: double.infinity, name: "Big"),
+                // const Breakpoint(start: 0, end: 450, name: MOBILE),
+                // const Breakpoint(start: 451, end: 800, name: TABLET),
+                // const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+                // const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],
             ),
             scrollBehavior: MyCustomScrollBehavior(),
@@ -90,48 +96,116 @@ class MyApp extends StatelessWidget {
         transitionDuration: const Duration(milliseconds: 500),
         reverseTransitionDuration: const Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
+          final toolbarProvider =
+              Provider.of<ToolbarProvider>(context, listen: false);
+          // final bottombarProvider =
+          //     Provider.of<BottombarProvider>(context, listen: false);
           if (uiModeController.darkModeSet) {
-            Provider.of<ToolbarProvider>(context, listen: false)
-                .scrolledPlaceColor = effectColorDark;
+            toolbarProvider.scrolledPlaceColor = effectColorDark;
+            // bottombarProvider.scrolledPlaceColor = effectColorDark;
           } else {
-            Provider.of<ToolbarProvider>(context, listen: false)
-                .scrolledPlaceColor = effectColorLight;
+            toolbarProvider.scrolledPlaceColor = effectColorLight;
+            // bottombarProvider.scrolledPlaceColor = effectColorLight;
           }
           String pathName = path; // Kein `substring(1)`
           // String pathName =
           //     path != '/' && path.startsWith('/') ? path.substring(1) : path;
 
           return Scaffold(
-            backgroundColor:
-                Provider.of<ToolbarProvider>(context, listen: false)
-                    .scrolledPlaceColor,
+            backgroundColor: toolbarProvider.scrolledPlaceColor,
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(
-                  Provider.of<ToolbarProvider>(context, listen: false)
-                      .toolbarHeight),
-              child: myToolbar,
+                  Provider.of<ToolbarProvider>(context).toolbarHeight),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  myToolbar,
+                  Positioned(
+                      top: 0,
+                      height: Provider.of<ToolbarProvider>(context).toolbarHeight *
+                          1.3,
+                      width: Provider.of<ToolbarProvider>(context).toolbarHeight *
+                          1.3 *
+                          2,
+                      child: uiModeController.darkModeSet
+                          ? CustomPaint(
+                              painter: SvgShadowPainterOval(
+                                  shadowColor: touchColorDark,
+                                  shouldReverse: false),
+                              child: SvgPicture(SvgAssetLoader("assets/app_icons/logo_graphic_top_SVG.svg",
+                                  colorMapper: SvgColorMapper(
+                                      fromColor: const Color(0xFFD02A1E),
+                                      toColor: touchColorDark,
+                                      fromSecondColor: const Color(0xFFFFFFFF),
+                                      toSecondColor: secondaryTouchColorDark))))
+                          : CustomPaint(
+                              painter: SvgShadowPainterOval(
+                                  shadowColor: secondaryTouchColorLight,
+                                  shouldReverse: false),
+                              child: SvgPicture(SvgAssetLoader("assets/app_icons/logo_graphic_top_SVG.svg",
+                                  colorMapper: SvgColorMapper(fromColor: const Color(0xFFD02A1E), toColor: touchColorLight, fromSecondColor: const Color(0xFFFFFFFF), toSecondColor: secondaryTouchColorLight))))),
+                ],
+              ),
             ),
-            body: FadeTransition(
-                opacity: animation,
-                child: switch (pathName) {
-                  '/' ||
-                  HomeScreen.routeName =>
-                    HomeScreen(uiModeController: uiModeController),
-                  ProjectsScreen.routeName =>
-                    ProjectsScreen(uiModeController: uiModeController),
-                  "/placeholder" =>
+            // extendBody: true,
+            // bottomNavigationBar:
+            //     MyBottombar(uiModeController: uiModeController),
+            body:
 
-                    // const ResponsiveBreakpoints(breakpoints: [
-                    //   Breakpoint(start: 0, end: 480, name: MOBILE),
-                    //   Breakpoint(start: 481, end: 1200, name: TABLET),
-                    //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
-                    // ], child:
-                    const Placeholder(),
-                  // ),
+                // Stack(
+                //   clipBehavior: Clip.none,
+                //   children: [
+                FadeTransition(
+                    opacity: animation,
+                    child: switch (pathName) {
+                      '/' ||
+                      HomeScreen.routeName =>
+                        HomeScreen(uiModeController: uiModeController),
+                      ProjectsScreen.routeName =>
+                        ProjectsScreen(uiModeController: uiModeController),
+                      "/placeholder" =>
 
-                  String() => HomeScreen(uiModeController: uiModeController),
-                }),
+                        // const ResponsiveBreakpoints(breakpoints: [
+                        //   Breakpoint(start: 0, end: 480, name: MOBILE),
+                        //   Breakpoint(start: 481, end: 1200, name: TABLET),
+                        //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
+                        // ], child:
+                        const Placeholder(),
+                      // ),
+
+                      String() =>
+                        HomeScreen(uiModeController: uiModeController),
+                    }),
+            // Positioned.fill(
+            //   left: -634,
+            //   child: CustomPaint(
+            //     painter: VerticalLinePainter(),
+            //   ),
+            // ),
+            //   ],
+            // ),
           );
         });
   }
 }
+
+// class VerticalLinePainter extends CustomPainter {
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     final Paint paint = Paint()
+//       ..color = const Color.fromARGB(129, 255, 255, 255) // Farbe der Linie
+//       ..strokeWidth = 1.0 // Breite der Linie
+//       ..style = PaintingStyle.stroke;
+
+//     // Zeichne eine Linie von oben nach unten in der Mitte des Bildschirms
+//     final double startX = size.width / 2; // X-Position (zentriert)
+//     canvas.drawLine(
+//       Offset(startX, 0), // Startpunkt (oben)
+//       Offset(startX, size.height), // Endpunkt (unten)
+//       paint,
+//     );
+//   }
+
+//   @override
+//   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+// }

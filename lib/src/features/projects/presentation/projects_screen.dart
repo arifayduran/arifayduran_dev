@@ -6,7 +6,6 @@ import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart'
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
-import 'package:arifayduran_dev/src/presentation/widgets/animated_scroll_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +15,7 @@ class ProjectsScreen extends StatefulWidget {
   final UiModeController uiModeController;
   static const routeName = '/projects';
 
-  static double lastToolbarHeightBeforePush = maxToolbarHeight;
+  static double lastToolbarHeightBeforePush = maxBarsHeight;
   static Color lastToolbarScrolledPlaceColorDark = effectColorDark;
   static Color lastToolbarScrolledPlaceColorLight = effectColorLight;
 
@@ -33,21 +32,32 @@ class _ProjectsScreenState extends State<ProjectsScreen>
     widget.uiModeController.addListener(() {
       if (mounted) {
         setState(() {
-          _updateToolBar(
+          _updateToolbar(
               widget.uiModeController.darkModeSet
                   ? effectColorDark
                   : effectColorLight,
-              maxToolbarHeight,
+              maxBarsHeight,
               0);
+          // _updateBottombar(
+          //     widget.uiModeController.darkModeSet
+          //         ? effectColorDark
+          //         : effectColorLight,
+          //     maxBarsHeight,
+          //     0);
         });
       }
     });
   }
 
-  void _updateToolBar(Color color, double height, int ms) {
+  void _updateToolbar(Color color, double height, int ms) {
     Provider.of<ToolbarProvider>(context, listen: false)
-        .updateToolBar(color, height, Duration(milliseconds: ms));
+        .updateToolbar(color, height, Duration(milliseconds: ms));
   }
+
+  // void _updateBottombar(Color color, double height, int ms) {
+  //   Provider.of<BottombarProvider>(context, listen: false)
+  //       .updateBottombar(color, height, Duration(milliseconds: ms));
+  // }
 
   void _onRoute() {
     // HomeScreen.lastToolbarHeightBeforePush = _getToolbarSize();
@@ -59,6 +69,12 @@ class _ProjectsScreenState extends State<ProjectsScreen>
     //     Color.lerp(_effectColorDark, _destinationColorDark, opacity)!;
     // HomeScreen.lastToolbarScrolledPlaceColorLight =
     //     Color.lerp(_effectColorLight, _destinationColorDark, opacity)!;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {});
   }
 
   @override
@@ -77,12 +93,18 @@ class _ProjectsScreenState extends State<ProjectsScreen>
       canPop: true,
       onPopInvokedWithResult: (willPop, result) {
         _onRoute();
-        _updateToolBar(
+        _updateToolbar(
             widget.uiModeController.darkModeSet
                 ? HomeScreen.lastToolbarScrolledPlaceColorDark
                 : HomeScreen.lastToolbarScrolledPlaceColorLight,
             HomeScreen.lastToolbarHeightBeforePush,
             1000);
+        // _updateBottombar(
+        //     widget.uiModeController.darkModeSet
+        //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
+        //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
+        //     HomeScreen.lastToolbarHeightBeforePush,
+        //     1000);
         if (notNavigatedFromRefresh) {
           willPop = false;
           if (!Navigator.of(context).canPop()) {
@@ -126,24 +148,36 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                     // RouteService().updateLastVisitedRoute('/'); // not using since observer
 
                     _onRoute();
-                    _updateToolBar(
+                    _updateToolbar(
                         widget.uiModeController.darkModeSet
                             ? HomeScreen.lastToolbarScrolledPlaceColorDark
                             : HomeScreen.lastToolbarScrolledPlaceColorLight,
                         HomeScreen.lastToolbarHeightBeforePush,
                         1000);
+                    // _updateBottombar(
+                    //     widget.uiModeController.darkModeSet
+                    //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                    //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                    //     HomeScreen.lastToolbarHeightBeforePush,
+                    //     1000);
                     if (!Navigator.of(context).canPop()) {
                       return;
                     }
                     Navigator.pop(context, "/");
                   } else {
                     _onRoute();
-                    _updateToolBar(
+                    _updateToolbar(
                         widget.uiModeController.darkModeSet
                             ? HomeScreen.lastToolbarScrolledPlaceColorDark
                             : HomeScreen.lastToolbarScrolledPlaceColorLight,
                         HomeScreen.lastToolbarHeightBeforePush,
                         1000);
+                    // _updateBottombar(
+                    //     widget.uiModeController.darkModeSet
+                    //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                    //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                    //     HomeScreen.lastToolbarHeightBeforePush,
+                    //     1000);
                     Navigator.pushNamed(context, "/");
                   }
                   notNavigatedFromRefresh = false;

@@ -20,5 +20,6 @@
   "langCopiedFromSettingsMessage": "Anzeigesprache wurde von Ihren Spracheinstellungen übernommen.",
   "languageSettingsCopiedFromLastTimeMessage": "Ihre Spracheinstellungen wurden vom letzten Mal übernommen",
   "onHoverSystemLang": "Die Systemsprache wird verwendet, um Daten-, Währungsformate und andere lokale Einstellungen zu verwalten.",
-  "lastRouteMessage":"Die letzte Routensitzung wurde erfolgreich wiederhergestellt."
+  "lastRouteMessage":"Die letzte Routensitzung wurde erfolgreich wiederhergestellt.",
+  "drawerOnHover": "Zugriff auf das Einstellungen-Menü."
 }

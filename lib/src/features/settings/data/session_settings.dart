@@ -22,6 +22,9 @@ Locale? userSelectedLangFromPastTemp;
 // String? currentRoute; // not using since observer
 
 // bool? isFirstLaunch;
+bool isFirstLaunchAnimationsDone = false;
+// bool isToolbarInitialized = false;
+
 bool activateSecondSnackBar =
     true; // for snackbar on change system language and and first init, otherwise it will show every route
 bool activateLastRouteMessage = true;
@@ -35,5 +38,7 @@ List<String>? routeHistory;
 String? initialRoute;
 
 late MyToolbar myToolbar;
-double maxToolbarHeight = 70.0;
-double minToolbarHeight = 50.0;
+// late MyBottombar myBottombar;
+
+double maxBarsHeight = 80.0;
+double minBarsHeight = 60.0;

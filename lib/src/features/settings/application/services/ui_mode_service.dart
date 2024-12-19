@@ -49,7 +49,7 @@ class UiModeService {
           content: Text(
             theme == ThemeMode.dark
                 ? AppLocalizations.of(context)!.switchModeMessageToDark
-                : AppLocalizations.of(context)!.switchModeMessageToDark,
+                : AppLocalizations.of(context)!.switchModeMessageToLight,
             style: TextStyle(
               color: theme == ThemeMode.dark
                   ? snackBarTextColorDark

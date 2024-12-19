@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const Color textColorDark = white;
+const Color textColorLight = mainGrey;
+
 const Color effectColorDark = black;
 const Color effectColorLight = mainBlue;
 const Color destinationColorDark = darkBlue;
 const Color destinationColorLight = white;
+
+const Color touchColorDark = mainRed;
+const Color touchColorLight = lightBlue;
+const Color secondaryTouchColorDark = white;
+const Color secondaryTouchColorLight = mainGrey;
+
 Color snackBarColorDark = effectColorDark.withValues(alpha: 0.5);
 Color snackBarColorLight = effectColorLight.withValues(alpha: 0.5);
 Color snackBarTextColorDark = white;
