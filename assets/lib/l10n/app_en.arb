@@ -79,6 +79,10 @@
     "lastRouteMessage": "The last route session has been successfully restored.",
     "@lastRouteMessage": {
         "description": "Notification shown when the last route session is restored successfully."
+    },
+    "drawerOnHover": "Access the settings menu.",
+    "@drawerOnHover": {
+    "description": "Manage basic settings and adjustments."
     }
         
 }
