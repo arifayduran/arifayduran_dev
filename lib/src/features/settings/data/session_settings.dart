@@ -37,8 +37,12 @@ RouteObserverService routeObserver = RouteObserverService();
 List<String>? routeHistory;
 String? initialRoute;
 
+int toolbarAnimationDuration = 1000;
 late MyToolbar myToolbar;
 // late MyBottombar myBottombar;
 
 double maxBarsHeight = 80.0;
 double minBarsHeight = 60.0;
+
+bool logoAnimate = false;
+late double logoSpace;

@@ -5,15 +5,13 @@ import 'package:arifayduran_dev/src/features/settings/application/controllers/la
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
-import 'package:arifayduran_dev/src/presentation/svg_color_mapper.dart';
-import 'package:arifayduran_dev/src/presentation/svg_shadow_painter_oval.dart';
+import 'package:arifayduran_dev/src/presentation/svg/hover_logo.dart';
 // import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart'; // not using since observer
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -122,28 +120,8 @@ class MyApp extends StatelessWidget {
                   myToolbar,
                   Positioned(
                       top: 0,
-                      height: Provider.of<ToolbarProvider>(context).toolbarHeight *
-                          1.3,
-                      width: Provider.of<ToolbarProvider>(context).toolbarHeight *
-                          1.3 *
-                          2,
-                      child: uiModeController.darkModeSet
-                          ? CustomPaint(
-                              painter: SvgShadowPainterOval(
-                                  shadowColor: touchColorDark,
-                                  shouldReverse: false),
-                              child: SvgPicture(SvgAssetLoader("assets/app_icons/logo_graphic_top_SVG.svg",
-                                  colorMapper: SvgColorMapper(
-                                      fromColor: const Color(0xFFD02A1E),
-                                      toColor: touchColorDark,
-                                      fromSecondColor: const Color(0xFFFFFFFF),
-                                      toSecondColor: secondaryTouchColorDark))))
-                          : CustomPaint(
-                              painter: SvgShadowPainterOval(
-                                  shadowColor: secondaryTouchColorLight,
-                                  shouldReverse: false),
-                              child: SvgPicture(SvgAssetLoader("assets/app_icons/logo_graphic_top_SVG.svg",
-                                  colorMapper: SvgColorMapper(fromColor: const Color(0xFFD02A1E), toColor: touchColorLight, fromSecondColor: const Color(0xFFFFFFFF), toSecondColor: secondaryTouchColorLight))))),
+                      left: 0,
+                      child: HoverLogo(isDark: uiModeController.darkModeSet)),
                 ],
               ),
             ),

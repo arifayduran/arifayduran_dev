@@ -6,6 +6,7 @@ import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart'
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
+import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -98,13 +99,13 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                 ? HomeScreen.lastToolbarScrolledPlaceColorDark
                 : HomeScreen.lastToolbarScrolledPlaceColorLight,
             HomeScreen.lastToolbarHeightBeforePush,
-            1000);
+            toolbarAnimationDuration);
         // _updateBottombar(
         //     widget.uiModeController.darkModeSet
         //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
         //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
         //     HomeScreen.lastToolbarHeightBeforePush,
-        //     1000);
+        //     toolbarAnimationDuration);
         if (notNavigatedFromRefresh) {
           willPop = false;
           if (!Navigator.of(context).canPop()) {
@@ -130,13 +131,19 @@ class _ProjectsScreenState extends State<ProjectsScreen>
               //   minSize: 30,
               //   fontWeight: FontWeight.w500,
               // ),
-              TextButton(
-                onPressed: () {
-                  urlLauncherNewTab(wetterAppUrl);
-                },
-                child: Text(
-                  "Wetter App",
-                  style: descriptionStyle?.copyWith(),
+              // ),
+              TooltipAndSelectable(
+                isTooltip: true,
+                isSelectable: false,
+                message: "Link to $wetterAppUrl",
+                child: TextButton(
+                  onPressed: () {
+                    urlLauncherNewTab(wetterAppUrl);
+                  },
+                  child: Text(
+                    "Wetter App",
+                    style: descriptionStyle?.copyWith(),
+                  ),
                 ),
               ),
               const SizedBox(
@@ -153,13 +160,13 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                             ? HomeScreen.lastToolbarScrolledPlaceColorDark
                             : HomeScreen.lastToolbarScrolledPlaceColorLight,
                         HomeScreen.lastToolbarHeightBeforePush,
-                        1000);
+                        toolbarAnimationDuration);
                     // _updateBottombar(
                     //     widget.uiModeController.darkModeSet
                     //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
                     //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
                     //     HomeScreen.lastToolbarHeightBeforePush,
-                    //     1000);
+                    //     toolbarAnimationDuration);
                     if (!Navigator.of(context).canPop()) {
                       return;
                     }
@@ -171,13 +178,13 @@ class _ProjectsScreenState extends State<ProjectsScreen>
                             ? HomeScreen.lastToolbarScrolledPlaceColorDark
                             : HomeScreen.lastToolbarScrolledPlaceColorLight,
                         HomeScreen.lastToolbarHeightBeforePush,
-                        1000);
+                        toolbarAnimationDuration);
                     // _updateBottombar(
                     //     widget.uiModeController.darkModeSet
                     //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
                     //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
                     //     HomeScreen.lastToolbarHeightBeforePush,
-                    //     1000);
+                    //     toolbarAnimationDuration);
                     Navigator.pushNamed(context, "/");
                   }
                   notNavigatedFromRefresh = false;

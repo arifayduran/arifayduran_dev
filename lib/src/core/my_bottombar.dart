@@ -22,7 +22,7 @@
 //   Color scrolledPlaceColor;
 
 //   BottombarProvider({
-//     this.duration = const Duration(milliseconds: 1000),
+//     this.duration = const Duration(milliseconds: toolbarAnimationDuration),
 //     this.scrolledPlaceColor = effectColorDark,
 //   }) {
 //     providersMaxBottombarHeight = maxBarsHeight;

@@ -4,7 +4,6 @@ import 'dart:ui_web' as ui_web;
 import 'package:arifayduran_dev/src/core/application/responsive_update.dart';
 import 'package:universal_html/html.dart';
 
-import 'package:arifayduran_dev/src/config/route_links.dart';
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -388,42 +387,47 @@ class _HomeScreenState extends State<HomeScreen>
                                     //       text: "csdcscsadvsdvsdvsdv",
                                     //       onPressed: () {}),
                                     // ),
-                                    TooltipAndSelectable(
-                                      isTooltip: true,
-                                      isSelectable: false,
-                                      message: "Link to $wetterAppUrl",
-                                      child: TextButton(
-                                        onPressed: () {
-                                          notNavigatedFromRefresh = true;
+                                    TextButton(
+                                      onPressed: () {
+                                        notNavigatedFromRefresh = true;
+                                        
+                                        // !
+                                        logoAnimate = true;
+                                        Future.delayed(
+                                            Duration(
+                                                milliseconds:
+                                                    toolbarAnimationDuration),
+                                            () {
+                                          logoAnimate = false;
+                                        });
+                                        // !
 
-                                          _onRoute();
-                                          _updateTolbar(
-                                              widget.uiModeController
-                                                      .darkModeSet
-                                                  ? ProjectsScreen
-                                                      .lastToolbarScrolledPlaceColorDark
-                                                  : ProjectsScreen
-                                                      .lastToolbarScrolledPlaceColorLight,
-                                              ProjectsScreen
-                                                  .lastToolbarHeightBeforePush,
-                                              1000);
-                                          // _updateBottombar(
-                                          //     widget.uiModeController
-                                          //             .darkModeSet
-                                          //         ? ProjectsScreen
-                                          //             .lastToolbarScrolledPlaceColorDark
-                                          //         : ProjectsScreen
-                                          //             .lastToolbarScrolledPlaceColorLight,
-                                          //     ProjectsScreen
-                                          //         .lastToolbarHeightBeforePush,
-                                          //     1000);
-                                          Navigator.pushNamed(
-                                              context, '/projects');
-                                        },
-                                        child: Text(
-                                          "Hier zu meinen Projekten",
-                                          style: descriptionStyle?.copyWith(),
-                                        ),
+                                        _onRoute();
+                                        _updateTolbar(
+                                            widget.uiModeController.darkModeSet
+                                                ? ProjectsScreen
+                                                    .lastToolbarScrolledPlaceColorDark
+                                                : ProjectsScreen
+                                                    .lastToolbarScrolledPlaceColorLight,
+                                            ProjectsScreen
+                                                .lastToolbarHeightBeforePush,
+                                            toolbarAnimationDuration);
+                                        // _updateBottombar(
+                                        //     widget.uiModeController
+                                        //             .darkModeSet
+                                        //         ? ProjectsScreen
+                                        //             .lastToolbarScrolledPlaceColorDark
+                                        //         : ProjectsScreen
+                                        //             .lastToolbarScrolledPlaceColorLight,
+                                        //     ProjectsScreen
+                                        //         .lastToolbarHeightBeforePush,
+                                        //     toolbarAnimationDuration);
+                                        Navigator.pushNamed(
+                                            context, '/projects');
+                                      },
+                                      child: Text(
+                                        "Hier zu meinen Projekten",
+                                        style: descriptionStyle?.copyWith(),
                                       ),
                                     ),
                                     const SizedBox(

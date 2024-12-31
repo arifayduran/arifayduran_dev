@@ -2,7 +2,7 @@ import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/language_selector.dart';
-import 'package:arifayduran_dev/src/presentation/svg_shadow_painter_oval.dart';
+import 'package:arifayduran_dev/src/presentation/svg/svg_shadow_painter_oval.dart';
 import 'package:arifayduran_dev/src/presentation/widgets/animated_text_widget.dart';
 import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 //   Color scrolledPlaceColor;
 
 //   ToolbarProvider({
-//     this.duration = const Duration(milliseconds: 1000),
+//     this.duration = const Duration(milliseconds: toolbarAnimationDuration),
 //   }) {
 //     providersmaxBarsHeight = maxBarsHeight;
 //     providersminBarsHeight = minBarsHeight;
@@ -42,7 +42,7 @@ class ToolbarProvider extends ChangeNotifier {
 
   Color scrolledPlaceColor = effectColorDark;
   double toolbarHeight = maxBarsHeight;
-  Duration duration = const Duration(milliseconds: 1000);
+  Duration duration = Duration(milliseconds: toolbarAnimationDuration);
 
   void updateToolbar(Color color, double height, Duration newDuration) {
     duration = newDuration;
@@ -142,12 +142,11 @@ class _MyToolbarProvider extends State<MyToolbar>
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Expanded(
-              flex: 1,
-              child: SizedBox(),
+            SizedBox(
+              width: logoSpace,
             ),
             Expanded(
-              flex: 5,
+              // flex: 5,
               child: !ResponsiveBreakpoints.of(context).smallerThan(MOBILE)
                   ? TooltipAndSelectable(
                       isTooltip: true,

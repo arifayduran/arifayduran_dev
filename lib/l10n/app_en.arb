@@ -83,6 +83,10 @@
     "drawerOnHover": "Access the settings menu.",
     "@drawerOnHover": {
     "description": "Manage basic settings and adjustments."
+    },
+    "logoOnHover": "Calligraphic designed logo",
+    "@logoOnHover": {
+    "description": "Message shown on hover on logo"
     }
         
 }
