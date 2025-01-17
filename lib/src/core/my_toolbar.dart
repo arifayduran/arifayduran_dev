@@ -67,7 +67,10 @@ class _MyToolbarProvider extends State<MyToolbar>
   late AnimationController _controller;
   late Animation<double> _heightAnimation;
   late double _currentHeight;
-  late ToolbarProvider toolbarProvider;
+  late ToolbarProvider _toolbarProvider;
+  late Color _toolbarColor;
+  late Duration _toolbarAnimationDuration;
+
   @override
   void initState() {
     super.initState();
@@ -77,30 +80,36 @@ class _MyToolbarProvider extends State<MyToolbar>
         setState(() {});
       }
     });
-    toolbarProvider = Provider.of<ToolbarProvider>(context, listen: false);
-    _currentHeight = toolbarProvider.toolbarHeight;
+    _toolbarProvider = Provider.of<ToolbarProvider>(context, listen: false);
+    _currentHeight = _toolbarProvider.toolbarHeight;
 
     _controller = AnimationController(
       vsync: this,
-      duration: toolbarProvider.duration,
+      duration: _toolbarProvider.duration,
     );
 
     _heightAnimation = Tween<double>(
       begin: _currentHeight,
-      end: toolbarProvider.toolbarHeight,
+      end: _toolbarProvider.toolbarHeight,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     ));
 
-    toolbarProvider.addListener(() {
-      _animateToolbarHeight(toolbarProvider.toolbarHeight);
+    _toolbarColor = _toolbarProvider.scrolledPlaceColor;
+    _toolbarAnimationDuration = Duration(microseconds: 0);
+
+    _toolbarProvider.addListener(() {
+      _toolbarAnimationDuration = _toolbarProvider.duration;
+      _animateToolbarHeight(_toolbarProvider.toolbarHeight);
+      _toolbarColor = _toolbarProvider.scrolledPlaceColor;
     });
   }
 
   void _animateToolbarHeight(double newHeight) {
     if (!mounted) return;
-    setState(() {
+
+    if (newHeight != _currentHeight) {
       _heightAnimation = Tween<double>(
         begin: _currentHeight,
         end: newHeight,
@@ -110,10 +119,10 @@ class _MyToolbarProvider extends State<MyToolbar>
       ));
 
       _currentHeight = newHeight;
-    });
 
-    _controller.reset();
-    _controller.forward();
+      _controller.reset();
+      _controller.forward();
+    }
   }
 
   // @override
@@ -130,121 +139,85 @@ class _MyToolbarProvider extends State<MyToolbar>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: toolbarProvider.duration,
-      curve: Curves.easeInOut,
-      height: toolbarProvider.toolbarHeight,
-      color: toolbarProvider.scrolledPlaceColor,
-      child: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: _heightAnimation.value,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              width: logoSpace,
-            ),
-            Expanded(
-              // flex: 5,
-              child: !ResponsiveBreakpoints.of(context).smallerThan(MOBILE)
-                  ? TooltipAndSelectable(
-                      isTooltip: true,
-                      isSelectable: false,
-                      message:
-                          "${AppLocalizations.of(context)!.appTitle} - ${AppLocalizations.of(context)!.appDescription}",
-                      child: AnimatedTextWidget(
-                        text:
-                            "ArifAyduran.dev", // AppLocalizations.of(context)!.appTitle,
-                        hoverColor: widget.uiModeController.darkModeSet
-                            ? secondaryTouchColorDark
-                            : secondaryTouchColorLight,
-                        initColor: widget.uiModeController.darkModeSet
-                            ? touchColorDark
-                            : touchColorLight,
-                        minSize: !ResponsiveBreakpoints.of(context)
-                                .smallerThan("Big")
-                            ? 45
-                            : 30,
-                        midSize: !ResponsiveBreakpoints.of(context)
-                                .smallerThan("Big")
-                            ? 55
-                            : 35,
-                        maxSize: !ResponsiveBreakpoints.of(context)
-                                .smallerThan("Big")
-                            ? 70
-                            : 40,
-                        fontWeight: FontWeight.w400,
-                        textStyle: GoogleFonts.beauRivage(letterSpacing: 2),
-                        enableFirstAnimation:
-                            isFirstLaunchAnimationsDone ? false : true,
+    return AnimatedBuilder(
+        animation: _heightAnimation,
+        builder: (context, child) {
+          return AnimatedContainer(
+            duration: _toolbarAnimationDuration,
+            curve: Curves.easeInOut,
+            height: _heightAnimation.value,
+            color: _toolbarColor,
+            child: AppBar(
+              backgroundColor: Colors.transparent,
+              toolbarHeight: _heightAnimation.value,
+              automaticallyImplyLeading: false,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: logoSpace,
+                  ),
+                  Expanded(
+                    // flex: 5,
+                    child: !ResponsiveBreakpoints.of(context)
+                            .smallerThan(MOBILE)
+                        ? TooltipAndSelectable(
+                            isTooltip: true,
+                            isSelectable: false,
+                            message:
+                                "${AppLocalizations.of(context)!.appTitle} - ${AppLocalizations.of(context)!.appDescription}",
+                            child: AnimatedTextWidget(
+                              text:
+                                  "ArifAyduran.dev", // AppLocalizations.of(context)!.appTitle,
+                              hoverColor: widget.uiModeController.darkModeSet
+                                  ? secondaryTouchColorDark
+                                  : secondaryTouchColorLight,
+                              initColor: widget.uiModeController.darkModeSet
+                                  ? touchColorDark
+                                  : touchColorLight,
+                              minSize: !ResponsiveBreakpoints.of(context)
+                                      .smallerThan("Big")
+                                  ? 45
+                                  : 30,
+                              midSize: !ResponsiveBreakpoints.of(context)
+                                      .smallerThan("Big")
+                                  ? 55
+                                  : 35,
+                              maxSize: !ResponsiveBreakpoints.of(context)
+                                      .smallerThan("Big")
+                                  ? 70
+                                  : 40,
+                              fontWeight: FontWeight.w400,
+                              textStyle:
+                                  GoogleFonts.beauRivage(letterSpacing: 2),
+                              enableFirstAnimation:
+                                  isFirstLaunchAnimationsDone ? false : true,
 
-                        specialIndexes: [0, 4, 11, 12, 13, 14],
-                        elevatedIndexes: [11, 12, 13, 14],
-                        scaleFactors: {11: 0.5, 12: 0.5, 13: 0.5, 14: 0.5},
-                      ),
-                    )
-                  : SizedBox(),
-            ),
-            if (!ResponsiveBreakpoints.of(context).smallerThan("Big"))
-              CustomPaint(
-                painter: SvgShadowPainterOval(
-                    shadowColor: widget.uiModeController.darkModeSet
-                        ? touchColorDark
-                        : secondaryTouchColorLight,
-                    blur: 60,
-                    topOffset: 0,
-                    alpha: 0.7,
-                    shouldReverse: false),
-                child: Row(
-                  children: [
-                    TooltipAndSelectable(
-                      isTooltip: true,
-                      isSelectable: false,
-                      message: widget.uiModeController.darkModeSet
-                          ? AppLocalizations.of(context)!.toggleHoverToLight
-                          : AppLocalizations.of(context)!.toggleHoverToDark,
-                      child: UiModeSwitch(
-                        uiModeController: widget.uiModeController,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    LanguageSelector(
-                      uiModeController: widget.uiModeController,
-                    ),
-                  ],
-                ),
-              ),
-            if (ResponsiveBreakpoints.of(context).smallerThan("Big"))
-              CustomPaint(
-                painter: SvgShadowPainterOval(
-                    shadowColor: widget.uiModeController.darkModeSet
-                        ? touchColorDark
-                        : secondaryTouchColorLight,
-                    blur: 35,
-                    topOffset: 0,
-                    alpha: 1,
-                    shouldReverse: false),
-                child: Tooltip(
-                  message: AppLocalizations.of(context)!.drawerOnHover,
-                  child: PopupMenuButton<Widget>(
-                    icon: const Icon(Icons.menu_rounded),
-                    itemBuilder: (context) => <PopupMenuEntry<Widget>>[
-                      PopupMenuItem(
-                        enabled: false,
-                        child: Center(
-                          child: LanguageSelector(
-                            uiModeController: widget.uiModeController,
-                          ),
-                        ),
-                      ),
-                      PopupMenuDivider(),
-                      PopupMenuItem<Widget>(
-                        enabled: false,
-                        child: Center(
-                          child: TooltipAndSelectable(
+                              specialIndexes: [0, 4, 11, 12, 13, 14],
+                              elevatedIndexes: [11, 12, 13, 14],
+                              scaleFactors: {
+                                11: 0.5,
+                                12: 0.5,
+                                13: 0.5,
+                                14: 0.5
+                              },
+                            ),
+                          )
+                        : SizedBox(),
+                  ),
+                  if (!ResponsiveBreakpoints.of(context).smallerThan("Big"))
+                    CustomPaint(
+                      painter: SvgShadowPainterOval(
+                          shadowColor: widget.uiModeController.darkModeSet
+                              ? touchColorDark
+                              : secondaryTouchColorLight,
+                          blur: 60,
+                          topOffset: 0,
+                          alpha: 0.7,
+                          shouldReverse: false),
+                      child: Row(
+                        children: [
+                          TooltipAndSelectable(
                             isTooltip: true,
                             isSelectable: false,
                             message: widget.uiModeController.darkModeSet
@@ -256,15 +229,64 @@ class _MyToolbarProvider extends State<MyToolbar>
                               uiModeController: widget.uiModeController,
                             ),
                           ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          LanguageSelector(
+                            uiModeController: widget.uiModeController,
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (ResponsiveBreakpoints.of(context).smallerThan("Big"))
+                    CustomPaint(
+                      painter: SvgShadowPainterOval(
+                          shadowColor: widget.uiModeController.darkModeSet
+                              ? touchColorDark
+                              : secondaryTouchColorLight,
+                          blur: 35,
+                          topOffset: 0,
+                          alpha: 1,
+                          shouldReverse: false),
+                      child: Tooltip(
+                        message: AppLocalizations.of(context)!.drawerOnHover,
+                        child: PopupMenuButton<Widget>(
+                          icon: const Icon(Icons.menu_rounded),
+                          itemBuilder: (context) => <PopupMenuEntry<Widget>>[
+                            PopupMenuItem(
+                              enabled: false,
+                              child: Center(
+                                child: LanguageSelector(
+                                  uiModeController: widget.uiModeController,
+                                ),
+                              ),
+                            ),
+                            PopupMenuDivider(),
+                            PopupMenuItem<Widget>(
+                              enabled: false,
+                              child: Center(
+                                child: TooltipAndSelectable(
+                                  isTooltip: true,
+                                  isSelectable: false,
+                                  message: widget.uiModeController.darkModeSet
+                                      ? AppLocalizations.of(context)!
+                                          .toggleHoverToLight
+                                      : AppLocalizations.of(context)!
+                                          .toggleHoverToDark,
+                                  child: UiModeSwitch(
+                                    uiModeController: widget.uiModeController,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                ],
               ),
-          ],
-        ),
-      ),
-    );
+            ),
+          );
+        });
   }
 }

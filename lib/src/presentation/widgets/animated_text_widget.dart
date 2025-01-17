@@ -222,16 +222,19 @@ class _AnimatedTextWidgetState extends State<AnimatedTextWidget> {
                 );
               }
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(data.length, (index) {
-                  return widget.enableFirstAnimation
-                      ? index < _visibleCharacters
-                          ? child(index)
-                          : const SizedBox()
-                      : child(index);
-                }),
+              return Directionality(
+                textDirection: TextDirection.ltr,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(data.length, (index) {
+                    return widget.enableFirstAnimation
+                        ? index < _visibleCharacters
+                            ? child(index)
+                            : const SizedBox()
+                        : child(index);
+                  }),
+                ),
               );
             },
           );

@@ -1,9 +1,7 @@
 import 'dart:ui';
-
 import 'dart:ui_web' as ui_web;
 import 'package:arifayduran_dev/src/core/application/responsive_update.dart';
-import 'package:universal_html/html.dart';
-
+import 'package:universal_html/html.dart' as uni_html;
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -51,9 +49,24 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _animationController;
   Animation<Matrix4>? _animation;
 
+  late ToolbarProvider toolbarProvider;
+
   @override
   void initState() {
     super.initState();
+
+    toolbarProvider = Provider.of<ToolbarProvider>(context, listen: false);
+    // final bottombarProvider =
+    //     Provider.of<BottombarProvider>(context, listen: false);
+    if (!loadedScreens["HomeScreen"]!) {
+      if (widget.uiModeController.darkModeSet) {
+        toolbarProvider.scrolledPlaceColor = effectColorDark;
+        // bottombarProvider.scrolledPlaceColor = effectColorDark;
+      } else {
+        toolbarProvider.scrolledPlaceColor = effectColorLight;
+        // bottombarProvider.scrolledPlaceColor = effectColorLight;
+      }
+    }
 
     _animationController = AnimationController(
       vsync: this,
@@ -75,9 +88,10 @@ class _HomeScreenState extends State<HomeScreen>
         setState(() {
           scrolledPlaceColor =
               _getScrolledPlaceColor(_scrollController.position.pixels, false);
+
           // scrolledPlaceColorBottom =
           //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
-          _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+          _updateToolbar(scrolledPlaceColor, _getToolbarSize(), 0);
           // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
         });
       }
@@ -88,9 +102,10 @@ class _HomeScreenState extends State<HomeScreen>
         setState(() {
           scrolledPlaceColor =
               _getScrolledPlaceColor(_scrollController.position.pixels, false);
+
           // scrolledPlaceColorBottom =
           //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
-          _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+          _updateToolbar(scrolledPlaceColor, _getToolbarSize(), 0);
           // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
         });
       }
@@ -98,6 +113,10 @@ class _HomeScreenState extends State<HomeScreen>
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   _routeIfLastVisitedRouteFromPastTemp();
     // }); // not using since observer
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadedScreens["HomeScreen"] = true;
+    });
   }
 
   // void _routeIfLastVisitedRouteFromPastTemp() async {
@@ -139,9 +158,8 @@ class _HomeScreenState extends State<HomeScreen>
         .toStringAsFixed(0));
   }
 
-  void _updateTolbar(Color color, double height, int ms) {
-    Provider.of<ToolbarProvider>(context, listen: false)
-        .updateToolbar(color, height, Duration(milliseconds: ms));
+  void _updateToolbar(Color color, double height, int ms) {
+    toolbarProvider.updateToolbar(color, height, Duration(milliseconds: ms));
   }
 
   // void _updateBottombar(Color color, double height, int ms) {
@@ -214,9 +232,10 @@ class _HomeScreenState extends State<HomeScreen>
       setState(() {
         scrolledPlaceColor =
             _getScrolledPlaceColor(_scrollController.position.pixels, false);
+
         // scrolledPlaceColorBottom =
         //     _getScrolledPlaceColor(_scrollController.position.pixels, true);
-        _updateTolbar(scrolledPlaceColor, _getToolbarSize(), 0);
+        _updateToolbar(scrolledPlaceColor, _getToolbarSize(), 0);
         // _updateBottombar(scrolledPlaceColorBottom, _getToolbarSize(), 0);
       });
     });
@@ -242,7 +261,7 @@ class _HomeScreenState extends State<HomeScreen>
     ui_web.platformViewRegistry.registerViewFactory(
       'canva-embed',
       (int viewId) {
-        final iframe = IFrameElement()
+        final iframe = uni_html.IFrameElement()
           ..src =
               'https://www.canva.com/design/DAGTpv3gQGs/arcIIPMac_ejOlJ-WRHDfA/view?embed'
           ..style.border = 'none'
@@ -263,7 +282,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (willPop, result) {
+      onPopInvokedWithResult: (didPop, result) {
         if (_scrollController.offset > 0) {
           _scrollToTop();
         }
@@ -390,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     TextButton(
                                       onPressed: () {
                                         notNavigatedFromRefresh = true;
-                                        
+
                                         // !
                                         logoAnimate = true;
                                         Future.delayed(
@@ -403,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         // !
 
                                         _onRoute();
-                                        _updateTolbar(
+                                        _updateToolbar(
                                             widget.uiModeController.darkModeSet
                                                 ? ProjectsScreen
                                                     .lastToolbarScrolledPlaceColorDark

@@ -17,7 +17,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.0'  # Optionally specify the version you need
+          flutter-version: '3.27.2'  # Optionally specify the version you need
 
       # Step 3: Install Firebase CLI globally
       - name: Install Firebase CLI

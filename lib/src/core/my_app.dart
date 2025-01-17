@@ -95,7 +95,7 @@ class MyApp extends StatelessWidget {
         reverseTransitionDuration: const Duration(milliseconds: 500),
         pageBuilder: (context, animation, secondaryAnimation) {
           final toolbarProvider =
-              Provider.of<ToolbarProvider>(context, listen: false);
+              Provider.of<ToolbarProvider>(context); // listen: false
           // final bottombarProvider =
           //     Provider.of<BottombarProvider>(context, listen: false);
           if (uiModeController.darkModeSet) {
@@ -119,9 +119,20 @@ class MyApp extends StatelessWidget {
                 children: [
                   myToolbar,
                   Positioned(
-                      top: 0,
-                      left: 0,
-                      child: HoverLogo(isDark: uiModeController.darkModeSet)),
+                    top: 0,
+                    left: Directionality.of(context) == TextDirection.ltr
+                        ? 0
+                        : null,
+                    right: Directionality.of(context) == TextDirection.rtl
+                        ? 0
+                        : null,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/");
+                      },
+                      child: HoverLogo(isDark: uiModeController.darkModeSet),
+                    ),
+                  ),
                 ],
               ),
             ),

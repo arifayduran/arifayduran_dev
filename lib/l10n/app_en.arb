@@ -16,7 +16,7 @@
     "@greeting": {
         "description": "This is a greeting message shown on the homepage."
     },
-    "fullGreeting": "Welcome to Portfolio of Arif Ayduran",
+    "fullGreeting": "Welcome to the Portfolio of Arif Ayduran",
     "@fullGreeting": {
         "description": "Description of the website and welcoming to the site of the developer"
     },
@@ -84,9 +84,8 @@
     "@drawerOnHover": {
     "description": "Manage basic settings and adjustments."
     },
-    "logoOnHover": "Calligraphic designed logo",
+    "logoOnHover": "Calligraphic self-designed logo",
     "@logoOnHover": {
-    "description": "Message shown on hover on logo"
-    }
-        
+    "description": "Message shown on hover on logo" 
+    }   
 }

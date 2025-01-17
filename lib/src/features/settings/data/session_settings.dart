@@ -45,4 +45,9 @@ double maxBarsHeight = 80.0;
 double minBarsHeight = 60.0;
 
 bool logoAnimate = false;
-late double logoSpace;
+double logoSpace = 0;
+
+Map<String, bool> loadedScreens = {
+  "HomeScreen": false,
+  "ProjectsScreen": false,
+};

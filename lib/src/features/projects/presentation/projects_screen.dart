@@ -48,6 +48,10 @@ class _ProjectsScreenState extends State<ProjectsScreen>
         });
       }
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadedScreens["ProjectsScreen"] = true;
+    });
   }
 
   void _updateToolbar(Color color, double height, int ms) {
