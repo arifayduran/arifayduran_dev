@@ -126,12 +126,7 @@ class MyApp extends StatelessWidget {
                     right: Directionality.of(context) == TextDirection.rtl
                         ? 0
                         : null,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/");
-                      },
-                      child: HoverLogo(isDark: uiModeController.darkModeSet),
-                    ),
+                    child: HoverLogo(isDark: uiModeController.darkModeSet),
                   ),
                 ],
               ),

@@ -292,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen>
         onDoubleTap: _handleDoubleTap,
         child: InteractiveViewer(
           transformationController: _transformationController,
-          scaleEnabled: false, // issues
+          scaleEnabled: true, // issues
           minScale: 1,
           maxScale: 2,
           child: Material(
