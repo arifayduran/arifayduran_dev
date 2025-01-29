@@ -9,15 +9,31 @@ class RouteObserverService extends RouteObserver<PageRoute> {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPush(route, previousRoute);
+    debugPrint(
+        'PUSH: ${route.settings.name} (von ${previousRoute?.settings.name})');
     _saveRoute(route.settings.name ?? '/');
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);
+    debugPrint(
+        'POP: ${route.settings.name} (zurück zu ${previousRoute?.settings.name})');
     if (previousRoute != null) {
       _saveRoute(previousRoute.settings.name ?? '/');
     }
+  }
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    debugPrint(
+        'REMOVE: ${route.settings.name} (vorher war ${previousRoute?.settings.name})');
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    debugPrint(
+        'REPLACE: ${oldRoute?.settings.name} → ${newRoute?.settings.name}');
   }
 
   void _saveRoute(String route) async {

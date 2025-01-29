@@ -292,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen>
         onDoubleTap: _handleDoubleTap,
         child: InteractiveViewer(
           transformationController: _transformationController,
-          scaleEnabled: true, // issues
+          scaleEnabled: false, // issues
           minScale: 1,
           maxScale: 2,
           child: Material(
@@ -410,16 +410,13 @@ class _HomeScreenState extends State<HomeScreen>
                                       onPressed: () {
                                         notNavigatedFromRefresh = true;
 
-                                        // !
                                         logoAnimate = true;
                                         Future.delayed(
                                             Duration(
-                                                milliseconds:
-                                                    toolbarAnimationDuration),
+                                                milliseconds: routeDurationMs),
                                             () {
                                           logoAnimate = false;
                                         });
-                                        // !
 
                                         _onRoute();
                                         _updateToolbar(
@@ -430,7 +427,7 @@ class _HomeScreenState extends State<HomeScreen>
                                                     .lastToolbarScrolledPlaceColorLight,
                                             ProjectsScreen
                                                 .lastToolbarHeightBeforePush,
-                                            toolbarAnimationDuration);
+                                            routeDurationMs);
                                         // _updateBottombar(
                                         //     widget.uiModeController
                                         //             .darkModeSet
@@ -440,7 +437,7 @@ class _HomeScreenState extends State<HomeScreen>
                                         //             .lastToolbarScrolledPlaceColorLight,
                                         //     ProjectsScreen
                                         //         .lastToolbarHeightBeforePush,
-                                        //     toolbarAnimationDuration);
+                                        //     routeDurationMs);
                                         Navigator.pushNamed(
                                             context, '/projects');
                                       },

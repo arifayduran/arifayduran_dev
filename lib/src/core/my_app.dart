@@ -1,5 +1,8 @@
+import 'dart:ui_web';
+
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/features/home/presentation/page_not_found.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -28,7 +31,6 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, Widget? child) {
           return MaterialApp(
             builder: (context, child) => ResponsiveBreakpoints.builder(
-              child: child!,
               breakpoints: [
                 const Breakpoint(start: 0, end: 300, name: "Small"),
                 const Breakpoint(start: 301, end: 600, name: MOBILE),
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
                 // const Breakpoint(start: 801, end: 1920, name: DESKTOP),
                 // const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],
+              child: child!,
             ),
             scrollBehavior: MyCustomScrollBehavior(),
             scaffoldMessengerKey: scaffoldMessengerKey,
@@ -53,6 +56,7 @@ class MyApp extends StatelessWidget {
             themeMode: uiModeController.themeMode,
             initialRoute: initialRoute, // "/",
             navigatorObservers: [routeObserver],
+
             onGenerateInitialRoutes: (initialRoute) {
               final Uri uri = Uri.parse(initialRoute);
               return [
@@ -89,10 +93,11 @@ class MyApp extends StatelessWidget {
   Route<dynamic> buildPage(
       {required String path, Map<String, String> queryParams = const {}}) {
     return PageRouteBuilder(
+        // opaque: false,
         settings: RouteSettings(
             name: (path.startsWith('/') == false) ? '/$path' : path),
-        transitionDuration: const Duration(milliseconds: 500),
-        reverseTransitionDuration: const Duration(milliseconds: 500),
+        transitionDuration: Duration(milliseconds: routeDurationMs),
+        reverseTransitionDuration: Duration(milliseconds: routeDurationMs),
         pageBuilder: (context, animation, secondaryAnimation) {
           final toolbarProvider =
               Provider.of<ToolbarProvider>(context); // listen: false
@@ -110,65 +115,67 @@ class MyApp extends StatelessWidget {
           //     path != '/' && path.startsWith('/') ? path.substring(1) : path;
 
           return Scaffold(
-            backgroundColor: toolbarProvider.scrolledPlaceColor,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(
-                  Provider.of<ToolbarProvider>(context).toolbarHeight),
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  myToolbar,
-                  Positioned(
-                    top: 0,
-                    left: Directionality.of(context) == TextDirection.ltr
-                        ? 0
-                        : null,
-                    right: Directionality.of(context) == TextDirection.rtl
-                        ? 0
-                        : null,
-                    child: HoverLogo(isDark: uiModeController.darkModeSet),
-                  ),
-                ],
+              backgroundColor: toolbarProvider.scrolledPlaceColor,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(
+                    Provider.of<ToolbarProvider>(context).toolbarHeight),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    myToolbar,
+                    Positioned(
+                      top: 0,
+                      left: Directionality.of(context) == TextDirection.ltr
+                          ? 0
+                          : null,
+                      right: Directionality.of(context) == TextDirection.rtl
+                          ? 0
+                          : null,
+                      child: HoverLogo(isDark: uiModeController.darkModeSet),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            // extendBody: true,
-            // bottomNavigationBar:
-            //     MyBottombar(uiModeController: uiModeController),
-            body:
+              // extendBody: true,
+              // bottomNavigationBar:
+              //     MyBottombar(uiModeController: uiModeController),
+              body:
 
-                // Stack(
-                //   clipBehavior: Clip.none,
-                //   children: [
-                FadeTransition(
-                    opacity: animation,
-                    child: switch (pathName) {
-                      '/' ||
-                      HomeScreen.routeName =>
-                        HomeScreen(uiModeController: uiModeController),
-                      ProjectsScreen.routeName =>
-                        ProjectsScreen(uiModeController: uiModeController),
-                      "/placeholder" =>
+                  // Stack(
+                  //   clipBehavior: Clip.none,
+                  //   children: [
+                  FadeTransition(
+                      opacity: animation,
+                      child: switch (pathName) {
+                        // '/' ||
+                        HomeScreen.routeName =>
+                          HomeScreen(uiModeController: uiModeController),
+                        ProjectsScreen.routeName =>
+                          ProjectsScreen(uiModeController: uiModeController),
+                        "/placeholder" =>
 
-                        // const ResponsiveBreakpoints(breakpoints: [
-                        //   Breakpoint(start: 0, end: 480, name: MOBILE),
-                        //   Breakpoint(start: 481, end: 1200, name: TABLET),
-                        //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
-                        // ], child:
-                        const Placeholder(),
+                          // const ResponsiveBreakpoints(breakpoints: [
+                          //   Breakpoint(start: 0, end: 480, name: MOBILE),
+                          //   Breakpoint(start: 481, end: 1200, name: TABLET),
+                          //   Breakpoint(start: 1201, end: double.infinity, name: DESKTOP),
+                          // ], child:
+                          const Placeholder(),
+                        // ),
+
+                        String() => PageNotFoundScreen(
+                            uiModeController: uiModeController,
+                            pathName: pathName,
+                          ),
+                      }
+                      // Positioned.fill(
+                      //   left: -634,
+                      //   child: CustomPaint(
+                      //     painter: VerticalLinePainter(),
+                      //   ),
                       // ),
-
-                      String() =>
-                        HomeScreen(uiModeController: uiModeController),
-                    }),
-            // Positioned.fill(
-            //   left: -634,
-            //   child: CustomPaint(
-            //     painter: VerticalLinePainter(),
-            //   ),
-            // ),
-            //   ],
-            // ),
-          );
+                      //   ],
+                      // ),
+                      ));
         });
   }
 }

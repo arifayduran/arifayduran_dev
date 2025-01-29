@@ -22,5 +22,8 @@
   "onHoverSystemLang": "Die Systemsprache wird verwendet, um Daten-, Währungsformate und andere lokale Einstellungen zu verwalten.",
   "lastRouteMessage":"Die letzte Routensitzung wurde erfolgreich wiederhergestellt.",
   "drawerOnHover": "Zugriff auf das Einstellungen-Menü.",
-  "logoOnHover": "Kalligraphisches, selbst gestaltetes Logo"
+  "logoOnHover": "Kalligraphisches, selbst gestaltetes Logo",
+  "goToHome": "Zur Startseite gehen",
+  "back": "Zurück",
+  "pageNotFound": "Die Seite '{path}' wurde nicht gefunden."
 }

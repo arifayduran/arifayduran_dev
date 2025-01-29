@@ -37,7 +37,7 @@ RouteObserverService routeObserver = RouteObserverService();
 List<String>? routeHistory;
 String? initialRoute;
 
-int toolbarAnimationDuration = 1000;
+int routeDurationMs = 700;
 late MyToolbar myToolbar;
 // late MyBottombar myBottombar;
 
@@ -50,4 +50,5 @@ double logoSpace = 0;
 Map<String, bool> loadedScreens = {
   "HomeScreen": false,
   "ProjectsScreen": false,
+  "PageNotFoundScreen": false,
 };

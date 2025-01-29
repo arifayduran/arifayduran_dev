@@ -37,12 +37,12 @@ import 'package:responsive_framework/responsive_framework.dart';
 // }
 
 class ToolbarProvider extends ChangeNotifier {
-  double? providersmaxBarsHeight = maxBarsHeight; // didnt use for now
-  double? providersminBarsHeight = minBarsHeight; // didnt use for now
+  // double? providersmaxBarsHeight = maxBarsHeight; // didnt used for now
+  // double? providersminBarsHeight = minBarsHeight; // didnt used for now
 
   Color scrolledPlaceColor = effectColorDark;
   double toolbarHeight = maxBarsHeight;
-  Duration duration = Duration(milliseconds: toolbarAnimationDuration);
+  Duration duration = Duration(milliseconds: routeDurationMs);
 
   void updateToolbar(Color color, double height, Duration newDuration) {
     duration = newDuration;
@@ -59,10 +59,10 @@ class MyToolbar extends StatefulWidget {
   final UiModeController uiModeController;
 
   @override
-  State<MyToolbar> createState() => _MyToolbarProvider();
+  State<MyToolbar> createState() => _MyToolbarState();
 }
 
-class _MyToolbarProvider extends State<MyToolbar>
+class _MyToolbarState extends State<MyToolbar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _heightAnimation;

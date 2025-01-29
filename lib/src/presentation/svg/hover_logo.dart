@@ -5,6 +5,7 @@ import 'package:arifayduran_dev/src/presentation/svg/svg_color_mapper.dart';
 import 'package:arifayduran_dev/src/presentation/svg/svg_shadow_painter_oval.dart';
 import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +45,7 @@ class _HoverLogoState extends State<HoverLogo> {
 
   @override
   Widget build(BuildContext context) {
-    final toolbarHeight = Provider.of<ToolbarProvider>(context).toolbarHeight;
+    double toolbarHeight = Provider.of<ToolbarProvider>(context).toolbarHeight;
     logoSpace = toolbarHeight * 1.8 * 1.3454258675 * _widthFactor;
 
     return MouseRegion(
@@ -62,7 +63,18 @@ class _HoverLogoState extends State<HoverLogo> {
           _deactivateHover();
         },
         onTap: () {
-          Navigator.pushNamed(context, "/");
+          if (ModalRoute.of(context)?.settings.name != '/') {
+            if (notNavigatedFromRefresh) {
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                if (mounted && Navigator.canPop(context)) {
+                  Navigator.popUntil(context, ModalRoute.withName('/'));
+                }
+              });
+            } else {
+              Navigator.pushNamed(context, "/");
+            }
+            notNavigatedFromRefresh = false;
+          }
         },
         child: TooltipAndSelectable(
           isSelectable: false,
@@ -71,7 +83,7 @@ class _HoverLogoState extends State<HoverLogo> {
           child: AnimatedContainer(
             duration: Duration(
                 milliseconds: logoAnimate
-                    ? toolbarAnimationDuration
+                    ? routeDurationMs
                     : isHovered
                         ? 300
                         : 0),
