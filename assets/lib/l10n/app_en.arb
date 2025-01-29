@@ -82,10 +82,25 @@
     },
     "drawerOnHover": "Access the settings menu.",
     "@drawerOnHover": {
-    "description": "Manage basic settings and adjustments."
+        "description": "Manage basic settings and adjustments."
     },
     "logoOnHover": "Calligraphic self-designed logo",
     "@logoOnHover": {
-    "description": "Message shown on hover on logo" 
-    }   
+        "description": "Message shown on hover on logo" 
+    },
+    "goToHome": "Go to home",
+    "@goToHome": {
+        "description": "Navigation to home button text"
+    },
+    "back": "Back",
+    "@back": {
+        "description": "Navigation back button text"
+    },
+    "pageNotFound": "The page '{path}' was not found.",
+    "@pageNotFound": {
+        "description": "Page not found message to show",
+        "placeholders": {
+            "path": {}
+        }
+    }
 }
