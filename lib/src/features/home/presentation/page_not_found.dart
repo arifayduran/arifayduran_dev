@@ -6,6 +6,7 @@ import 'package:arifayduran_dev/src/features/settings/application/controllers/ui
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -127,96 +128,116 @@ class _PageNotFoundScreenState extends State<PageNotFoundScreen> {
         height: height,
         width: width,
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // const AnimatedTextBody(
-              //   text: "Testtextwasgeht",
-              //   hoverColor: Colors.grey,
-              //   initColor: Colors.white,
-              //   maxSize: 50,
-              //   midSize: 40,
-              //   minSize: 30,
-              //   fontWeight: FontWeight.w500,
-              // ),
-              // ),
-              Text(
-                AppLocalizations.of(context)!
-                    .pageNotFound(widget.pathName), // arifayduran.dev...
-                style: descriptionStyle?.copyWith(),
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // const AnimatedTextBody(
+                //   text: "Testtextwasgeht",
+                //   hoverColor: Colors.grey,
+                //   initColor: Colors.white,
+                //   maxSize: 50,
+                //   midSize: 40,
+                //   minSize: 30,
+                //   fontWeight: FontWeight.w500,
+                // ),
+                // ),
 
-              const SizedBox(
-                height: 70,
-              ),
-              TextButton(
-                onPressed: () {
-                  if (notNavigatedFromRefresh) {
-                    // RouteService().updateLastVisitedRoute('/'); // not using since observer
+                SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: Lottie.asset("assets/animations/404.json")),
 
-                    logoAnimate = true;
-                    Future.delayed(Duration(milliseconds: routeDurationMs), () {
-                      logoAnimate = false;
-                    });
-
-                    _onRoute();
-                    _updateToolbar(
-                        widget.uiModeController.darkModeSet
-                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                        HomeScreen.lastToolbarHeightBeforePush,
-                        routeDurationMs);
-                    // _updateBottombar(
-                    //     widget.uiModeController.darkModeSet
-                    //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                    //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                    //     HomeScreen.lastToolbarHeightBeforePush,
-                    //     routeDurationMs);
-
-                    if (!Navigator.of(context).canPop()) {
-                      return;
-                    }
-
-                    SchedulerBinding.instance.addPostFrameCallback((_) {
-                      if (mounted && Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      }
-                    });
-                  } else {
-                    logoAnimate = true;
-                    Future.delayed(Duration(milliseconds: routeDurationMs), () {
-                      logoAnimate = false;
-                    });
-
-                    _onRoute();
-                    _updateToolbar(
-                        widget.uiModeController.darkModeSet
-                            ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                            : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                        HomeScreen.lastToolbarHeightBeforePush,
-                        routeDurationMs);
-                    // _updateBottombar(
-                    //     widget.uiModeController.darkModeSet
-                    //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
-                    //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
-                    //     HomeScreen.lastToolbarHeightBeforePush,
-                    //     routeDurationMs);
-
-                    Navigator.pushNamed(context, "/");
-                  }
-                  notNavigatedFromRefresh = false;
-                },
-                style: ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(
-                        widget.uiModeController.darkModeSet ? mainRed : white)),
-                child: Text(
-                  isBackOrGoHome
-                      ? AppLocalizations.of(context)!.back
-                      : AppLocalizations.of(context)!.goToHome,
-                  style: descriptionStyle?.copyWith(),
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-            ],
+
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .pageNotFound(widget.pathName), // arifayduran.dev...
+                    style: descriptionStyle?.copyWith(),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 50,
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (notNavigatedFromRefresh) {
+                      // RouteService().updateLastVisitedRoute('/'); // not using since observer
+
+                      logoAnimate = true;
+                      Future.delayed(Duration(milliseconds: routeDurationMs),
+                          () {
+                        logoAnimate = false;
+                      });
+
+                      _onRoute();
+                      _updateToolbar(
+                          widget.uiModeController.darkModeSet
+                              ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                              : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                          HomeScreen.lastToolbarHeightBeforePush,
+                          routeDurationMs);
+                      // _updateBottombar(
+                      //     widget.uiModeController.darkModeSet
+                      //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                      //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                      //     HomeScreen.lastToolbarHeightBeforePush,
+                      //     routeDurationMs);
+
+                      if (!Navigator.of(context).canPop()) {
+                        return;
+                      }
+
+                      SchedulerBinding.instance.addPostFrameCallback((_) {
+                        if (mounted && Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      });
+                    } else {
+                      logoAnimate = true;
+                      Future.delayed(Duration(milliseconds: routeDurationMs),
+                          () {
+                        logoAnimate = false;
+                      });
+
+                      _onRoute();
+                      _updateToolbar(
+                          widget.uiModeController.darkModeSet
+                              ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                              : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                          HomeScreen.lastToolbarHeightBeforePush,
+                          routeDurationMs);
+                      // _updateBottombar(
+                      //     widget.uiModeController.darkModeSet
+                      //         ? HomeScreen.lastToolbarScrolledPlaceColorDark
+                      //         : HomeScreen.lastToolbarScrolledPlaceColorLight,
+                      //     HomeScreen.lastToolbarHeightBeforePush,
+                      //     routeDurationMs);
+
+                      Navigator.pushNamed(context, "/");
+                    }
+                    notNavigatedFromRefresh = false;
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                          widget.uiModeController.darkModeSet
+                              ? mainRed
+                              : white)),
+                  child: Text(
+                    isBackOrGoHome
+                        ? AppLocalizations.of(context)!.back
+                        : AppLocalizations.of(context)!.goToHome,
+                    style: descriptionStyle?.copyWith(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
