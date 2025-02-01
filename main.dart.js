@@ -50591,7 +50591,7 @@ r=t.I
 q=a.aI(r).w===B.i?0:p
 r=a.aI(r).w===B.au?0:p
 r=A.vC(B.cD,A.a([s,A.v0(p,new A.F8(m.gcL(),p),p,p,q,r,0,p)],t.O),B.K,B.di,p)
-$label0$0:{if("/"===k){m=new A.F7(m,p)
+$label0$0:{if("/home"===k||"/"===k){m=new A.F7(m,p)
 break $label0$0}if("/projects"===k){m=new A.Hr(m,p)
 break $label0$0}if("/placeholder"===k){m=B.al_
 break $label0$0}m=new A.H_(m,k,p)
@@ -50801,11 +50801,11 @@ g=o==null
 h=A.ir(h,c,c,c,g?c:o.fs(),c,c)
 f=A.d_(a0,B.aa,j).gzq()
 e=t.O
-m=A.aQe(B.ap,A.b2v(A.tm(c,new A.hm(B.HQ,c,c,A.Do(A.a([i,B.mc,h,B.mc,A.ir(f,c,c,c,g?c:o.fs(),c,c),A.ir(A.ahG($.OO().vS("_")).Ch(new A.f5(Date.now(),0,!1)),c,c,c,c,c,c)],e),B.cg,B.f3,B.ih),c),B.K,c,c,new A.hS(c,c,c,c,c,new A.yD(B.je,B.n2,B.b7,k,B.a69,c),B.bg),c,r-l,c,c,c,c,q),m),B.fD)
+m=A.aQe(B.ap,A.b2v(A.tm(c,new A.hm(B.HQ,c,c,A.Do(A.a([i,B.Gw,h,B.Gw,A.ir(f,c,c,c,g?c:o.fs(),c,c),A.ir(A.ahG($.OO().vS("_")).Ch(new A.f5(Date.now(),0,!1)),c,c,c,c,c,c)],e),B.cg,B.f3,B.ih),c),B.K,c,c,new A.hS(c,c,c,c,c,new A.yD(B.je,B.n2,B.b7,k,B.a69,c),B.bg),c,r-l,c,c,c,c,q),m),B.fD)
 l=d.w
 k=A.v0(-390,A.tm(c,c,B.K,l,c,c,c,400,c,c,c,c,q),c,c,c,c,c,c)
 f=$.Oh
-m=A.aMN(A.Do(A.a([m,A.vC(B.cD,A.a([k,A.tm(c,A.Do(A.a([A.ayd(A.ir("Hier zu meinen Projekten",c,c,c,g?c:o.fs(),c,c),new A.aDw(d,a0),c),B.Gw,B.atj,B.Gw,A.fg(B.Pp,r*0.6,q*0.8)],e),B.aD,B.bF,B.bb),B.K,l,c,c,c,r-150-f,c,c,c,c,q),A.v0(c,A.tm(c,c,B.K,d.w,c,c,c,6,c,c,c,c,q),c,c,c,c,-5,c)],e),B.K,B.di,c)],e),B.aD,B.bF,B.bb),d.r,c)
+m=A.aMN(A.Do(A.a([m,A.vC(B.cD,A.a([k,A.tm(c,A.Do(A.a([A.ayd(A.ir("Hier zu meinen Projekten",c,c,c,g?c:o.fs(),c,c),new A.aDw(d,a0),c),B.mc,B.atj,B.mc,A.fg(B.Pp,r*0.6,q*0.8)],e),B.aD,B.bF,B.bb),B.K,l,c,c,c,r-150-f,c,c,c,c,q),A.v0(c,A.tm(c,c,B.K,d.w,c,c,c,6,c,c,c,c,q),c,c,c,c,-5,c)],e),B.K,B.di,c)],e),B.aD,B.bF,B.bb),d.r,c)
 l=q*0.1
 k=r*0.1
 i=d.d
@@ -110207,8 +110207,8 @@ B.iJ=new A.hG(0,0,null,null)
 B.anH=new A.hG(10,null,null,null)
 B.anI=new A.hG(13,null,null,null)
 B.anJ=new A.hG(7,null,null,null)
-B.Gw=new A.hG(null,10,null,null)
-B.mc=new A.hG(null,20,null,null)
+B.mc=new A.hG(null,10,null,null)
+B.Gw=new A.hG(null,20,null,null)
 B.anK=new A.hG(null,50,null,null)
 B.anL=new A.hG(null,5,null,null)
 B.anM=new A.hG(null,70,null,null)
