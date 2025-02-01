@@ -15,7 +15,7 @@ class PageNotFoundScreen extends StatefulWidget {
       {super.key, required this.pathName, required this.uiModeController});
 
   final UiModeController uiModeController;
-  static const routeName = '/page_not_found';
+  static const routeName = '/404';
   final String pathName;
 
   static double lastToolbarHeightBeforePush = maxBarsHeight;
@@ -149,7 +149,7 @@ class _PageNotFoundScreenState extends State<PageNotFoundScreen> {
                     child: Lottie.asset("assets/animations/404.json")),
 
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
 
                 Padding(

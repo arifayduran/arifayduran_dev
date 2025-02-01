@@ -1,8 +1,6 @@
-import 'dart:ui_web';
-
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/core/my_toolbar.dart';
-import 'package:arifayduran_dev/src/features/home/presentation/page_not_found.dart';
+import 'package:arifayduran_dev/src/features/home/presentation/page_not_found_screen.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -147,7 +145,7 @@ class MyApp extends StatelessWidget {
                   FadeTransition(
                       opacity: animation,
                       child: switch (pathName) {
-                        // '/' ||
+                        '/home' ||
                         HomeScreen.routeName =>
                           HomeScreen(uiModeController: uiModeController),
                         ProjectsScreen.routeName =>
