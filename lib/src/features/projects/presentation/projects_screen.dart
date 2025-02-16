@@ -1,7 +1,7 @@
 import 'package:arifayduran_dev/src/config/route_links.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/application/url_launcher_new_tab.dart';
-import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer

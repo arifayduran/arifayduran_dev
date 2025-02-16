@@ -1,6 +1,6 @@
-
-import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
+import 'package:arifayduran_dev/src/features/settings/application/controllers/navigation_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/first_launch_service.dart';
 import 'package:arifayduran_dev/src/features/settings/application/services/language_service.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
@@ -34,6 +34,9 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => LanguageProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => NavigationProvider(),
     ),
     ChangeNotifierProvider(
       create: (context) => ToolbarProvider(),

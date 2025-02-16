@@ -1,6 +1,9 @@
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
-import 'package:arifayduran_dev/src/core/my_toolbar.dart';
-import 'package:arifayduran_dev/src/features/home/presentation/page_not_found_screen.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_bottombar.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
+import 'package:arifayduran_dev/src/features/aboutme/presentation/aboutme_screen.dart';
+import 'package:arifayduran_dev/src/features/contact/presentation/contact_screen.dart';
+import 'package:arifayduran_dev/src/core/presentation/page_not_found_screen.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -135,23 +138,22 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               // extendBody: true,
-              // bottomNavigationBar:
-              //     MyBottombar(uiModeController: uiModeController),
-              body:
-
-                  // Stack(
-                  //   clipBehavior: Clip.none,
-                  //   children: [
+              // bottomNavigationBar: MyBottombar(),
+              //  MyBottombar(uiModeController: uiModeController),
+              body: Stack(
+                clipBehavior: Clip.none,
+                children: [
                   FadeTransition(
                       opacity: animation,
                       child: switch (pathName) {
                         '/home' ||
                         HomeScreen.routeName =>
                           HomeScreen(uiModeController: uiModeController),
+                        AboutmeScreen.routeName => AboutmeScreen(),
                         ProjectsScreen.routeName =>
                           ProjectsScreen(uiModeController: uiModeController),
+                        ContactScreen.routeName => ContactScreen(),
                         "/placeholder" =>
-
                           // const ResponsiveBreakpoints(breakpoints: [
                           //   Breakpoint(start: 0, end: 480, name: MOBILE),
                           //   Breakpoint(start: 481, end: 1200, name: TABLET),
@@ -170,10 +172,16 @@ class MyApp extends StatelessWidget {
                       //   child: CustomPaint(
                       //     painter: VerticalLinePainter(),
                       //   ),
-                      // ),
-                      //   ],
-                      // ),
-                      ));
+                      ),
+                  if (pathName == "/home" ||
+                      pathName == "/" ||
+                      pathName == "/aboutme" ||
+                      pathName == "/projects" ||
+                      pathName == "/contact")
+                    MyBottombar(),
+                ],
+                // ),
+              ));
         });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 import 'package:flutter/material.dart';
 

@@ -25,5 +25,9 @@
   "logoOnHover": "Kaligrafik, kendi tasarımımız olan logo",
   "goToHome": "Ana sayfaya git",
   "back": "Geri dön",
-  "pageNotFound": "'{path}' sayfası bulunamadı."
+  "pageNotFound": "'{path}' sayfası bulunamadı.",
+  "naviBarHome": "Ana Sayfa",
+  "naviBarAboutme": "Hakkımda",
+  "naviBarProjects": "Projeler",
+  "naviBarContact":  "İletişim"
 }

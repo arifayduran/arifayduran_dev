@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'dart:ui_web' as ui_web;
 import 'package:arifayduran_dev/src/core/application/responsive_update.dart';
 import 'package:universal_html/html.dart' as uni_html;
-import 'package:arifayduran_dev/src/core/my_toolbar.dart';
+import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
