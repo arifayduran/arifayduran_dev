@@ -102,5 +102,21 @@
         "placeholders": {
             "path": {}
         }
+    },
+    "naviBarHome": "Home",
+    "@naviBarHome": {
+        "description": "Navigation bar Home texts"
+    },
+    "naviBarAboutme": "About Me",
+    "@naviBarAboutme": {
+        "description": "Navigation bar About Me texts"
+    },
+    "naviBarProjects": "Projects",
+    "@naviBarProjects": {
+        "description": "Navigation bar Projects texts"
+    },
+    "naviBarContact": "Contact",
+    "@naviBarContact": {
+        "description": "Navigation bar Contact texts"
     }
 }

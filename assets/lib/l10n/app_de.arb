@@ -25,5 +25,9 @@
   "logoOnHover": "Kalligraphisches, selbst gestaltetes Logo",
   "goToHome": "Zur Startseite gehen",
   "back": "Zurück",
-  "pageNotFound": "Die Seite '{path}' wurde nicht gefunden."
+  "pageNotFound": "Die Seite '{path}' wurde nicht gefunden.",
+  "naviBarHome": "Startseite",
+  "naviBarAboutme": "Über mich",
+  "naviBarProjects": "Projekte",
+  "naviBarContact": "Kontakt"
 }

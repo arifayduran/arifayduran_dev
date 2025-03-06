@@ -25,5 +25,9 @@
   "logoOnHover": "شعار بخط اليد مصمم ذاتيًا",
   "goToHome": "اذهب إلى الصفحة الرئيسية",
   "back": "رجوع",
-  "pageNotFound": "الصفحة '{path}' غير موجودة."
+  "pageNotFound": "الصفحة '{path}' غير موجودة.",
+  "naviBarHome": "الرئيسية",
+  "naviBarAboutme": "عني",
+  "naviBarProjects":  "المشاريع",
+  "naviBarContact":  "اتصل"
 }
