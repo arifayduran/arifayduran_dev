@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/src/core/presentation/my_bottombar.dart';
 import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/application/services/route_observer.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ String? initialRoute;
 
 int routeDurationMs = 700;
 late MyToolbar myToolbar;
-// late MyBottombar myBottombar;
+late MyBottombar myBottombar;
 
 double maxBarsHeight = 80.0;
 double minBarsHeight = 60.0;

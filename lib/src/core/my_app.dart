@@ -1,5 +1,4 @@
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
-import 'package:arifayduran_dev/src/core/presentation/my_bottombar.dart';
 import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/aboutme/presentation/aboutme_screen.dart';
 import 'package:arifayduran_dev/src/features/contact/presentation/contact_screen.dart';
@@ -149,10 +148,12 @@ class MyApp extends StatelessWidget {
                         '/home' ||
                         HomeScreen.routeName =>
                           HomeScreen(uiModeController: uiModeController),
-                        AboutmeScreen.routeName => AboutmeScreen(),
+                        AboutmeScreen.routeName =>
+                          AboutmeScreen(uiModeController: uiModeController),
                         ProjectsScreen.routeName =>
                           ProjectsScreen(uiModeController: uiModeController),
-                        ContactScreen.routeName => ContactScreen(),
+                        ContactScreen.routeName =>
+                          ContactScreen(uiModeController: uiModeController),
                         "/placeholder" =>
                           // const ResponsiveBreakpoints(breakpoints: [
                           //   Breakpoint(start: 0, end: 480, name: MOBILE),
@@ -178,7 +179,10 @@ class MyApp extends StatelessWidget {
                       pathName == "/aboutme" ||
                       pathName == "/projects" ||
                       pathName == "/contact")
-                    MyBottombar(),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: myBottombar,
+                    ),
                 ],
                 // ),
               ));

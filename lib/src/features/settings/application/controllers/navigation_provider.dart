@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class NavigationProvider with ChangeNotifier {
   int _selectedIndex = 0;
+  final List<String> _navItems = ["home", "aboutme", "projects", "contact"];
+
   int get selectedIndex => _selectedIndex;
+  List<String> get navItems => _navItems;
 
   void setIndex(int index, BuildContext context) {
     _selectedIndex = index;
