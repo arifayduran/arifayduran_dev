@@ -1,10 +1,10 @@
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/features/settings/application/set_get_cookie.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UiModeService {
   Future<ThemeMode> themeMode() async {

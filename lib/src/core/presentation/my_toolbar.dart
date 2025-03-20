@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
@@ -6,7 +7,6 @@ import 'package:arifayduran_dev/src/presentation/svg/svg_shadow_painter_oval.dar
 import 'package:arifayduran_dev/src/presentation/widgets/animated_text_widget.dart';
 import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/features/settings/presentation/ui_mode_switch.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

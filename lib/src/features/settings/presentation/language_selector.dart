@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/features/settings/application/services/language_service.dart';
@@ -6,7 +7,6 @@ import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart
 import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.dart';
 import 'package:flutter/material.dart';
 import 'package:language_code/language_code.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/language_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:dash_flags/dash_flags.dart';

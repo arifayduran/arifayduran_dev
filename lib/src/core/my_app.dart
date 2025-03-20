@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/core/application/scaffold_messenger_key.dart';
 import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/aboutme/presentation/aboutme_screen.dart';
@@ -11,7 +12,6 @@ import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart
 import 'package:arifayduran_dev/src/presentation/svg/hover_logo.dart';
 // import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart'; // not using since observer
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/my_custom_scroll_behavior.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/home/presentation/home_screen.dart';

@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'dart:ui_web' as ui_web;
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/core/application/responsive_update.dart';
 import 'package:universal_html/html.dart' as uni_html;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/projects/presentation/projects_screen.dart';
 // import 'package:arifayduran_dev/src/features/settings/application/services/deactivated/routes_service.dart'; // not using since observer
@@ -14,7 +16,6 @@ import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.uiModeController});
@@ -258,20 +259,21 @@ class _HomeScreenState extends State<HomeScreen>
     super.build(context);
     responsiveUpdate(context);
 
-    ui_web.platformViewRegistry.registerViewFactory(
-      'canva-embed',
-      (int viewId) {
-        final iframe = uni_html.IFrameElement()
-          ..src =
-              'https://www.canva.com/design/DAGTpv3gQGs/arcIIPMac_ejOlJ-WRHDfA/view?embed'
-          ..style.border = 'none'
-          ..style.position = 'absolute'
-          ..style.width = '100%'
-          ..style.height = '100%';
-        return iframe;
-      },
-    );
-
+    if (kIsWeb) {
+      ui_web.platformViewRegistry.registerViewFactory(
+        'canva-embed',
+        (int viewId) {
+          final iframe = uni_html.IFrameElement()
+            ..src =
+                'https://www.canva.com/design/DAGTpv3gQGs/arcIIPMac_ejOlJ-WRHDfA/view?embed'
+            ..style.border = 'none'
+            ..style.position = 'absolute'
+            ..style.width = '100%'
+            ..style.height = '100%';
+          return iframe;
+        },
+      );
+    }
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     final nameStyle = Theme.of(context).textTheme.displayMedium;

@@ -1,3 +1,4 @@
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/config/theme.dart';
 import 'package:arifayduran_dev/src/core/presentation/my_toolbar.dart';
 import 'package:arifayduran_dev/src/features/settings/data/session_settings.dart';
@@ -7,7 +8,6 @@ import 'package:arifayduran_dev/src/presentation/widgets/tooltip_and_selectable.
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class HoverLogo extends StatefulWidget {

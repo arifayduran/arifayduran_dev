@@ -1,9 +1,9 @@
 import 'dart:ui';
+import 'package:arifayduran_dev/l10n/app_localizations.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/navigation_provider.dart';
 import 'package:arifayduran_dev/src/features/settings/application/controllers/ui_mode_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyBottombar extends StatefulWidget {
   const MyBottombar({super.key, required this.uiModeController});
