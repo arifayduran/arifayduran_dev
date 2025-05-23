@@ -1,0 +1,2 @@
+/Volumes/DATEN/development/VSCode/Flutter/arifayduran_dev/android/app/.cxx/Debug/o1a1v4v6/x86/CMakeFiles/edit_cache.dir
+/Volumes/DATEN/development/VSCode/Flutter/arifayduran_dev/android/app/.cxx/Debug/o1a1v4v6/x86/CMakeFiles/rebuild_cache.dir
